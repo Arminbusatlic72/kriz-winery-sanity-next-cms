@@ -71,7 +71,7 @@ export default async function Page() {
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-100 bg-gray-50">
+      <div className="border-t border-gray-100 bg-gray-50 hello">
         <div className="container">
           <aside className="py-12 sm:py-20">
             <Suspense>{await AllPosts()}</Suspense>

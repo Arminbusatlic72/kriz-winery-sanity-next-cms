@@ -1,25 +1,41 @@
+import Link from './Link'
+// import siteMetadata from '@/data/siteMetadata'
+// import SocialIcon from '@/components/social-icons'
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 relative">
-      <div className="absolute inset-0 bg-[url(/images/tile-grid-black.png)] bg-size-[17px] opacity-20 bg-position-[0_1]" />
-      <div className="container relative">
-        <div className="flex flex-col items-center py-28 lg:flex-row">
-          <h3 className="mb-10 text-center text-4xl font-mono leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-2xl">
-            Built with Sanity + Next.js.
-          </h3>
-          <div className="flex flex-col gap-3 items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
-            <a
-              href="https://github.com/sanity-io/sanity-template-nextjs-clean"
-              className="rounded-full flex gap-2 font-mono whitespace-nowrap items-center bg-black hover:bg-blue focus:bg-blue py-3 px-6 text-white transition-colors duration-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on GitHub
-            </a>
-            <a href="https://nextjs.org/docs" className="mx-3 hover:underline font-mono">
-              Read Next.js Documentation
-            </a>
-          </div>
+    <footer className="h-16 pt-5">
+      <div className="mb-16 flex flex-col items-center">
+        <div className="mb-3 flex space-x-4">
+          {/* <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} /> */}
+          {/* <SocialIcon kind="github" href={siteMetadata.github} size={6} /> */}
+          {/* <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} /> */}
+          {/* <SocialIcon kind="youtube" href={siteMetadata.youtube} size={6} /> */}
+          {/* <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} /> */}
+          {/* <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} /> */}
+          {/* <SocialIcon kind="bluesky" href={siteMetadata.bluesky} size={6} /> */}
+          {/* <SocialIcon kind="x" href={siteMetadata.x} size={6} /> */}
+          {/* <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} /> */}
+          {/* <SocialIcon kind="threads" href={siteMetadata.threads} size={6} /> */}
+          {/* <SocialIcon kind="medium" href={siteMetadata.medium} size={6} /> */}
+        </div>
+
+        <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          {/* <div>
+            Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed
+            by CC BY 4.0
+          </div> */}
+          {/* <div>{siteMetadata.author}</div> */}
+          <div>Armin</div>
+          <div>{` • `}</div>
+          <div>{`© ${new Date().getFullYear()}`}</div>
+          <div>{` • `}</div>
+          {/* <Link href="/">{siteMetadata.title}</Link> */}
+        </div>
+        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
+          <Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">
+            Tailwind Nextjs Theme
+          </Link>
         </div>
       </div>
     </footer>
