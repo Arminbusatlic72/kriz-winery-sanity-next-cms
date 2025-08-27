@@ -808,6 +808,18 @@ export type PagesSlugsResult = Array<{
 // Variable: productsQuery
 // Query: *[_type == "product"]{  title,  description,  productImage{    asset,    alt  },  "imageAlt": productImage.alt,  "currentSlug": slug.current}
 export type ProductsQueryResult = Array<never>
+// Variable: allProductSlugsQuery
+// Query: *[_type == "product" && defined(slug.current)]{  "slug": slug.current}
+export type AllProductSlugsQueryResult = Array<never>
+// Variable: productBySlugQuery
+// Query: *[_type == "product" && slug.current == $slug][0]{  _id,  title,  description,  price,  mainImage{    asset->{      url    }  }}
+export type ProductBySlugQueryResult = null
+// Variable: productPagesSlugs
+// Query: *[_type == "product" && defined(slug.current)]  {"slug": slug.current}
+export type ProductPagesSlugsResult = Array<never>
+// Variable: productQuery
+// Query: *[_type == "product" && slug.current == $slug][0]{  _id,  title,  description,  content,  price,  productImage{    asset,    alt  },  "imageAlt": productImage.alt,  "currentSlug": slug.current}
+export type ProductQueryResult = null
 
 // Query TypeMap
 import '@sanity/client'
@@ -822,5 +834,9 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
     '*[_type == "product"]{\n  title,\n  description,\n  productImage{\n    asset,\n    alt\n  },\n  "imageAlt": productImage.alt,\n  "currentSlug": slug.current\n}': ProductsQueryResult
+    '\n  *[_type == "product" && defined(slug.current)]{\n  "slug": slug.current\n} ': AllProductSlugsQueryResult
+    '\n  *[_type == "product" && slug.current == $slug][0]{\n  _id,\n  title,\n  description,\n  price,\n  mainImage{\n    asset->{\n      url\n    }\n  }\n}': ProductBySlugQueryResult
+    '\n  *[_type == "product" && defined(slug.current)]\n  {"slug": slug.current}\n': ProductPagesSlugsResult
+    '\n  *[_type == "product" && slug.current == $slug][0]{\n  _id,\n  title,\n  description,\n  content,\n  price,\n  productImage{\n    asset,\n    alt\n  },\n  "imageAlt": productImage.alt,\n  "currentSlug": slug.current\n}': ProductQueryResult
   }
 }

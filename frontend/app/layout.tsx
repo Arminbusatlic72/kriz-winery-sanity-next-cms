@@ -54,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const inter = Inter({
+export const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',

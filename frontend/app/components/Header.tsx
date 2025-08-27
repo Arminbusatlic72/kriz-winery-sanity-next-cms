@@ -1,7 +1,7 @@
 import Link from './Link'
 // import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-// import SearchButton from './SearchButton'
+import SearchButton from './SearchButton'
 // import LanguageSwitcher from './LanguageSwitcher'
 // import siteMetadata from '@/data/siteMetadata'
 
@@ -17,8 +17,7 @@ const Header = () => {
     {href: '/contact', title: 'Contact'},
   ]
 
-  let headerClass =
-    'font-strangelove flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10 h-20'
+  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10 h-20'
   //   if (siteMetadata.stickyNav) {
   //     headerClass += ' sticky top-0 z-50'
   //   }
@@ -29,7 +28,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="mr-3">{/* <Logo /> */}</div>
 
-          <div className="hidden h-6 text-3xl font-semibold tracking-wider sm:block">
+          <div className="font-strangelove hidden h-6 text-3xl font-semibold tracking-wider sm:block">
             Vinarije Kriz
           </div>
         </div>
@@ -41,15 +40,16 @@ const Header = () => {
             <Link
               key={link.title}
               href={link.href}
-              className="hover:text-primary-500 dark:hover:text-primary-400 m-1 text-2xl font-semibold tracking-wider text-gray-900 dark:text-gray-100"
+              className="font-strangelove hover:text-primary-500 dark:hover:text-primary-400 m-1 text-2xl font-semibold tracking-wider text-gray-900 dark:text-gray-100"
             >
               {link.title}
             </Link>
           ))}
         </div>
         <ThemeSwitch />
+        <SearchButton />
 
-        {/* <SearchButton />
+        {/* 
         <LanguageSwitcher />
         <ThemeSwitch />
         <MobileNav /> */}
