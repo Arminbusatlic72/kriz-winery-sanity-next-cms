@@ -95,3 +95,48 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `)
+export const productsQuery = defineQuery(`*[_type == "product"]{
+  title,
+  description,
+  productImage{
+    asset,
+    alt
+  },
+  "imageAlt": productImage.alt,
+  "currentSlug": slug.current
+}`)
+
+export const allProductSlugsQuery = defineQuery(`
+  *[_type == "product" && defined(slug.current)]{
+  "slug": slug.current
+} `)
+export const productBySlugQuery = defineQuery(`
+  *[_type == "product" && slug.current == $slug][0]{
+  _id,
+  title,
+  description,
+  price,
+  mainImage{
+    asset->{
+      url
+    }
+  }
+}`)
+export const productPagesSlugs = defineQuery(`
+  *[_type == "product" && defined(slug.current)]
+  {"slug": slug.current}
+`)
+export const productQuery = defineQuery(`
+  *[_type == "product" && slug.current == $slug][0]{
+  _id,
+  title,
+  description,
+  content,
+  price,
+  productImage{
+    asset,
+    alt
+  },
+  "imageAlt": productImage.alt,
+  "currentSlug": slug.current
+}`)
