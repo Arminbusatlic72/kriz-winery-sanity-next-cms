@@ -2,7 +2,7 @@ import Link from './Link'
 // import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
-// import LanguageSwitcher from './LanguageSwitcher'
+import LanguageSwitcher from './LanguageSwitcher'
 // import siteMetadata from '@/data/siteMetadata'
 
 const Header = () => {
@@ -46,12 +46,12 @@ const Header = () => {
             </Link>
           ))}
         </div>
-        <ThemeSwitch />
-        <SearchButton />
 
-        {/* 
+        <SearchButton />
         <LanguageSwitcher />
         <ThemeSwitch />
+
+        {/* 
         <MobileNav /> */}
       </div>
     </header>
