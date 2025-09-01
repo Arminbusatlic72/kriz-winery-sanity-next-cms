@@ -2,7 +2,11 @@
 import {useState} from 'react'
 import SearchModal from './SearchModal'
 
-const SearchButton = () => {
+interface SearchButtonProps {
+  locale: string
+}
+
+const SearchButton = ({locale}: SearchButtonProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -27,7 +31,7 @@ const SearchButton = () => {
           />
         </svg>
       </button>
-      {open && <SearchModal onClose={() => setOpen(false)} />}
+      {open && <SearchModal onClose={() => setOpen(false)} locale={locale} />}
     </>
   )
 }

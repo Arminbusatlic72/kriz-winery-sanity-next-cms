@@ -806,20 +806,32 @@ export type PagesSlugsResult = Array<{
   slug: string
 }>
 // Variable: productsQuery
-// Query: *[_type == "product"]{  title,  description,  productImage{    asset,    alt  },  "imageAlt": productImage.alt,  "currentSlug": slug.current}
+// Query: *[_type == "product"] | order(date desc) {  _id,  title,  description,  price,  excerpt,  content,  productImage{    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{firstName, lastName}}
 export type ProductsQueryResult = Array<never>
 // Variable: allProductSlugsQuery
-// Query: *[_type == "product" && defined(slug.current)]{  "slug": slug.current}
+// Query: *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type AllProductSlugsQueryResult = Array<never>
 // Variable: productBySlugQuery
-// Query: *[_type == "product" && slug.current == $slug][0]{  _id,  title,  description,  price,  mainImage{    asset->{      url    }  }}
+// Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    price,    content,    excerpt,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
 export type ProductBySlugQueryResult = null
 // Variable: productPagesSlugs
-// Query: *[_type == "product" && defined(slug.current)]  {"slug": slug.current}
+// Query: *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type ProductPagesSlugsResult = Array<never>
 // Variable: productQuery
-// Query: *[_type == "product" && slug.current == $slug][0]{  _id,  title,  description,  content,  price,  productImage{    asset,    alt  },  "imageAlt": productImage.alt,  "currentSlug": slug.current}
+// Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    content,    price,    excerpt,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
 export type ProductQueryResult = null
+// Variable: featuredProductsQuery
+// Query: *[_type == "product" && featured == true] | order(date desc) [0...3] {    _id,    title,    description,    price,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
+export type FeaturedProductsQueryResult = Array<never>
+// Variable: searchQuery
+// Query: *[    _type == "post" &&    defined(title) &&    title match $searchTerm  ]{    _id,    title,    slug,    excerpt,    mainImage  }
+export type SearchQueryResult = Array<{
+  _id: string
+  title: string
+  slug: Slug
+  excerpt: string | null
+  mainImage: null
+}>
 
 // Query TypeMap
 import '@sanity/client'
@@ -833,10 +845,13 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': PostQueryResult
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
-    '*[_type == "product"]{\n  title,\n  description,\n  productImage{\n    asset,\n    alt\n  },\n  "imageAlt": productImage.alt,\n  "currentSlug": slug.current\n}': ProductsQueryResult
-    '\n  *[_type == "product" && defined(slug.current)]{\n  "slug": slug.current\n} ': AllProductSlugsQueryResult
-    '\n  *[_type == "product" && slug.current == $slug][0]{\n  _id,\n  title,\n  description,\n  price,\n  mainImage{\n    asset->{\n      url\n    }\n  }\n}': ProductBySlugQueryResult
-    '\n  *[_type == "product" && defined(slug.current)]\n  {"slug": slug.current}\n': ProductPagesSlugsResult
-    '\n  *[_type == "product" && slug.current == $slug][0]{\n  _id,\n  title,\n  description,\n  content,\n  price,\n  productImage{\n    asset,\n    alt\n  },\n  "imageAlt": productImage.alt,\n  "currentSlug": slug.current\n}': ProductQueryResult
+    '*[_type == "product"] | order(date desc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult
+    '\n  *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n':
+      | AllProductSlugsQueryResult
+      | ProductPagesSlugsResult
+    '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    price,\n    content,\n    excerpt,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductBySlugQueryResult
+    '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    content,\n    price,\n    excerpt,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductQueryResult
+    '\n  *[_type == "product" && featured == true] | order(date desc) [0...3] {\n    _id,\n    title,\n    description,\n    price,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': FeaturedProductsQueryResult
+    '\n  *[\n    _type == "post" &&\n    defined(title) &&\n    title match $searchTerm\n  ]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    mainImage\n  }\n': SearchQueryResult
   }
 }

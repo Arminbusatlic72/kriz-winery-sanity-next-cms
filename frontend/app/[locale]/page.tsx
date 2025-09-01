@@ -1,8 +1,10 @@
 import {Suspense} from 'react'
 import Link from 'next/link'
 import {PortableText} from '@portabletext/react'
+// import {useTranslations} from 'next-intl'
 
-import {AllPosts} from '@/app/components/Posts'
+// import {AllPosts} from '@/app/components/Posts'
+import {getTranslations} from 'next-intl/server'
 import GetStartedCode from '@/app/components/GetStartedCode'
 import SideBySideIcons from '@/app/components/SideBySideIcons'
 import {settingsQuery} from '@/sanity/lib/queries'
@@ -12,7 +14,8 @@ export default async function Page() {
   const {data: settings} = await sanityFetch({
     query: settingsQuery,
   })
-
+  // const t = useTranslations('Home')
+  const t = await getTranslations('Home')
   return (
     <>
       <div className="relative">
@@ -22,7 +25,7 @@ export default async function Page() {
             <div className="relative min-h-[40vh] mx-auto max-w-2xl pt-10 xl:pt-20 pb-30 space-y-6 lg:max-w-4xl lg:px-12 flex flex-col items-center justify-center">
               <div className="flex flex-col gap-4 items-center">
                 <div className="text-md leading-6 prose uppercase py-1 px-3 bg-white font-mono italic">
-                  A starter template for
+                  <h1>{t('title')}</h1>
                 </div>
                 <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-black">
                   <Link
@@ -71,13 +74,13 @@ export default async function Page() {
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-100 bg-gray-50 hello">
+      {/* <div className="border-t border-gray-100 bg-gray-50 hello">
         <div className="container">
           <aside className="py-12 sm:py-20">
             <Suspense>{await AllPosts()}</Suspense>
           </aside>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

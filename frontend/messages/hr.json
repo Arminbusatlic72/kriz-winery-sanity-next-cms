@@ -1,0 +1,14 @@
+{
+  "nav": [
+    {"href": "/home", "title": "Početna"},
+    {"href": "/about", "title": "Naša priča"},
+    {"href": "/winery", "title": "Vinarija"},
+    {"href": "/blog", "title": "Blog"},
+    {"href": "/accommodation", "title": "Smještaj"},
+    {"href": "/contact", "title": "Kontakt"}
+  ],
+  "Home": {
+    "title": "Dobrodošli na moju stranicu",
+    "description": "Ovo je hrvatska verzija stranice."
+  }
+}

@@ -80,3 +80,132 @@ export function dataAttr(config: DataAttributeConfig) {
     baseUrl: studioUrl,
   }).combine(config)
 }
+// Type definitions for your localized product data
+export interface LocalizedField {
+  en?: string
+  hr?: string
+}
+
+export interface LocalizedSlug {
+  en?: string
+  hr?: string
+}
+
+export interface LocalizedBlockContent {
+  en?: any[]
+  hr?: any[]
+}
+
+export interface RawProduct {
+  _id: string
+  title: LocalizedField
+  description: LocalizedField
+  price: number
+  content?: LocalizedBlockContent
+  excerpt?: LocalizedField
+  productImage: {
+    asset: any
+    alt: LocalizedField
+  }
+  slug: LocalizedSlug
+  date: string
+  author?: {
+    firstName: string
+    lastName: string
+  }
+}
+
+export interface LocalizedProduct {
+  _id: string
+  title: string
+  description: string
+  price: number
+  content?: any[]
+  excerpt?: string
+  productImage: {
+    asset: any
+    alt: string
+  }
+  currentSlug: string
+  slug: LocalizedSlug // Keep the full slug object for routing
+  date: string
+  author?: {
+    firstName: string
+    lastName: string
+  }
+}
+
+// Helper function to get localized field value with fallback
+export const getLocalizedValue = (
+  field: LocalizedField | undefined,
+  language: string,
+  fallbackLanguage: string = 'en',
+): string => {
+  if (!field || typeof field !== 'object') return ''
+  return (
+    field[language as keyof LocalizedField] || field[fallbackLanguage as keyof LocalizedField] || ''
+  )
+}
+
+// Helper function to get localized slug with fallback
+// export const getLocalizedSlug = (
+//   slug: LocalizedSlug | undefined,
+//   language: string,
+//   fallbackLanguage: string = 'en',
+// ): string => {
+//   if (!slug || typeof slug !== 'object') return ''
+//   const langSlug = slug[language as keyof LocalizedSlug]
+//   const fallbackSlug = slug[fallbackLanguage as keyof LocalizedSlug]
+//   return langSlug || fallbackSlug || ''
+// }
+
+export const getLocalizedSlug = (slug: {en: string; hr?: string}, locale: string) => {
+  return slug[locale as keyof typeof slug] || slug.en
+}
+
+export function getAllLocalizedSlugs(slug: any) {
+  if (!slug) return {}
+
+  return {
+    en: slug.en?.current ?? '',
+    hr: slug.hr?.current ?? '',
+  }
+}
+// Helper function to get localized block content with fallback
+export const getLocalizedBlockContent = (
+  content: LocalizedBlockContent | undefined,
+  language: string,
+  fallbackLanguage: string = 'en',
+): any[] => {
+  if (!content || typeof content !== 'object') return []
+  return (
+    content[language as keyof LocalizedBlockContent] ||
+    content[fallbackLanguage as keyof LocalizedBlockContent] ||
+    []
+  )
+}
+
+// Transform raw product data to localized product
+export const localizeProduct = (product: RawProduct, language: string): LocalizedProduct => {
+  return {
+    _id: product._id,
+    title: getLocalizedValue(product.title, language),
+    description: getLocalizedValue(product.description, language),
+    price: product.price,
+    content: product.content ? getLocalizedBlockContent(product.content, language) : undefined,
+    excerpt: getLocalizedValue(product.excerpt, language),
+    productImage: {
+      asset: product.productImage.asset,
+      alt: getLocalizedValue(product.productImage.alt, language),
+    },
+    currentSlug: getLocalizedSlug(product.slug, language),
+    slug: product.slug, // Keep the full slug object for routing
+    date: product.date,
+    author: product.author,
+  }
+}
+
+// Transform array of products
+export const localizeProducts = (products: RawProduct[], language: string): LocalizedProduct[] => {
+  return products.map((product) => localizeProduct(product, language))
+}
