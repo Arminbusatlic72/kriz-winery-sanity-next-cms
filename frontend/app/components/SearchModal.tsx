@@ -37,7 +37,7 @@ export default function SearchModal({onClose, locale}: SearchModalProps) {
 
     return () => clearTimeout(timeout)
   }, [query, locale])
-
+  const productPath = locale === 'hr' ? 'proizvodi' : 'products'
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
@@ -70,7 +70,7 @@ export default function SearchModal({onClose, locale}: SearchModalProps) {
             return (
               <li key={item._id} className="mb-2">
                 <Link
-                  href={`/${locale}/${item._type === 'product' ? 'proizvodi' : 'blog'}/${slug}`}
+                  href={`/${locale}/${item._type === 'product' ? productPath : 'blog'}/${slug}`}
                   className="text-blue-600 dark:text-blue-400 hover:underline"
                   onClick={onClose}
                 >
