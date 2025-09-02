@@ -16,7 +16,6 @@ export default function SearchModal({onClose, locale}: SearchModalProps) {
       if (query.length > 2) {
         try {
           const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&locale=${locale}`)
-          // const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
 
           if (!res.ok) {
             console.error('Search API error', res.status, res.statusText)
@@ -37,7 +36,12 @@ export default function SearchModal({onClose, locale}: SearchModalProps) {
 
     return () => clearTimeout(timeout)
   }, [query, locale])
-  const productPath = locale === 'hr' ? 'proizvodi' : 'products'
+  const productPaths: Record<string, string> = {
+    hr: 'proizvodi',
+    en: 'products',
+  }
+
+  const productPath = productPaths[locale] ?? productPaths.en
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"

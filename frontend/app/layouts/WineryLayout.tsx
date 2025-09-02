@@ -3,22 +3,25 @@
 import {ReactNode} from 'react'
 import Image from 'next/image'
 
-interface Vineyards {
+interface WineryLayoutProps {
   title: string
   headerImage: string
-  content: string
   sectionImage: string
   sectionImage1?: string
-}
-
-interface Props {
+  text1: string
+  text2?: string
   children?: ReactNode
-  content: Vineyards
 }
 
-export default function WineryLayout({content, children}: Props) {
-  const {title, headerImage, content: text, sectionImage, sectionImage1} = content
-
+export default function WineryLayout({
+  title,
+  headerImage,
+  sectionImage,
+  sectionImage1,
+  text1,
+  text2,
+  children,
+}: WineryLayoutProps) {
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       {/* Title */}
@@ -33,7 +36,7 @@ export default function WineryLayout({content, children}: Props) {
         <Image src={headerImage} alt="Header" fill className="object-cover" />
       </div>
 
-      {/* Text right / Image left section */}
+      {/* Text & Images Section */}
       <div className="items-center xl:grid xl:grid-cols-2 xl:gap-x-8">
         {/* Image Left */}
         <div className="relative mb-6 h-64 w-full overflow-hidden shadow-md xl:mb-0">
@@ -42,11 +45,15 @@ export default function WineryLayout({content, children}: Props) {
 
         {/* Text Right */}
         <div className="prose dark:prose-invert max-w-none xl:pl-6">
-          <p className="text-gray-700 dark:text-gray-300">{text}</p>
+          <p className="text-gray-700 dark:text-gray-300">{text1}</p>
         </div>
-        <div className="prose dark:prose-invert max-w-none xl:pl-6">
-          <p className="text-gray-700 dark:text-gray-300">{text}</p>
-        </div>
+
+        {text2 && (
+          <div className="prose dark:prose-invert max-w-none xl:pl-6">
+            <p className="text-gray-700 dark:text-gray-300">{text2}</p>
+          </div>
+        )}
+
         <div className="relative mb-6 h-64 w-full overflow-hidden shadow-md xl:mb-0">
           <Image
             src={sectionImage1 || '/static/images/fallback.jpg'}

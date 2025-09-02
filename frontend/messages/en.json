@@ -10,5 +10,15 @@
   "Home": {
     "title": "Welcome to my site",
     "description": "This is the English version of the site."
+  },
+  "Winery": {
+    "title": "Our Vineyards",
+    "description": "Welcome to our winery. We produce high-quality wines using traditional methods combined with modern techniques.",
+    "section1": {
+      "text": "Our vineyards are located in the heart of the wine region, where the climate and soil create the perfect environment for growing high-quality grapes."
+    },
+    "section2": {
+      "text": "Each bottle of wine is carefully crafted, combining centuries-old tradition with innovative winemaking techniques."
+    }
   }
 }

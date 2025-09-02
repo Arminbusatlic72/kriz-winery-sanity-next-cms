@@ -10,5 +10,15 @@
   "Home": {
     "title": "Dobrodošli na moju stranicu",
     "description": "Ovo je hrvatska verzija stranice."
+  },
+  "Winery": {
+    "title": "Naši vinogradi",
+    "description": "Dobrodošli u našu vinariju. Proizvodimo vrhunska vina koristeći tradicionalne metode u kombinaciji s modernim tehnikama.",
+    "section1": {
+      "text": "Naši vinogradi smješteni su u srcu vinske regije, gdje klima i tlo stvaraju savršene uvjete za uzgoj vrhunskog grožđa."
+    },
+    "section2": {
+      "text": "Svaka boca vina pomno je proizvedena, spajajući stoljetnu tradiciju s inovativnim tehnikama vinifikacije."
+    }
   }
 }
