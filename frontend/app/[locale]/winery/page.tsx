@@ -1,7 +1,7 @@
 import WineryLayout from '@/app/layouts/WineryLayout'
 import {sanityFetch} from '@/sanity/lib/live'
 import {productsQuery} from '@/sanity/lib/queries'
-import Image from 'next/image'
+
 import Link from 'next/link'
 import ProductImage from '@/app/components/ProductImage'
 import CoverImage from '@/app/components/CoverImage'
@@ -33,7 +33,7 @@ export default async function VineyardsPage({params}: {params: {locale: string}}
               key={product._id}
               className="border rounded-lg p-4 shadow-md"
             >
-              <CoverImage image={product.productImage} priority />
+              <ProductImage image={product.productImage} priority />
               <h3 className="text-xl font-semibold mt-4">{product.title[locale]}</h3>
               <p className="text-gray-700 dark:text-gray-300">{product.description[locale]}</p>
             </Link>

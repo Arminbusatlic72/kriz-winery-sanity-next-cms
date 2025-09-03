@@ -1,10 +1,9 @@
 {
   "nav": [
-    {"href": "/home", "title": "Početna"},
     {"href": "/about", "title": "Naša priča"},
     {"href": "/winery", "title": "Vinarija"},
-    {"href": "/blog", "title": "Blog"},
     {"href": "/accommodation", "title": "Smještaj"},
+    {"href": "/blog", "title": "Blog"},
     {"href": "/contact", "title": "Kontakt"}
   ],
   "Home": {
@@ -20,5 +19,13 @@
     "section2": {
       "text": "Svaka boca vina pomno je proizvedena, spajajući stoljetnu tradiciju s inovativnim tehnikama vinifikacije."
     }
+  },
+
+  "Accommodation": {
+    "title": "Ugodna Kuća na Plaži",
+    "description": "Uživajte u luksuznom boravku s prekrasnim pogledom na more i modernim sadržajima. Savršeno za obitelji ili prijatelje, samo nekoliko koraka od plaže.",
+    "amenities": "2 Spavaće sobe, Privatni bazen, Wi-Fi, Klima uređaj, Kuhinja, Pogled na more",
+    "btnText": "Rezerviraj sada",
+    "btnUrl": "/kontakt"
   }
 }

@@ -1,10 +1,9 @@
 {
   "nav": [
-    {"href": "/home", "title": "Home"},
     {"href": "/about", "title": "Our story"},
     {"href": "/winery", "title": "Winery"},
-    {"href": "/blog", "title": "Blog"},
     {"href": "/accommodation", "title": "Accommodation"},
+    {"href": "/blog", "title": "Blog"},
     {"href": "/contact", "title": "Contact"}
   ],
   "Home": {
@@ -20,5 +19,12 @@
     "section2": {
       "text": "Each bottle of wine is carefully crafted, combining centuries-old tradition with innovative winemaking techniques."
     }
+  },
+  "Accommodation": {
+    "title": "Cozy Beach House",
+    "description": "Enjoy a luxurious stay with stunning sea views and modern amenities. Perfect for families or friends, just a few steps away from the beach.",
+    "amenities": "2 Bedrooms, Private Pool, Wi-Fi, Air Conditioning, Kitchen, Sea View",
+    "btnText": "Book now",
+    "btnUrl": "/contact"
   }
 }
