@@ -9,7 +9,7 @@ import {urlForImage} from '@/sanity/lib/utils'
 import {getTranslations} from 'next-intl/server'
 export default async function VineyardsPage({params}: {params: {locale: string}}) {
   // Fetch products from Sanity
-  const {locale} = params
+  const {locale} = await params
   const t = await getTranslations('Winery')
   const {data: products} = await sanityFetch({
     query: productsQuery,
@@ -29,7 +29,7 @@ export default async function VineyardsPage({params}: {params: {locale: string}}
         {products?.length > 0 ? (
           products.map((product: any) => (
             <Link
-              href={`/${locale}/products/${product.slug[locale]}`}
+              href={`/${locale}/proizvodi/${product.slug[locale]}`}
               key={product._id}
               className="border rounded-lg p-4 shadow-md"
             >

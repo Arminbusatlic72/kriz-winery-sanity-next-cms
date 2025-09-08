@@ -9,7 +9,7 @@ import {urlForImage} from '@/sanity/lib/utils'
 import {getTranslations} from 'next-intl/server'
 export default async function VineyardsPage({params}: {params: {locale: string}}) {
   // Fetch products from Sanity
-  const {locale} = params
+  const {locale} = await params
   const t = await getTranslations('Winery')
   const {data: products} = await sanityFetch({
     query: productsQuery,

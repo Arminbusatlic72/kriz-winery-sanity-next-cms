@@ -179,7 +179,7 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
 }
 
 export default async function ProductPage({params}: Props) {
-  const {slug} = params
+  const {slug} = await params
   const {data: product} = await sanityFetch({query: productQuery, params: {slug}})
 
   if (!product?._id) return notFound()
