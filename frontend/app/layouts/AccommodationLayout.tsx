@@ -16,9 +16,10 @@ interface Accommodation {
 interface Props {
   children?: ReactNode
   content: Accommodation
+  locale: string
 }
 
-export default function AccommodationLayout({content, children}: Props) {
+export default function AccommodationLayout({content, children, locale}: Props) {
   const {title, description, amenities, images, btnUrl, btnText} = content
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [showAll, setShowAll] = useState(false)
@@ -84,7 +85,8 @@ export default function AccommodationLayout({content, children}: Props) {
   const generatePlaceholder = (width: number = 800, height: number = 600) => {
     return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'%3E%3Crect width='${width}' height='${height}' fill='%23f3f4f6'/%3E%3C/svg%3E`
   }
-
+  const localizedBtnUrl = `/${locale}${btnUrl.startsWith('/') ? btnUrl : '/' + btnUrl}`
+  console.log(locale)
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       <div className="space-y-2 pt-6 pb-8 md:space-y-5">
@@ -128,7 +130,7 @@ export default function AccommodationLayout({content, children}: Props) {
             )}
 
             <Link
-              href="#"
+              href={localizedBtnUrl}
               className="cursor-pointer relative inline-block no-underline font-medium group py-3 px-6"
             >
               <span className="absolute inset-0 w-full h-full transition duration-400 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0 dark:bg-white"></span>
