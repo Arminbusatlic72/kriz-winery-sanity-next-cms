@@ -10,6 +10,16 @@
     "title": "Welcome to my site",
     "description": "This is the English version of the site."
   },
+  "AboutUs": {
+    "title": "Our Story",
+    "description": "We are a family-owned winery dedicated to producing high-quality wines. Our journey began with a passion for viticulture and a dream to create exceptional wines that reflect the unique terroir of our region.",
+    "section1": {
+      "text": "Our vineyard is nestled in a picturesque location, where the climate and soil conditions are ideal for growing a variety of grape types. We believe in sustainable farming practices and work closely with nature to ensure the health of our vines."
+    },
+    "section2": {
+      "text": "Over the years, we have honed our winemaking skills, combining traditional methods with modern techniques to craft wines that are both expressive and elegant. We invite you to explore our collection and experience the fruits of our labor."
+    }
+  },
   "Winery": {
     "title": "Our Vineyards",
     "description": "Welcome to our winery. We produce high-quality wines using traditional methods combined with modern techniques.",
@@ -23,6 +33,7 @@
   "Accommodation": {
     "title": "Cozy Beach House",
     "description": "Enjoy a luxurious stay with stunning sea views and modern amenities. Perfect for families or friends, just a few steps away from the beach.",
+    "amenitiesTitle": "Amenities",
     "amenities": "2 Bedrooms, Private Pool, Wi-Fi, Air Conditioning, Kitchen, Sea View",
     "btnText": "Book now",
     "btnUrl": "/contact"

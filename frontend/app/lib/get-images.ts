@@ -1,22 +1,23 @@
 import {readdirSync} from 'fs'
-import {join} from 'path'
+import {join, basename} from 'path'
 
 export function getImagesFromDirectory(directoryPath: string): string[] {
   try {
-    // Construct the full path relative to the project root
+    // Full path on disk
     const fullPath = join(process.cwd(), 'public', directoryPath)
 
-    // Read all files in the directory
+    // Read all files in directory
     const files = readdirSync(fullPath)
 
-    // Filter for image files (you can extend this list)
+    // Filter image files
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']
     const imageFiles = files.filter((file) =>
       imageExtensions.some((ext) => file.toLowerCase().endsWith(ext)),
     )
 
-    // Return the full public URL paths
-    return imageFiles.map((file) => join('/static/images/accommodation', file).replace(/\\/g, '/'))
+    // Return URL paths relative to public
+    // So if directoryPath = 'images/about', returns ['/images/about/file1.jpg', ...]
+    return imageFiles.map((file) => `/${directoryPath.replace(/^\/|\/$/g, '')}/${basename(file)}`)
   } catch (error) {
     console.error(`Error reading directory ${directoryPath}:`, error)
     return []

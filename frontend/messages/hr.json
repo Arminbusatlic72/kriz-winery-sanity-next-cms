@@ -10,6 +10,16 @@
     "title": "Dobrodošli na moju stranicu",
     "description": "Ovo je hrvatska verzija stranice."
   },
+  "AboutUs": {
+    "title": "Naša priča",
+    "description": "Mi smo obiteljska vinarija posvećena proizvodnji vrhunskih vina. Naše putovanje započelo je strašću prema vinogradarstvu i snom o stvaranju izvanrednih vina koja odražavaju jedinstveni terroir naše regije.",
+    "section1": {
+      "text": "Naš vinograd smješten je na slikovitom mjestu, gdje su klimatski i tlačni uvjeti idealni za uzgoj različitih vrsta grožđa. Vjerujemo u održive poljoprivredne prakse i blisko surađujemo s prirodom kako bismo osigurali zdravlje naših vinove loze."
+    },
+    "section2": {
+      "text": "Tijekom godina usavršili smo svoje vještine proizvodnje vina, kombinirajući tradicionalne metode s modernim tehnikama kako bismo stvorili vina koja su i izražajna i elegantna. Pozivamo vas da istražite našu kolekciju i iskusite plodove našeg rada."
+    }
+  },
   "Winery": {
     "title": "Naši vinogradi",
     "description": "Dobrodošli u našu vinariju. Proizvodimo vrhunska vina koristeći tradicionalne metode u kombinaciji s modernim tehnikama.",
@@ -24,6 +34,7 @@
   "Accommodation": {
     "title": "Ugodna Kuća na Plaži",
     "description": "Uživajte u luksuznom boravku s prekrasnim pogledom na more i modernim sadržajima. Savršeno za obitelji ili prijatelje, samo nekoliko koraka od plaže.",
+    "amenitiesTitle": "Sadržaji",
     "amenities": "2 Spavaće sobe, Privatni bazen, Wi-Fi, Klima uređaj, Kuhinja, Pogled na more",
     "btnText": "Rezerviraj sada",
     "btnUrl": "/kontaktirajte-nas"

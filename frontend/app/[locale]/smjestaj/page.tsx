@@ -16,6 +16,7 @@ export default async function AccommodationPage({params}: AccommodationPageProps
       content={{
         title: t('title'),
         description: t('description'),
+        amenitiesTitle: t('amenitiesTitle'),
         amenities: t('amenities'),
         images: accommodationImages,
         btnText: t('btnText'),

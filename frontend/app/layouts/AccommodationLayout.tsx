@@ -7,6 +7,7 @@ import Link from 'next/link'
 interface Accommodation {
   title: string
   description: string
+  amenitiesTitle: string
   amenities: string
   images: string[]
   btnText: string
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export default function AccommodationLayout({content, children, locale}: Props) {
-  const {title, description, amenities, images, btnUrl, btnText} = content
+  const {title, description, amenitiesTitle, amenities, images, btnUrl, btnText} = content
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [showAll, setShowAll] = useState(false)
 
@@ -124,7 +125,7 @@ export default function AccommodationLayout({content, children, locale}: Props) 
 
             {amenities && (
               <>
-                <h3 className="mb-2 text-2xl font-semibold">Amenities</h3>
+                <h3 className="mb-2 text-2xl font-semibold">{amenitiesTitle}</h3>
                 <p className="mb-4 text-gray-700 dark:text-gray-300">{amenities}</p>
               </>
             )}

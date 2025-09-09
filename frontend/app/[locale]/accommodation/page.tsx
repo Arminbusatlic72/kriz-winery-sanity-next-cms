@@ -10,13 +10,14 @@ export default async function AccommodationPage({params}: AccommodationPageProps
 
   const t = await getTranslations('Accommodation')
   const accommodationImages = getImagesFromDirectory('static/images/accommodation')
-
+  console.log(accommodationImages)
   return (
     <AccommodationLayout
       content={{
         title: t('title'),
         description: t('description'),
         amenities: t('amenities'),
+        amenitiesTitle: t('amenitiesTitle'),
         images: accommodationImages,
         btnText: t('btnText'),
         btnUrl: t('btnUrl'),

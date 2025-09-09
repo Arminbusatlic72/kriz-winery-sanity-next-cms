@@ -1,3 +1,18 @@
-export default function AboutPage() {
-  return <div>Our story</div>
+import AboutLayout from '@/app/layouts/AboutLayout'
+import {getTranslations} from 'next-intl/server'
+import {getImagesFromDirectory} from '@/app/lib/get-images'
+
+export default async function AboutPage() {
+  const t = await getTranslations('AboutUs')
+  const aboutImages = getImagesFromDirectory('static/images/about')
+  console.log(aboutImages)
+  return (
+    <AboutLayout
+      content={{
+        title: t('title'),
+        description: t('description'),
+        images: aboutImages,
+      }}
+    />
+  )
 }
