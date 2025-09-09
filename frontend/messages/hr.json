@@ -1,10 +1,10 @@
 {
   "nav": [
-    {"href": "/about", "title": "Naša priča"},
+    {"href": "/nasa-prica", "title": "Naša priča"},
     {"href": "/winery", "title": "Vinarija"},
     {"href": "/accommodation", "title": "Smještaj"},
     {"href": "/blog", "title": "Blog"},
-    {"href": "/contact", "title": "Kontakt"}
+    {"href": "/kontaktirajte-nas", "title": "Kontakt"}
   ],
   "Home": {
     "title": "Dobrodošli na moju stranicu",
@@ -27,5 +27,32 @@
     "amenities": "2 Spavaće sobe, Privatni bazen, Wi-Fi, Klima uređaj, Kuhinja, Pogled na more",
     "btnText": "Rezerviraj sada",
     "btnUrl": "/kontakt"
+  },
+  "Contact": {
+    "title": "Kontaktirajte nas",
+    "description": "Kako smo zauzeti uzgojem grožđa, proizvodnjom vina i odgojem djeteta, degustacije i prodaja su dostupni samo uz prethodni dogovor. Slobodno nas kontaktirajte!",
+    "form": {
+      "firstName": "Ime",
+      "lastName": "Prezime",
+      "email": "E-mail",
+      "message": "Poruka",
+      "button": "Pošaljite poruku"
+    },
+    "validation": {
+      "required": "Ovo polje je obavezno",
+      "minLength": "Ovo polje je prekratko",
+      "maxLength": "Ovo polje je predugačko",
+      "emailInvalid": "Unesite ispravnu adresu e-pošte",
+      "firstNameMinLength": "Ime mora imati najmanje 2 znaka",
+      "lastNameMinLength": "Prezime mora imati najmanje 2 znaka",
+      "messageMinLength": "Poruka mora imati najmanje 10 znakova",
+      "messageMaxLength": "Poruka ne smije imati više od 500 znakova"
+    },
+    "placeHolders": {
+      "firstName": "Unesite ime",
+      "lastName": "Unesite prezime",
+      "email": "Unesite email",
+      "message": "Unesite poruku"
+    }
   }
 }

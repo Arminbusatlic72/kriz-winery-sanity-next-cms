@@ -1,6 +1,6 @@
 {
   "nav": [
-    {"href": "/about", "title": "Our story"},
+    {"href": "/about-us", "title": "Our story"},
     {"href": "/winery", "title": "Winery"},
     {"href": "/accommodation", "title": "Accommodation"},
     {"href": "/blog", "title": "Blog"},
@@ -26,5 +26,32 @@
     "amenities": "2 Bedrooms, Private Pool, Wi-Fi, Air Conditioning, Kitchen, Sea View",
     "btnText": "Book now",
     "btnUrl": "/contact"
+  },
+  "Contact": {
+    "title": "Get in Touch",
+    "description": "As we are busy growing grapes, making wine, and raising our child, tastings and sales are available by appointment only. Feel free to contact us!",
+    "form": {
+      "firstName": "Name",
+      "lastName": "Family Name",
+      "email": "Email",
+      "message": "Message",
+      "button": "Send Message"
+    },
+    "validation": {
+      "required": "This field is required",
+      "minLength": "This field is too short",
+      "maxLength": "This field is too long",
+      "emailInvalid": "Please enter a valid email address",
+      "firstNameMinLength": "Name must be at least 2 characters",
+      "lastNameMinLength": "Family name must be at least 2 characters",
+      "messageMinLength": "Message must be at least 10 characters",
+      "messageMaxLength": "Message must be no more than 500 characters"
+    },
+    "placeHolders": {
+      "firstName": "Enter your name",
+      "lastName": "Enter your family name",
+      "email": "Enter your email",
+      "message": "Enter your message..."
+    }
   }
 }
