@@ -12,9 +12,11 @@ import {
   getLocalizedBlockContent,
 } from '@/sanity/lib/utils'
 
-type Props = {params: {slug: string}}
+type Props = {
+  params: Promise<{slug: string; locale: string}>
+}
 
-export async function generateStaticParams() {
+export async function generateStaticParams({params}: Props) {
   const {data} = await sanityFetch({
     query: productPagesSlugs,
     perspective: 'published',
@@ -24,7 +26,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const {slug} = props.params
+  const {slug} = await props.params
   const {data: product} = await sanityFetch({query: productQuery, params: {slug}})
 
   if (!product?._id) return {}

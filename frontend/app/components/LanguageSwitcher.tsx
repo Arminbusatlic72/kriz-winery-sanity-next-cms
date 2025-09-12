@@ -6,7 +6,7 @@ import {useParams as useNextParams} from 'next/navigation'
 import {usePathname, useRouter} from '@/i18n/navigation'
 import BritishFlag from '@/app/components/language-icons/BritishFlag'
 import CroatianFlag from '@/app/components/language-icons/CroatianFlag'
-import Link from 'next/link'
+
 interface LocalizedSlugs {
   _type: string
   en: string

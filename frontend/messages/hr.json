@@ -3,7 +3,7 @@
     {"href": "/nasa-prica", "title": "Naša priča"},
     {"href": "/winery", "title": "Vinarija"},
     {"href": "/accommodation", "title": "Smještaj"},
-    {"href": "/blog", "title": "Blog"},
+    {"href": "/postovi", "title": "Blog"},
     {"href": "/kontaktirajte-nas", "title": "Kontakt"}
   ],
   "Home": {
@@ -28,7 +28,8 @@
     },
     "section2": {
       "text": "Svaka boca vina pomno je proizvedena, spajajući stoljetnu tradiciju s inovativnim tehnikama vinifikacije."
-    }
+    },
+    "productsTitle": "Naši proizvodi"
   },
 
   "Accommodation": {
@@ -38,6 +39,12 @@
     "amenities": "2 Spavaće sobe, Privatni bazen, Wi-Fi, Klima uređaj, Kuhinja, Pogled na more",
     "btnText": "Rezerviraj sada",
     "btnUrl": "/kontaktirajte-nas"
+  },
+  "Posts": {
+    "title": "From Our Vineyard to Your Table",
+    "description": "Discover the latest news, stories, and insights from our winery. Learn about our winemaking process, upcoming events, and special offers.",
+    "readMore": "Read more",
+    "categories": "Kategorije"
   },
   "Contact": {
     "title": "Kontaktirajte nas",

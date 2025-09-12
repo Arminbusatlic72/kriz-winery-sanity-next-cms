@@ -18,10 +18,10 @@ export const pathnames = {
   },
   '/contact': {
     en: '/contact',
-    hr: '/kontakt',
+    hr: '/kontaktirajte-nas',
   },
   '/blog': {
-    en: '/blog',
-    hr: '/blog',
+    en: '/posts',
+    hr: '/postovi',
   },
 } as const

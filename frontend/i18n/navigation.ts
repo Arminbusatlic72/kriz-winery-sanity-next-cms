@@ -17,14 +17,14 @@ export const pathnames = {
     en: '/winery',
     hr: '/vinarija',
   },
-  '/blog': '/blog',
+  '/posts': {en: '/posts', hr: '/postovi'},
   '/accommodation': {
     en: '/accommodation',
     hr: '/smjestaj',
   },
   '/contact': {
     en: '/contact',
-    hr: '/kontakt',
+    hr: '/kontaktirajte-nas',
   },
   // Add the dynamic route for products
   '/products/[slug]': {

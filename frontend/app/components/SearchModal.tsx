@@ -74,7 +74,7 @@ export default function SearchModal({onClose, locale}: SearchModalProps) {
             return (
               <li key={item._id} className="mb-2">
                 <Link
-                  href={`/${locale}/${item._type === 'product' ? productPath : 'blog'}/${slug}`}
+                  href={`/${locale}/${item._type === 'product' ? productPath : 'posts'}/${slug}`}
                   className="text-blue-600 dark:text-blue-400 hover:underline"
                   onClick={onClose}
                 >

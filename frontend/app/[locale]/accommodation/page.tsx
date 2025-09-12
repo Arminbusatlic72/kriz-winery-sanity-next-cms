@@ -2,15 +2,15 @@ import AccommodationLayout from '@/app/layouts/AccommodationLayout'
 import {getTranslations} from 'next-intl/server'
 import {getImagesFromDirectory} from '@/app/lib/get-images'
 
-type AccommodationPageProps = {
-  params: {locale: string}
+type Props = {
+  params: Promise<{slug: string; locale: string}>
 }
-export default async function AccommodationPage({params}: AccommodationPageProps) {
+export default async function AccommodationPage({params}: Props) {
   const {locale} = await params
 
   const t = await getTranslations('Accommodation')
   const accommodationImages = getImagesFromDirectory('static/images/accommodation')
-  console.log(accommodationImages)
+
   return (
     <AccommodationLayout
       content={{

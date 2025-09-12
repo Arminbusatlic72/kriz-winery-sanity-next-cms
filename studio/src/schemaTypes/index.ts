@@ -2,6 +2,8 @@ import {person} from './documents/person'
 import {page} from './documents/page'
 import {post} from './documents/post'
 import {product} from './documents/product'
+// import {news} from './documents/news'
+import {category} from './documents/category'
 import {callToAction} from './objects/callToAction'
 import {infoSection} from './objects/infoSection'
 import {settings} from './singletons/settings'
@@ -16,6 +18,7 @@ export const schemaTypes = [
   // Documents
   page,
   post,
+  category,
   product,
   person,
   // Objects

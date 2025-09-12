@@ -3,7 +3,7 @@
     {"href": "/about-us", "title": "Our story"},
     {"href": "/winery", "title": "Winery"},
     {"href": "/accommodation", "title": "Accommodation"},
-    {"href": "/blog", "title": "Blog"},
+    {"href": "/posts", "title": "Blog"},
     {"href": "/contact", "title": "Contact"}
   ],
   "Home": {
@@ -28,7 +28,8 @@
     },
     "section2": {
       "text": "Each bottle of wine is carefully crafted, combining centuries-old tradition with innovative winemaking techniques."
-    }
+    },
+    "productsTitle": "Our Products"
   },
   "Accommodation": {
     "title": "Cozy Beach House",
@@ -37,6 +38,12 @@
     "amenities": "2 Bedrooms, Private Pool, Wi-Fi, Air Conditioning, Kitchen, Sea View",
     "btnText": "Book now",
     "btnUrl": "/contact"
+  },
+  "Posts": {
+    "title": "From Our Vineyard to Your Table",
+    "description": "Discover the latest news, stories, and insights from our winery. Learn about our winemaking process, upcoming events, and special offers.",
+    "readMore": "Read more",
+    "categories": "Categories"
   },
   "Contact": {
     "title": "Get in Touch",

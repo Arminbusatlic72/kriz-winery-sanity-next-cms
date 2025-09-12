@@ -832,6 +832,33 @@ export type SearchQueryResult = Array<{
   excerpt: string | null
   mainImage: null
 }>
+// Variable: postsQuery
+// Query: *[_type == "post"] | order(date desc) {  _id,  title,  excerpt,  content,  coverImage {    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{    firstName,    lastName  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
+export type PostsQueryResult = Array<{
+  _id: string
+  title: string
+  excerpt: string | null
+  content: BlockContent | null
+  coverImage: {
+    asset: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    } | null
+    alt: string | null
+  }
+  slug: {
+    en: null
+    hr: null
+  }
+  date: string | null
+  author: {
+    firstName: string
+    lastName: string
+  } | null
+  category: null
+}>
 
 // Query TypeMap
 import '@sanity/client'
@@ -853,5 +880,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    content,\n    price,\n    excerpt,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductQueryResult
     '\n  *[_type == "product" && featured == true] | order(date desc) [0...3] {\n    _id,\n    title,\n    description,\n    price,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': FeaturedProductsQueryResult
     '\n  *[\n    _type == "post" &&\n    defined(title) &&\n    title match $searchTerm\n  ]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    mainImage\n  }\n': SearchQueryResult
+    '*[_type == "post"] | order(date desc) {\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage {\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{\n    firstName,\n    lastName\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}': PostsQueryResult
   }
 }

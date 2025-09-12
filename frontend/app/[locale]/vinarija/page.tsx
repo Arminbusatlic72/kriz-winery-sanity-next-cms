@@ -25,11 +25,16 @@ export default async function VineyardsPage({params}: {params: {locale: string}}
         text1={t('section1.text')}
         text2={t('section2.text')}
       />
+      <div className="space-y-2 pt-6 pb-8 md:space-y-5 mt-12">
+        <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+          {t('productsTitle')}
+        </h2>
+      </div>
       <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
         {products?.length > 0 ? (
           products.map((product: any) => (
             <Link
-              href={`/${locale}/proizvodi/${product.slug[locale]}`}
+              href={`/${locale}/products/${product.slug[locale]}`}
               key={product._id}
               className="border rounded-lg p-4 shadow-md"
             >
