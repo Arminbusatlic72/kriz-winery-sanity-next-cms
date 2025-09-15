@@ -6,13 +6,13 @@ import Link from 'next/link'
 import BlogLayout from '@/app/layouts/BlogLayout'
 import ProductImage from '@/app/components/ProductImage'
 import {Popover, PopoverButton, PopoverPanel, Button} from '@headlessui/react'
-
+import {ChevronDownIcon} from '@heroicons/react/20/solid'
 type Props = {
-  params: {locale: string}
+  params: Promise<{locale: string}>
 }
 
 export default async function BlogPage({params}: Props) {
-  const {locale} = params
+  const {locale} = await params
   const t = await getTranslations('Posts')
 
   // Fetch posts and categories concurrently
@@ -39,16 +39,19 @@ export default async function BlogPage({params}: Props) {
           >
             {/* Popover Button */}
             <PopoverButton
-              className="w-full text-left focus:outline-none cursor-pointer"
+              className="w-full flex items-center justify-between focus:outline-none cursor-pointer"
               aria-expanded="false"
               aria-controls="categories-list"
             >
               <span
                 id="categories-heading"
-                className="text-2xl uppercase font-bold  text-gray-900 dark:text-white"
+                className="text-2xl uppercase font-bold text-gray-900 dark:text-white"
               >
                 {t('categories')}
               </span>
+
+              {/* Arrow down icon */}
+              <ChevronDownIcon className="h-6 w-6 text-gray-700 dark:text-white" />
             </PopoverButton>
 
             {/* Categories Navigation */}
@@ -70,9 +73,9 @@ export default async function BlogPage({params}: Props) {
                           role="menuitem"
                           aria-label={`Browse ${category.title[locale]} category`}
                         >
-                          <Button className="text-gray-700 dark:text-white/70 dark:hover:text-white font-medium">
+                          <span className="uppercase text-gray-700 dark:text-white/70 dark:hover:text-white font-medium">
                             {category.title[locale]}
-                          </Button>
+                          </span>
                         </Link>
                       </li>
                     ))}
@@ -86,7 +89,6 @@ export default async function BlogPage({params}: Props) {
             </nav>
           </aside>
         </Popover>
-
         {/* Main Content: Blog Posts */}
         <main className="col-span-3" aria-labelledby="posts-heading">
           <h1 id="posts-heading" className="sr-only">
@@ -101,7 +103,7 @@ export default async function BlogPage({params}: Props) {
                   className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
                 >
                   <Link
-                    href={`/${locale}/posts/${post.slug[locale]}`}
+                    href={`/${locale}/postovi/${post.slug[locale]}`}
                     className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg"
                     aria-label={`Read article: ${post.title[locale]}`}
                   >
@@ -115,11 +117,11 @@ export default async function BlogPage({params}: Props) {
                       </figure>
                     )}
 
-                    <header>
+                    <header className="my-2 py-3">
                       {post.category?.title && (
-                        <span className="inline-block text-xs font-medium text-blue-600 dark:text-blue-400 mb-1">
+                        <Button className="mb-2 inline-flex items-center gap-2 rounded-md bg-gray-700 px-3  text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700">
                           {post.category.title[locale]}
-                        </span>
+                        </Button>
                       )}
                       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                         {post.title[locale]}
@@ -127,7 +129,7 @@ export default async function BlogPage({params}: Props) {
                     </header>
 
                     {post.excerpt && (
-                      <div className="mt-2">
+                      <div className="mt-2 ">
                         <p className="text-gray-700 dark:text-gray-400 line-clamp-3">
                           {post.excerpt[locale]}
                         </p>

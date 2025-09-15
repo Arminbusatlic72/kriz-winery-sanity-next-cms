@@ -733,68 +733,6 @@ export type MorePostsQueryResult = Array<{
     }
   } | null
 }>
-// Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
-export type PostQueryResult = {
-  content: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
-    listItem?: 'bullet' | 'number'
-    markDefs: Array<{
-      linkType?: 'href' | 'page' | 'post'
-      href?: string
-      page: string | null
-      post: string | null
-      openInNewTab?: boolean
-      _type: 'link'
-      _key: string
-    }> | null
-    level?: number
-    _type: 'block'
-    _key: string
-  }> | null
-  _id: string
-  status: 'draft' | 'published'
-  title: string
-  slug: string
-  excerpt: string | null
-  coverImage: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
-  date: string
-  author: {
-    firstName: string
-    lastName: string
-    picture: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      alt?: string
-      _type: 'image'
-    }
-  } | null
-} | null
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
 export type PostPagesSlugsResult = Array<{
@@ -859,6 +797,58 @@ export type PostsQueryResult = Array<{
   } | null
   category: null
 }>
+// Variable: postsPagesSlugs
+// Query: *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
+export type PostsPagesSlugsResult = Array<never>
+// Variable: postQuery
+// Query: *[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{  _id,  title,  excerpt,  content,  coverImage{    asset,    alt  },  date,  author->{firstName, lastName},  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
+export type PostQueryResult = {
+  _id: string
+  title: string
+  excerpt: string | null
+  content: BlockContent | null
+  coverImage: {
+    asset: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    } | null
+    alt: string | null
+  }
+  date: string | null
+  author: {
+    firstName: string
+    lastName: string
+  } | null
+  category: null
+} | null
+// Variable: categoriesQuery
+// Query: *[_type == "category"] | order(title.en asc){    _id,    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
+export type CategoriesQueryResult = Array<never>
+// Variable: postsByCategoryQuery
+// Query: *[  _type == "post" &&  category->slug[$locale].current == $category] | order(publishedAt desc){  _id,  "title": title[$locale],  "slug": slug.current,  "excerpt": excerpt[$locale],  publishedAt,  coverImage,  "category": category->{    _id,    "title": title[$locale],    "slug": slug[$locale].current  }}
+export type PostsByCategoryQueryResult = Array<{
+  _id: string
+  title: Array<string>
+  slug: string
+  excerpt: Array<string> | null
+  publishedAt: null
+  coverImage: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  category: null
+}>
 
 // Query TypeMap
 import '@sanity/client'
@@ -869,7 +859,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': MorePostsQueryResult
-    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': PostQueryResult
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
     '*[_type == "product"] | order(date desc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult
@@ -881,5 +870,9 @@ declare module '@sanity/client' {
     '\n  *[_type == "product" && featured == true] | order(date desc) [0...3] {\n    _id,\n    title,\n    description,\n    price,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': FeaturedProductsQueryResult
     '\n  *[\n    _type == "post" &&\n    defined(title) &&\n    title match $searchTerm\n  ]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    mainImage\n  }\n': SearchQueryResult
     '*[_type == "post"] | order(date desc) {\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage {\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{\n    firstName,\n    lastName\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}': PostsQueryResult
+    '\n  *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': PostsPagesSlugsResult
+    '\n*[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage{\n    asset,\n    alt\n  },\n  date,\n  author->{firstName, lastName},\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}\n': PostQueryResult
+    '\n  *[_type == "category"] | order(title.en asc){\n    _id,\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n  ': CategoriesQueryResult
+    '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug.current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage,\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
   }
 }

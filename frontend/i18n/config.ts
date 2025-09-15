@@ -24,4 +24,12 @@ export const pathnames = {
     en: '/posts',
     hr: '/postovi',
   },
+  '/posts/[slug]': {
+    en: '/posts/[slug]',
+    hr: '/postovi/[slug]',
+  },
+  '/posts/category/[category]': {
+    en: '/posts/category/[category]',
+    hr: '/postovi/kategorija/[category]',
+  },
 } as const

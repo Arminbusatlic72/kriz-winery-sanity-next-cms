@@ -1,14 +1,14 @@
 import {client} from '@/sanity/lib/client'
 import {categoriesQuery, postsByCategoryQuery} from '@/sanity/lib/queries'
 import Link from 'next/link'
+import ProductImage from '@/app/components/ProductImage' // ✅ adjust path if needed
 
 interface Props {
   params: {locale: 'en' | 'hr'; category: string}
 }
 
-export const revalidate = 60 // ISR (1 min) — adjust as needed
+export const revalidate = 60
 
-// Generate static params for all locale+category combinations
 export async function generateStaticParams() {
   const categories = await client.fetch(categoriesQuery)
   const locales: Array<'en' | 'hr'> = ['en', 'hr']
@@ -16,12 +16,11 @@ export async function generateStaticParams() {
   return locales.flatMap((locale) =>
     categories.map((cat: any) => ({
       locale,
-      category: cat.slug[locale], // 👈 pick localized slug
+      category: cat.slug[locale],
     })),
   )
 }
 
-// Optional: add SEO metadata
 export async function generateMetadata({params}: Props) {
   const categories = await client.fetch(categoriesQuery)
   const category = categories.find((c: any) => c.slug[params.locale] === params.category)
@@ -33,48 +32,72 @@ export async function generateMetadata({params}: Props) {
 
 export default async function CategoryPage({params}: Props) {
   const {locale, category} = params
-  console.log(params)
-  const posts = await client.fetch(postsByCategoryQuery, {
-    locale,
-    category, // this is already the localized slug (en/hr)
-  })
-
+  const posts = await client.fetch(postsByCategoryQuery, {locale, category})
   const categories = await client.fetch(categoriesQuery)
   const activeCategory = categories.find((c: any) => c.slug[locale] === category)
 
   return (
-    <main className="mx-auto max-w-3xl py-8">
+    <main className="mx-auto max-w-5xl py-8 px-4">
       <Link href={`/${locale}/posts`} className="text-sm underline">
         ← {locale === 'en' ? 'All posts' : 'Svi članci'}
       </Link>
 
-      <h1 className="mt-4 text-2xl font-bold">
+      <h1 className="mt-4 text-3xl font-bold">
         {activeCategory ? activeCategory.title[locale] : category}
       </h1>
 
-      {posts?.length ? (
-        <ul className="mt-6 space-y-4">
-          {posts.map((p: any) => (
-            <li key={p._id} className="p-4 border rounded-lg">
+      {posts?.length > 0 ? (
+        <section
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8"
+          aria-label="Blog posts grid"
+        >
+          {posts.map((post: any) => (
+            <article
+              key={post._id}
+              className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
+            >
               <Link
-                href={`/${locale}/posts/${p.slug}`}
-                className="text-lg font-semibold hover:underline"
+                href={`/${locale}/posts/${post.slug}`}
+                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg"
+                aria-label={`Read article: ${post.title}`}
               >
-                {p.title}
+                {post.coverImage && (
+                  <figure className="mb-4">
+                    <ProductImage
+                      image={post.coverImage}
+                      priority
+                      alt={post.title || 'Blog post cover image'}
+                    />
+                  </figure>
+                )}
+
+                <header>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    {post.title}
+                  </h2>
+                </header>
+
+                {post.excerpt && (
+                  <div className="mt-2">
+                    <p className="text-gray-700 dark:text-gray-400 line-clamp-3">{post.excerpt}</p>
+                  </div>
+                )}
               </Link>
-              {p.excerpt && <p className="text-sm mt-1">{p.excerpt}</p>}
-              {p.publishedAt && (
-                <div className="text-xs mt-2 text-gray-500">
-                  {new Date(p.publishedAt).toLocaleDateString(locale)}
-                </div>
-              )}
-            </li>
+            </article>
           ))}
-        </ul>
+        </section>
       ) : (
-        <p className="mt-6 text-gray-600">
-          {locale === 'en' ? 'No posts in this category.' : 'Nema članaka u ovoj kategoriji.'}
-        </p>
+        <section
+          className="flex items-center justify-center py-12"
+          role="status"
+          aria-live="polite"
+        >
+          <p className="text-gray-600 dark:text-gray-400 text-center">
+            {locale === 'en'
+              ? 'No posts available at the moment.'
+              : 'Nema članaka u ovoj kategoriji.'}
+          </p>
+        </section>
       )}
     </main>
   )

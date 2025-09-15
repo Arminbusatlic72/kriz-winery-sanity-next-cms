@@ -31,6 +31,14 @@ export const pathnames = {
     en: '/products/[slug]',
     hr: '/proizvodi/[slug]',
   },
+  '/posts/[slug]': {
+    en: '/posts/[slug]',
+    hr: '/postovi/[slug]',
+  },
+  '/posts/category/[category]': {
+    en: '/posts/category/[category]',
+    hr: '/postovi/kategorija/[category]',
+  },
 } satisfies Record<string, string | Record<(typeof locales)[number], string>>
 
 export const {Link, useRouter, usePathname} = createNavigation({locales, pathnames})

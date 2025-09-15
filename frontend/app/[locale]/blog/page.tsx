@@ -8,11 +8,11 @@ import ProductImage from '@/app/components/ProductImage'
 import {Popover, PopoverButton, PopoverPanel} from '@headlessui/react'
 
 type Props = {
-  params: {locale: string}
+  params: Promise<{locale: string}>
 }
 
 export default async function BlogPage({params}: Props) {
-  const {locale} = params
+  const {locale} = await params
   const t = await getTranslations('Blog')
 
   // Fetch posts and categories concurrently

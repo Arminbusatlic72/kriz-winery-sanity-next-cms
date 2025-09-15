@@ -6,13 +6,13 @@ import Link from 'next/link'
 import BlogLayout from '@/app/layouts/BlogLayout'
 import ProductImage from '@/app/components/ProductImage'
 import {Popover, PopoverButton, PopoverPanel, Button} from '@headlessui/react'
-
+import {ChevronDownIcon} from '@heroicons/react/24/solid'
 type Props = {
-  params: {locale: string}
+  params: Promise<{locale: string}>
 }
 
 export default async function BlogPage({params}: Props) {
-  const {locale} = params
+  const {locale} = await params
   const t = await getTranslations('Posts')
 
   // Fetch posts and categories concurrently
@@ -20,7 +20,7 @@ export default async function BlogPage({params}: Props) {
     sanityFetch({query: postsQuery}),
     sanityFetch({query: categoriesQuery}),
   ])
-  console.log(posts)
+
   return (
     <BlogLayout
       content={{
@@ -39,16 +39,19 @@ export default async function BlogPage({params}: Props) {
           >
             {/* Popover Button */}
             <PopoverButton
-              className="w-full text-left focus:outline-none cursor-pointer"
+              className="w-full flex items-center justify-between focus:outline-none cursor-pointer"
               aria-expanded="false"
               aria-controls="categories-list"
             >
               <span
                 id="categories-heading"
-                className="text-2xl uppercase font-bold  text-gray-900 dark:text-white"
+                className="text-2xl uppercase font-bold text-gray-900 dark:text-white"
               >
                 {t('categories')}
               </span>
+
+              {/* Arrow down icon */}
+              <ChevronDownIcon className="h-6 w-6 text-gray-700 dark:text-white" />
             </PopoverButton>
 
             {/* Categories Navigation */}
@@ -86,7 +89,6 @@ export default async function BlogPage({params}: Props) {
             </nav>
           </aside>
         </Popover>
-
         {/* Main Content: Blog Posts */}
         <main className="col-span-3" aria-labelledby="posts-heading">
           <h1 id="posts-heading" className="sr-only">
@@ -115,9 +117,9 @@ export default async function BlogPage({params}: Props) {
                       </figure>
                     )}
 
-                    <header>
+                    <header className="my-2 py-3">
                       {post.category?.title && (
-                        <Button className="inline-flex items-center gap-2 rounded-md bg-gray-700 px-3  text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700">
+                        <Button className="mb-2 inline-flex items-center gap-2 rounded-md bg-gray-700 px-3  text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700">
                           {post.category.title[locale]}
                         </Button>
                       )}
