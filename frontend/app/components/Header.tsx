@@ -25,7 +25,7 @@ export default function Header({locale}: HeaderProps) {
       <BrandLink href="/" aria-label="Vinarije Kriz">
         <div className="flex items-center justify-between">
           <div className="mr-3">{/* <Logo /> */}</div>
-          <div className="font-strangelove hidden h-6 text-3xl font-semibold tracking-wider sm:block">
+          <div className="font-strangelove  h-6 text-3xl font-semibold tracking-wider sm:block">
             Vinarije Kriz
           </div>
         </div>

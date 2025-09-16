@@ -31,7 +31,7 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
   if (!post?._id) return {}
 
   const previousImages = (await parent).openGraph?.images || []
-  const ogImage = resolveOpenGraphImage(post?.coverImage, locale)
+  const ogImage = resolveOpenGraphImage(post?.coverImage)
 
   return {
     authors:

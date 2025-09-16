@@ -5,7 +5,7 @@ import {stegaClean} from '@sanity/client/stega'
 
 interface ProductImageProps {
   image: any
-  alt?: string
+  alt?: string | string[]
   width?: number
   height?: number
   priority?: boolean

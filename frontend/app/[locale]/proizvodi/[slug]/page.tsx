@@ -1,118 +1,173 @@
 import type {Metadata, ResolvingMetadata} from 'next'
 import {notFound} from 'next/navigation'
-import {Suspense} from 'react'
-
+import {cache} from 'react'
 import CoverImage from '@/app/components/CoverImage'
 import PortableText from '@/app/components/PortableText'
 import {sanityFetch} from '@/sanity/lib/live'
 import {productPagesSlugs, productQuery} from '@/sanity/lib/queries'
-import {resolveOpenGraphImage} from '@/sanity/lib/utils'
-import {getLocalizedValue, getLocalizedBlockContent} from '@/sanity/lib/utils'
+import {
+  resolveOpenGraphImage,
+  getLocalizedValue,
+  getLocalizedBlockContent,
+} from '@/sanity/lib/utils'
+import type {Product} from '@/app/types/product'
 
 type Props = {
   params: Promise<{slug: string; locale: string}>
 }
 
-/**
- * Generate static params for Croatian products
- */
-export async function generateStaticParams() {
-  const {data} = await sanityFetch({
-    query: productPagesSlugs,
-    perspective: 'published',
-    stega: false,
+// Cache the product fetch to avoid duplicate requests
+const getCachedProduct = cache(async (slug: string) => {
+  const {data: product} = await sanityFetch({
+    query: productQuery,
+    params: {slug},
   })
-  return data.filter((p: any) => p.slug?.hr).map((p: any) => ({slug: p.slug.hr, locale: 'hr'}))
+  return product as Product | null
+})
+
+export async function generateStaticParams(): Promise<{slug: string}[]> {
+  try {
+    const {data} = await sanityFetch({
+      query: productPagesSlugs,
+      perspective: 'published',
+      stega: false,
+    })
+
+    const products = data as Product[]
+
+    return products.filter((p: Product) => p.slug?.hr).map((p: Product) => ({slug: p.slug.hr}))
+  } catch (error) {
+    console.error('Error generating static params:', error)
+    return []
+  }
 }
 
-/**
- * Generate metadata for each Croatian product
- */
 export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const {slug, locale} = await props.params
-  const {data: product} = await sanityFetch({
-    query: productQuery,
-    params: {slug},
-    stega: false,
-  })
+  try {
+    const {slug, locale} = await props.params
 
-  if (!product?._id) return {}
+    // Use cached function to avoid duplicate fetch
+    const typedProduct = await getCachedProduct(slug)
 
-  const previousImages = (await parent).openGraph?.images || []
-  const ogImage = resolveOpenGraphImage(product.productImage, locale)
+    if (!typedProduct?._id) {
+      return {
+        title: 'Product Not Found',
+        description: 'The requested product could not be found.',
+      }
+    }
 
-  const title = getLocalizedValue(product.title, locale)
-  const description = getLocalizedValue(product.description, locale)
+    const [previousImages, ogImage] = await Promise.all([
+      parent.then((p) => p.openGraph?.images || []),
+      Promise.resolve(resolveOpenGraphImage(typedProduct.productImage)),
+    ])
 
-  return {
-    title,
-    description,
-    openGraph: {
-      images: ogImage ? [ogImage, ...previousImages] : previousImages,
-    },
+    const title = getLocalizedValue(typedProduct.title, locale)
+    const description = getLocalizedValue(typedProduct.description, locale)
+
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: 'website',
+        images: ogImage ? [ogImage, ...previousImages] : previousImages,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: ogImage ? [ogImage.url] : undefined,
+      },
+      alternates: {
+        canonical: `/${locale}/products/${slug}`,
+      },
+    }
+  } catch (error) {
+    console.error('Error generating metadata:', error)
+    return {}
   }
 }
 
-export default async function ProductPage(props: Props) {
-  const {slug, locale} = await props.params
-  const {data: product} = await sanityFetch({
-    query: productQuery,
-    params: {slug},
-  })
+export default async function ProductPage({params}: Props) {
+  try {
+    const {slug, locale} = await params
 
-  if (!product?._id) {
-    return notFound()
-  }
+    // Use cached function to avoid duplicate fetch
+    const typedProduct = await getCachedProduct(slug)
 
-  const title = getLocalizedValue(product.title, locale)
-  const description = getLocalizedValue(product.description, locale)
-  const excerpt = getLocalizedValue(product.excerpt, locale)
-  const content = getLocalizedBlockContent(product.content, locale)
-  const imageAlt = getLocalizedValue(product.productImage?.alt, locale)
+    if (!typedProduct?._id) {
+      notFound()
+    }
 
-  return (
-    <div className="container my-12 lg:my-24 grid gap-12">
-      <div>
-        <div className="pb-6 grid gap-6 mb-6 border-b border-gray-100 dark:border-gray-800">
-          <div className="max-w-3xl flex flex-col gap-6">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl lg:text-7xl">
-              {title}
-            </h1>
-            {product.price && (
-              <p className="text-xl font-semibold text-gray-700 dark:text-gray-300">
-                Cijena: {product.price} EUR
-              </p>
-            )}
-            {description && (
-              <p className="text-lg text-gray-600 dark:text-gray-400">{description}</p>
-            )}
-          </div>
-        </div>
+    // Batch all localization calls for better performance
+    const localizedData = {
+      title: getLocalizedValue(typedProduct.title, locale),
+      description: getLocalizedValue(typedProduct.description, locale),
+      excerpt: getLocalizedValue(typedProduct.excerpt, locale),
+      content: getLocalizedBlockContent(typedProduct.content, locale),
+      imageAlt: getLocalizedValue(typedProduct.productImage?.alt, locale),
+    }
 
-        <article className="gap-6 grid max-w-4xl">
-          {product.productImage && (
-            <CoverImage image={{...product.productImage, alt: imageAlt}} priority />
+    return (
+      <div className="container my-12 lg:my-24 grid gap-12">
+        <header>
+          <h1 className="text-4xl font-bold">{localizedData.title}</h1>
+          {localizedData.description && (
+            <p className="mt-4 text-lg text-gray-600">{localizedData.description}</p>
           )}
+        </header>
 
-          {excerpt && (
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-              <p className="text-lg text-gray-700 dark:text-gray-300 italic">{excerpt}</p>
-            </div>
-          )}
+        {typedProduct.productImage && (
+          <section aria-label="Product image">
+            <CoverImage
+              image={{...typedProduct.productImage, alt: localizedData.imageAlt}}
+              priority
+            />
+          </section>
+        )}
 
-          {content?.length > 0 && (
-            <PortableText className="max-w-2xl text-gray-800 dark:text-gray-200" value={content} />
-          )}
+        {localizedData.excerpt && (
+          <section aria-label="Product excerpt">
+            <p className="italic text-gray-700">{localizedData.excerpt}</p>
+          </section>
+        )}
 
-          {product.author && (
-            <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Autor: {product.author.firstName} {product.author.lastName}
-              </p>
-            </div>
-          )}
-        </article>
+        {localizedData.content?.length > 0 && (
+          <section aria-label="Product content">
+            <PortableText value={localizedData.content} />
+          </section>
+        )}
+
+        <aside className="mt-4" aria-label="Product pricing">
+          <p className="text-2xl font-semibold text-green-600">${typedProduct.price.toFixed(2)}</p>
+        </aside>
+
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              'name': localizedData.title,
+              'description': localizedData.description,
+              'image': typedProduct.productImage
+                ? resolveOpenGraphImage(typedProduct.productImage)?.url
+                : undefined,
+              'offers': {
+                '@type': 'Offer',
+                'price': typedProduct.price,
+                'priceCurrency': 'USD',
+                'availability': 'https://schema.org/InStock',
+              },
+            }),
+          }}
+        />
       </div>
-    </div>
-  )
+    )
+  } catch (error) {
+    console.error('Error rendering product page:', error)
+    notFound()
+  }
 }

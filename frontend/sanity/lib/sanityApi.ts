@@ -6,7 +6,7 @@ import {
   productQuery,
   featuredProductsQuery,
 } from '@/sanity/lib/queries' // Adjust path to your queries
-import {localizeProduct, localizeProducts, LocalizedProduct, RawProduct} from './sanityUtils'
+import {localizeProduct, localizeProducts, LocalizedProduct, RawProduct} from '@/sanity/lib/utils' // Adjust path to your localization utils
 
 // Fetch all products with localization
 export const getProducts = async (language: string = 'en'): Promise<LocalizedProduct[]> => {

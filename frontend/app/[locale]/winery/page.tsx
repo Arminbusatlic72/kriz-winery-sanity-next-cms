@@ -7,7 +7,7 @@ import ProductImage from '@/app/components/ProductImage'
 import CoverImage from '@/app/components/CoverImage'
 import {urlForImage} from '@/sanity/lib/utils'
 import {getTranslations} from 'next-intl/server'
-export default async function VineyardsPage({params}: {params: {locale: string}}) {
+export default async function VineyardsPage({params}: {params: Promise<{locale: string}>}) {
   // Fetch products from Sanity
   const {locale} = await params
   const t = await getTranslations('Winery')

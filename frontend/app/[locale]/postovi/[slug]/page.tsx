@@ -31,14 +31,14 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
   if (!post?._id) return {}
 
   const previousImages = (await parent).openGraph?.images || []
-  const ogImage = resolveOpenGraphImage(post?.coverImage, locale)
+  const ogImage = resolveOpenGraphImage(post?.coverImage)
 
   return {
     authors:
       post?.author?.firstName && post?.author?.lastName
         ? [{name: `${post.author.firstName} ${post.author.lastName}`}]
         : [],
-    title: getLocalizedValue(post.title, locale),
+    title: getLocalizedValue(post.title, locale) || '',
     description: getLocalizedValue(post.excerpt, locale) || '',
     openGraph: {images: ogImage ? [ogImage, ...previousImages] : previousImages},
   }
@@ -68,7 +68,7 @@ export default async function PostPage({params}: Props) {
             </div>
             <div className="max-w-3xl flex gap-4 items-center">
               {post.author && post.author.firstName && post.author.lastName && (
-                <Avatar person={post.author} date={post.date} />
+                <Avatar person={post.author} date={post.date ?? undefined} />
               )}
             </div>
           </div>

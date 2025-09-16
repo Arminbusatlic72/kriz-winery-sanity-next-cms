@@ -3,7 +3,9 @@
 import {useState, useEffect, Fragment, useMemo, useCallback} from 'react'
 import {Menu, MenuButton, MenuItem, MenuItems, Transition} from '@headlessui/react'
 import {useParams as useNextParams} from 'next/navigation'
+
 import {usePathname, useRouter} from '@/i18n/navigation'
+import {buildFallbackRoute} from '@/app/lib/routes'
 import BritishFlag from '@/app/components/language-icons/BritishFlag'
 import CroatianFlag from '@/app/components/language-icons/CroatianFlag'
 
@@ -15,6 +17,17 @@ interface LocalizedSlugs {
 
 type PageType = 'product' | 'post' | 'category' | 'other'
 type Locale = 'en' | 'hr'
+// type Route = LinkProps['href']
+type DynamicRoute =
+  | {pathname: '/home'}
+  | {pathname: '/about'}
+  | {pathname: '/winery'}
+  | {pathname: '/posts'}
+  | {pathname: '/accommodation'}
+  | {pathname: '/contact'}
+  | {pathname: '/products/[slug]'; params: {slug: string}}
+  | {pathname: '/posts/[slug]'; params: {slug: string}}
+  | {pathname: '/posts/category/[category]'; params: {category: string}}
 
 const LanguageSwitcher = () => {
   const router = useRouter()
@@ -58,24 +71,48 @@ const LanguageSwitcher = () => {
   }, [pathname, slug, categorySlug])
 
   // Memoized path builder
-  const getTargetPath = useCallback(
-    (pageType: PageType, newLocale: Locale, targetSlug: string): string => {
-      const paths = {
-        product: {
-          en: `/products/${targetSlug}`,
-          hr: `/proizvodi/${targetSlug}`,
-        },
-        post: {
-          en: `/posts/${targetSlug}`,
-          hr: `/postovi/${targetSlug}`,
-        },
-        category: {
-          en: `/posts/category/${targetSlug}`,
-          hr: `/postovi/kategorija/${targetSlug}`,
-        },
-      }
+  // const getTargetPath = useCallback(
+  //   (pageType: PageType, newLocale: Locale, targetSlug: string): string => {
+  //     const paths = {
+  //       product: {
+  //         en: `/products/${targetSlug}`,
+  //         hr: `/proizvodi/${targetSlug}`,
+  //       },
+  //       post: {
+  //         en: `/posts/${targetSlug}`,
+  //         hr: `/postovi/${targetSlug}`,
+  //       },
+  //       category: {
+  //         en: `/posts/category/${targetSlug}`,
+  //         hr: `/postovi/kategorija/${targetSlug}`,
+  //       },
+  //     }
 
-      return paths[pageType as keyof typeof paths]?.[newLocale] || `/${targetSlug}`
+  //     // return paths[pageType as keyof typeof paths]?.[newLocale] || `/${targetSlug}`
+
+  //     return paths[pageType as keyof typeof paths]?.[newLocale] || `/${targetSlug}`
+  //   },
+  //   [],
+  // )
+
+  type TargetPath =
+    | {pathname: '/products/[slug]'; params: {slug: string}}
+    | {pathname: '/posts/[slug]'; params: {slug: string}}
+    | {pathname: '/posts/category/[category]'; params: {category: string}}
+    | {pathname: '/home'} // fallback to your home page
+
+  const getTargetPath = useCallback(
+    (pageType: PageType, newLocale: Locale, targetSlug: string): TargetPath => {
+      switch (pageType) {
+        case 'product':
+          return {pathname: '/products/[slug]', params: {slug: targetSlug}}
+        case 'post':
+          return {pathname: '/posts/[slug]', params: {slug: targetSlug}}
+        case 'category':
+          return {pathname: '/posts/category/[category]', params: {category: targetSlug}}
+        default:
+          return {pathname: '/home'} // must match one of your static routes
+      }
     },
     [],
   )
@@ -135,10 +172,7 @@ const LanguageSwitcher = () => {
     (newLocale: Locale) => {
       if (!pageInfo.needsLocalization || !localizedSlugs) {
         // Fallback navigation for pages without localized content
-        router.replace(
-          {pathname, params: params as Record<string, string | string[]>},
-          {locale: newLocale},
-        )
+        router.replace({pathname, params: params as any}, {locale: newLocale})
         return
       }
 
@@ -146,12 +180,13 @@ const LanguageSwitcher = () => {
 
       if (!targetSlug) {
         console.warn(`No ${newLocale} slug found, falling back to current path`)
-        router.replace(
-          {pathname, params: params as Record<string, string | string[]>},
-          {locale: newLocale},
-        )
+        router.replace({pathname, params: params as any}, {locale: newLocale})
+
         return
       }
+
+      // const targetPath = getTargetPath(pageInfo.pageType, newLocale, targetSlug)
+      // router.replace(targetPath, {locale: newLocale})
 
       const targetPath = getTargetPath(pageInfo.pageType, newLocale, targetSlug)
       router.replace(targetPath, {locale: newLocale})
@@ -160,7 +195,10 @@ const LanguageSwitcher = () => {
   )
 
   // Determine if buttons should be disabled
-  const shouldDisableButton = pageInfo.needsLocalization && (loading || !!error)
+  // const shouldDisableButton = pageInfo.needsLocalization && (loading || !!error)
+  const shouldDisableButton: boolean | undefined = pageInfo.needsLocalization
+    ? Boolean(loading || error)
+    : undefined
 
   // Flag component mapping
   const FlagIcon = currentLocale === 'en' ? BritishFlag : CroatianFlag

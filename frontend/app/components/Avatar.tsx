@@ -9,7 +9,7 @@ type Props = {
     lastName: string | null
     picture?: any
   }
-  date?: string
+  date?: string | null
   small?: boolean
 }
 
@@ -44,7 +44,7 @@ export default function Avatar({person, date, small = false}: Props) {
           </div>
         )}
         <div className={`text-gray-500 ${small ? 'text-xs' : 'text-sm'}`}>
-          <DateComponent dateString={date} />
+          <DateComponent dateString={date ?? undefined} />
         </div>
       </div>
     </div>

@@ -47,7 +47,7 @@ export default async function BlogPage({params}: Props) {
                 id="categories-heading"
                 className="text-2xl font-bold  text-gray-900 dark:text-white"
               >
-                Categories
+                {t('categories')}
               </span>
             </PopoverButton>
 
@@ -65,7 +65,7 @@ export default async function BlogPage({params}: Props) {
                     {categories.map((category: any) => (
                       <li key={category._id}>
                         <Link
-                          href={`/${locale}/blog/category/${category.slug[locale]}`}
+                          href={`/${locale}/blog/category/${category[locale]}`}
                           className="block rounded-lg px-4 py-2 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset"
                           role="menuitem"
                           aria-label={`Browse ${category.title[locale]} category`}
