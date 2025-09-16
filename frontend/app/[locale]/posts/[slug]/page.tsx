@@ -56,6 +56,12 @@ export default async function PostPage({params}: Props) {
   const content = getLocalizedBlockContent(post.content, locale)
   const imageAlt = getLocalizedValue(post.coverImage?.alt, locale)
 
+  // Author data
+  const authorFirstName = getLocalizedValue(post.author?.firstName, locale)
+  const authorLastName = getLocalizedValue(post.author?.lastName, locale)
+  const authorPicture = post.author?.picture // picture is usually just an image object, no localization
+  const authorAlt = getLocalizedValue(post.author?.picture?.alt, locale)
+
   return (
     <>
       <div className="container my-12 lg:my-24 grid gap-12">
@@ -68,7 +74,14 @@ export default async function PostPage({params}: Props) {
             </div>
             <div className="max-w-3xl flex gap-4 items-center">
               {post.author && post.author.firstName && post.author.lastName && (
-                <Avatar person={post.author} date={post.date} />
+                <Avatar
+                  person={{
+                    firstName: authorFirstName,
+                    lastName: authorLastName,
+                    picture: {...authorPicture, alt: authorAlt},
+                  }}
+                  date={post.date}
+                />
               )}
             </div>
           </div>
