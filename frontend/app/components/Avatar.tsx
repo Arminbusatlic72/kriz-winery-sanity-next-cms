@@ -16,7 +16,7 @@ type Props = {
       }
     }
   }
-  date?: string | null
+  date?: string | null | undefined
   small?: boolean
 }
 
