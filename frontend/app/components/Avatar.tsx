@@ -5,16 +5,16 @@ type Props = {
     firstName: string | null
     lastName: string | null
     picture?: {
-      alt?: string | null
       asset?: {
         _id: string
         url: string | null
         metadata?: {
           lqip?: string | null
-          dimensions?: {width?: number | null; height?: number | null} | null
+          dimensions?: {width?: number; height?: number} | null
         } | null
       } | null
-    }
+      alt?: string | null
+    } | null
   }
   date?: string | null
   small?: boolean

@@ -76,11 +76,11 @@ export default async function PostPage({params}: Props) {
               {post.author && post.author.firstName && post.author.lastName && (
                 <Avatar
                   person={{
-                    firstName: authorFirstName,
-                    lastName: authorLastName,
-                    picture: {...authorPicture, alt: authorAlt},
+                    firstName: post.author?.firstName ?? '',
+                    lastName: post.author?.lastName ?? '',
+                    picture: post.author?.picture ?? undefined,
                   }}
-                  date={post.date}
+                  date={post.date ?? undefined}
                 />
               )}
             </div>
