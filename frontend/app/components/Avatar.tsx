@@ -5,18 +5,18 @@ type Props = {
     firstName: string | null
     lastName: string | null
     picture?: {
-      alt?: string
+      alt?: string | null
       asset?: {
         _id: string
-        url: string
+        url: string | null
         metadata?: {
-          lqip?: string
-          dimensions?: {width: number; height: number}
-        }
-      }
+          lqip?: string | null
+          dimensions?: {width?: number | null; height?: number | null} | null
+        } | null
+      } | null
     }
   }
-  date?: string | null | undefined
+  date?: string | null
   small?: boolean
 }
 
@@ -29,13 +29,13 @@ export default function Avatar({person, date, small = false}: Props) {
       <div
         className={`${small ? 'h-6 w-6 mr-2' : 'h-9 w-9 mr-4'} flex items-center justify-center rounded-full bg-gray-200 overflow-hidden`}
       >
-        {picture?.asset?.url ? (
+        {person.picture?.asset?.url ? (
           <img
-            alt={picture?.alt || `${firstName || ''} ${lastName || ''}`}
+            alt={person.picture?.alt || `${firstName || ''} ${lastName || ''}`}
             className="h-full w-full object-cover"
             height={small ? 32 : 48}
             width={small ? 32 : 48}
-            src={picture.asset.url}
+            src={person.picture.asset.url}
           />
         ) : (
           <span className="text-xs font-semibold text-gray-600">{initials || '?'}</span>
