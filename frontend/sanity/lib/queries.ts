@@ -281,7 +281,18 @@ export const postQuery = defineQuery(`
     alt
   },
   date,
-  author->{firstName, lastName},
+  author->{
+    firstName,
+    lastName,
+    picture{
+      asset->{
+        _id,
+        url,
+        metadata { lqip, dimensions }
+      },
+      alt
+    }
+  },
   category->{
     "title": {
       "en": title.en,

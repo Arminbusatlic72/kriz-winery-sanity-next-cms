@@ -801,27 +801,22 @@ export type PostsQueryResult = Array<{
 // Query: *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type PostsPagesSlugsResult = Array<never>
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug][0]{    _id,    title,    excerpt,    content,    date,    coverImage {      ...,      asset->{        url,        metadata { lqip, dimensions }      }    },    author->{      firstName,      lastName,      picture {        ...,        asset->{          _id,          url,          metadata { lqip, dimensions }        }      }    }  }
+// Query: *[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{  _id,  title,  excerpt,  content,  coverImage{    asset,    alt  },  date,  author->{    firstName,    lastName,    picture{      asset->{        _id,        url,        metadata { lqip, dimensions }      },      alt    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
 export type PostQueryResult = {
   _id: string
   title: string
   excerpt: string | null
   content: BlockContent | null
-  date: string | null
   coverImage: {
     asset: {
-      url: string | null
-      metadata: {
-        lqip: string | null
-        dimensions: SanityImageDimensions | null
-      } | null
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     } | null
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
+    alt: string | null
   }
+  date: string | null
   author: {
     firstName: string
     lastName: string
@@ -834,13 +829,10 @@ export type PostQueryResult = {
           dimensions: SanityImageDimensions | null
         } | null
       } | null
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      alt?: string
-      _type: 'image'
+      alt: string | null
     }
   } | null
+  category: null
 } | null
 // Variable: categoriesQuery
 // Query: *[_type == "category"] | order(title.en asc){    _id,    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
@@ -890,7 +882,7 @@ declare module '@sanity/client' {
     '\n  *[\n    _type == "post" &&\n    defined(title) &&\n    title match $searchTerm\n  ]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    mainImage\n  }\n': SearchQueryResult
     '*[_type == "post"] | order(date desc) {\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage {\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{\n    firstName,\n    lastName\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}': PostsQueryResult
     '\n  *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': PostsPagesSlugsResult
-    '\n*[_type == "post" && slug.current == $slug][0]{\n    _id,\n    title,\n    excerpt,\n    content,\n    date,\n    coverImage {\n      ...,\n      asset->{\n        url,\n        metadata { lqip, dimensions }\n      }\n    },\n    author->{\n      firstName,\n      lastName,\n      picture {\n        ...,\n        asset->{\n          _id,\n          url,\n          metadata { lqip, dimensions }\n        }\n      }\n    }\n  }\n': PostQueryResult
+    '\n*[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage{\n    asset,\n    alt\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n    picture{\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      },\n      alt\n    }\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}\n': PostQueryResult
     '\n  *[_type == "category"] | order(title.en asc){\n    _id,\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n  ': CategoriesQueryResult
     '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug.current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage,\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
   }
