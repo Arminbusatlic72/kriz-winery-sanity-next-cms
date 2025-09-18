@@ -17,6 +17,17 @@ import {
 type Props = {
   params: Promise<{slug: string; locale: string}>
 }
+type SanityAsset =
+  | {
+      _id: string
+      url: string | null
+      metadata?: {
+        lqip?: string | null
+        dimensions?: {width?: number; height?: number} | null
+      }
+    }
+  | null
+  | undefined
 
 /** Generate static params for Next.js App Router */
 export async function generateStaticParams({params}: Props) {
@@ -62,6 +73,53 @@ export default async function PostPage({params}: Props) {
   const authorPicture = post.author?.picture // picture is usually just an image object, no localization
   const authorAlt = getLocalizedValue(post.author?.picture?.alt, locale)
 
+  function normalizePicture(picture: any) {
+    if (!picture) return undefined
+
+    const asset: SanityAsset = picture.asset
+      ? {
+          _id: picture.asset._id,
+          url: picture.asset.url,
+          metadata: picture.asset.metadata ?? undefined, // normalize null to undefined
+        }
+      : undefined
+
+    return {
+      alt: picture.alt ?? undefined,
+      asset,
+    }
+  }
+  // Inside your PostPage or where you render Avatar
+  // Normalize author data for Avatar
+  const authorForAvatar = post.author
+    ? {
+        firstName: post.author.firstName,
+        lastName: post.author.lastName,
+        picture: post.author.picture
+          ? {
+              alt: post.author.picture.alt ?? null,
+              asset: post.author.picture.asset
+                ? {
+                    _id: post.author.picture.asset._id,
+                    url: post.author.picture.asset.url ?? null, // <-- convert undefined to null
+                    metadata: post.author.picture.asset.metadata
+                      ? {
+                          lqip: post.author.picture.asset.metadata.lqip ?? null,
+                          dimensions: post.author.picture.asset.metadata.dimensions
+                            ? {
+                                width: post.author.picture.asset.metadata.dimensions.width ?? 0,
+                                height: post.author.picture.asset.metadata.dimensions.height ?? 0,
+                              }
+                            : undefined,
+                        }
+                      : undefined,
+                  }
+                : undefined,
+            }
+          : undefined,
+      }
+    : null
+
   return (
     <>
       <div className="container my-12 lg:my-24 grid gap-12">
@@ -73,16 +131,7 @@ export default async function PostPage({params}: Props) {
               </h2>
             </div>
             <div className="max-w-3xl flex gap-4 items-center">
-              {post.author && post.author.firstName && post.author.lastName && (
-                <Avatar
-                  person={{
-                    firstName: post.author?.firstName ?? '',
-                    lastName: post.author?.lastName ?? '',
-                    picture: post.author?.picture ?? undefined,
-                  }}
-                  date={post.date ?? undefined}
-                />
-              )}
+              {authorForAvatar && <Avatar person={authorForAvatar} date={post.date ?? null} />}
             </div>
           </div>
 

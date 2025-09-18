@@ -10,7 +10,14 @@ const postFields = /* groq */ `
   excerpt,
   coverImage,
   "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
+  "author": author->{firstName, lastName,  picture{
+      alt,
+      asset->{
+        _id,
+        url,
+        metadata { lqip, dimensions }
+      }
+    }},
 `
 
 const linkReference = /* groq */ `
@@ -224,7 +231,16 @@ export const postsQuery = defineQuery(`*[_type == "post"] | order(date desc) {
   date,
   author->{
     firstName,
-    lastName
+    lastName,
+     picture{
+      alt,
+      asset->{
+        _id,
+        url,
+        metadata { lqip, dimensions }
+      }
+    }
+
   },
   category->{
     "title": {
@@ -285,12 +301,12 @@ export const postQuery = defineQuery(`
     firstName,
     lastName,
     picture{
+      alt,
       asset->{
         _id,
         url,
         metadata { lqip, dimensions }
-      },
-      alt
+      }
     }
   },
   category->{
@@ -304,6 +320,7 @@ export const postQuery = defineQuery(`
     }
   }
 }
+
 `)
 export const categoriesQuery = defineQuery(`
   *[_type == "category"] | order(title.en asc){
