@@ -6,7 +6,10 @@ const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
-  "slug": slug.current,
+  "slug": {
+    "en": slug.en.current,
+    "hr": slug.hr.current
+  },
   excerpt,
   coverImage,
   "date": coalesce(date, _updatedAt),
@@ -74,8 +77,18 @@ export const allPostsQuery = defineQuery(`
   }
 `)
 
+// export const morePostsQuery = defineQuery(`
+//   *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
+//     ${postFields}
+//   }
+// `)
+
 export const morePostsQuery = defineQuery(`
-  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
+  *[
+    _type == "post" &&
+    !(_id in [$skip, "drafts." + $skip]) &&
+    (defined(slug.en.current) || defined(slug.hr.current))
+  ] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
   }
 `)

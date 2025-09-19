@@ -654,12 +654,15 @@ export type SitemapDataResult = Array<
     }
 >
 // Variable: allPostsQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
 export type AllPostsQueryResult = Array<{
   _id: string
   status: 'draft' | 'published'
   title: string
-  slug: string
+  slug: {
+    en: null
+    hr: null
+  }
   excerpt: string | null
   coverImage: {
     asset?: {
@@ -692,43 +695,8 @@ export type AllPostsQueryResult = Array<{
   } | null
 }>
 // Variable: morePostsQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
-export type MorePostsQueryResult = Array<{
-  _id: string
-  status: 'draft' | 'published'
-  title: string
-  slug: string
-  excerpt: string | null
-  coverImage: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
-  date: string
-  author: {
-    firstName: string
-    lastName: string
-    picture: {
-      alt: string | null
-      asset: {
-        _id: string
-        url: string | null
-        metadata: {
-          lqip: string | null
-          dimensions: SanityImageDimensions | null
-        } | null
-      } | null
-    }
-  } | null
-}>
+// Query: *[    _type == "post" &&    !(_id in [$skip, "drafts." + $skip]) &&    (defined(slug.en.current) || defined(slug.hr.current))  ] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
+export type MorePostsQueryResult = Array<never>
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
 export type PostPagesSlugsResult = Array<{
@@ -875,8 +843,8 @@ declare module '@sanity/client' {
     '*[_type == "settings"][0]': SettingsQueryResult
     '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
-    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': AllPostsQueryResult
-    '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': MorePostsQueryResult
+    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': AllPostsQueryResult
+    '\n  *[\n    _type == "post" &&\n    !(_id in [$skip, "drafts." + $skip]) &&\n    (defined(slug.en.current) || defined(slug.hr.current))\n  ] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': MorePostsQueryResult
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
     '*[_type == "product"] | order(date desc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult

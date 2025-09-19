@@ -139,8 +139,8 @@ import DateComponent from '@/app/components/Date'
 import OnBoarding from '@/app/components/Onboarding'
 import Avatar from '@/app/components/Avatar'
 import {createDataAttribute} from 'next-sanity'
-
-const Post = ({post}: {post: AllPostsQueryResult[number]}) => {
+type Locale = 'en' | 'hr'
+const Post = ({post, locale}: {post: AllPostsQueryResult[number]; locale: Locale}) => {
   const {_id, title, slug, excerpt, date, author} = post
 
   const attr = createDataAttribute({
@@ -148,6 +148,21 @@ const Post = ({post}: {post: AllPostsQueryResult[number]}) => {
     type: 'post',
     path: 'title',
   })
+  const localizedTitle =
+    title && typeof title === 'object'
+      ? (title[locale] ?? title['en'] ?? 'Untitled')
+      : typeof title === 'string'
+        ? title
+        : 'Untitled'
+  const localizedSlug =
+    slug && typeof slug === 'object'
+      ? (slug?.[locale] ?? slug ?? 'untitled-slug')
+      : typeof slug === 'string'
+        ? slug
+        : 'untitled-slug'
+
+  const localizedExcerpt =
+    excerpt && typeof excerpt === 'object' ? (excerpt[locale] ?? excerpt['en']) : (excerpt ?? '')
 
   // ✅ normalize author for Avatar
   const authorForAvatar = author
@@ -185,15 +200,20 @@ const Post = ({post}: {post: AllPostsQueryResult[number]}) => {
       key={_id}
       className="border border-gray-200 rounded-sm p-6 bg-gray-50 flex flex-col justify-between transition-colors hover:bg-white relative"
     >
-      <Link className="hover:text-brand underline transition-colors" href={`/posts/${slug}`}>
+      <Link
+        className="hover:text-brand underline transition-colors"
+        href={`/${locale}/posts/${localizedSlug}`}
+      >
         <span className="absolute inset-0 z-10" />
       </Link>
-
       <div>
-        <h3 className="text-2xl font-bold mb-4 leading-tight">{title}</h3>
-        <p className="line-clamp-3 text-sm leading-6 text-gray-600 max-w-[70ch]">{excerpt}</p>
+        <h3 className="text-2xl font-bold mb-4 leading-tight">{localizedTitle}</h3>
+        {localizedExcerpt && (
+          <p className="line-clamp-3 text-sm leading-6 text-gray-600 max-w-[70ch]">
+            {localizedExcerpt}
+          </p>
+        )}
       </div>
-
       <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
         {authorForAvatar && authorForAvatar.firstName && authorForAvatar.lastName && (
           <div className="flex items-center">
@@ -220,16 +240,22 @@ const Posts = ({
 }) => (
   <div>
     {heading && (
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
-        {heading}
-      </h2>
+      <h3 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">{heading}</h3>
     )}
     {subHeading && <p className="mt-2 text-lg leading-8 text-gray-600">{subHeading}</p>}
     <div className="pt-6 space-y-6">{children}</div>
   </div>
 )
 
-export const MorePosts = async ({skip, limit}: {skip: string; limit: number}) => {
+export const MorePosts = async ({
+  skip,
+  limit,
+  locale,
+}: {
+  skip: string
+  limit: number
+  locale: 'en' | 'hr'
+}) => {
   const {data} = await sanityFetch({
     query: morePostsQuery,
     params: {skip, limit},
@@ -242,13 +268,13 @@ export const MorePosts = async ({skip, limit}: {skip: string; limit: number}) =>
   return (
     <Posts heading={`Recent Posts (${data?.length})`}>
       {data?.map((post: any) => (
-        <Post key={post._id} post={post} />
+        <Post key={post._id} post={post} locale={locale as 'en' | 'hr'} />
       ))}
     </Posts>
   )
 }
 
-export const AllPosts = async () => {
+export const AllPosts = async ({locale}: {locale: string}) => {
   const {data} = await sanityFetch({query: allPostsQuery})
 
   if (!data || data.length === 0) {
@@ -263,7 +289,7 @@ export const AllPosts = async () => {
       } populated from your Sanity Studio.`}
     >
       {data.map((post: any) => (
-        <Post key={post._id} post={post} />
+        <Post key={post._id} post={post} locale={locale as 'en' | 'hr'} />
       ))}
     </Posts>
   )
