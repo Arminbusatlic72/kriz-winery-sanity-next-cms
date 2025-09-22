@@ -31,14 +31,6 @@ interface ContactLayoutProps {
   }
   children?: ReactNode
 }
-const handleFormSubmit = (formData: FormData, isValid: boolean) => {
-  if (isValid) {
-    // Process form submission
-    console.log('Form is valid, submitting...')
-  } else {
-    console.log('Form has validation errors')
-  }
-}
 
 const ContactLayout = ({
   title,
@@ -48,6 +40,41 @@ const ContactLayout = ({
   placeHolders,
   children,
 }: ContactLayoutProps) => {
+  const handleFormSubmit = async (formData: FormData, isValid: boolean) => {
+    if (!isValid) {
+      console.log('Form has validation errors')
+      return
+    }
+
+    const payload = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    }
+
+    try {
+      const res = await fetch('/api/email', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        console.log('Message sent successfully', data)
+        alert('Message sent successfully!')
+      } else {
+        console.error('Error sending message', data)
+        alert('Failed to send message.')
+      }
+    } catch (err) {
+      console.error('Error sending message', err)
+      alert('Failed to send message.')
+    }
+  }
+
   return (
     <section
       className="px-6 py-12 md:flex md:items-center md:justify-center md:gap-16"
@@ -65,7 +92,7 @@ const ContactLayout = ({
         labels={formLabels}
         validationErrors={validationErrors}
         placeHolders={placeHolders}
-        onSubmit={handleFormSubmit}
+        onSubmit={handleFormSubmit} // <-- updated here
       />
     </section>
   )
