@@ -19,7 +19,7 @@ type PageType = 'product' | 'post' | 'category' | 'other'
 type Locale = 'en' | 'hr'
 // type Route = LinkProps['href']
 type DynamicRoute =
-  | {pathname: '/home'}
+  | {pathname: '/'}
   | {pathname: '/about'}
   | {pathname: '/winery'}
   | {pathname: '/posts'}
@@ -99,7 +99,7 @@ const LanguageSwitcher = () => {
     | {pathname: '/products/[slug]'; params: {slug: string}}
     | {pathname: '/posts/[slug]'; params: {slug: string}}
     | {pathname: '/posts/category/[category]'; params: {category: string}}
-    | {pathname: '/home'} // fallback to your home page
+    | {pathname: '/'} // fallback to your home page
 
   const getTargetPath = useCallback(
     (pageType: PageType, newLocale: Locale, targetSlug: string): TargetPath => {
@@ -111,7 +111,7 @@ const LanguageSwitcher = () => {
         case 'category':
           return {pathname: '/posts/category/[category]', params: {category: targetSlug}}
         default:
-          return {pathname: '/home'} // must match one of your static routes
+          return {pathname: '/'} // must match one of your static routes
       }
     },
     [],

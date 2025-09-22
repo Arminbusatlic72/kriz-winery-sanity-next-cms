@@ -38,6 +38,7 @@ export default function Header({locale}: HeaderProps) {
           {headerNavLinks.map((link) => (
             <LocaleLink
               key={link.href}
+              locale={locale}
               href={{pathname: link.href as any}}
               className="font-strangelove hover:text-primary-500 dark:hover:text-primary-400 m-1 text-2xl font-semibold tracking-wider text-gray-900 dark:text-gray-100"
             >
