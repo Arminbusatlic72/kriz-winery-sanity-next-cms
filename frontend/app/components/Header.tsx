@@ -2,6 +2,7 @@
 
 import {useMessages} from 'next-intl'
 import {Link as LocaleLink} from '@/i18n/navigation'
+
 import BrandLink from './Link'
 import SearchButton from './SearchButton'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -22,14 +23,14 @@ export default function Header({locale}: HeaderProps) {
   return (
     <header className={headerClass}>
       {/* Brand */}
-      <BrandLink href="/" aria-label="Vinarije Kriz">
+      <LocaleLink href={{pathname: '/'}} locale={locale} aria-label="Vinarije Kriz">
         <div className="flex items-center justify-between">
           <div className="mr-3">{/* <Logo /> */}</div>
           <div className="font-strangelove  h-6 text-3xl font-semibold tracking-wider sm:block">
             Vinarije Kriz
           </div>
         </div>
-      </BrandLink>
+      </LocaleLink>
 
       {/* Navigation & Buttons */}
       <div className="flex items-center space-x-4 leading-5 sm:space-x-6">

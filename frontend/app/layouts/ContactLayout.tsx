@@ -92,7 +92,7 @@ const ContactLayout = ({
         labels={formLabels}
         validationErrors={validationErrors}
         placeHolders={placeHolders}
-        onSubmit={handleFormSubmit} // <-- updated here
+        onSubmit={handleFormSubmit}
       />
     </section>
   )

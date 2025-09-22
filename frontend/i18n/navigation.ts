@@ -5,9 +5,9 @@ export const locales = ['en', 'hr'] as const
 
 // Define your localized pathnames for static and dynamic pages
 export const pathnames = {
-  '/home': {
-    en: '/home',
-    hr: '/pocetna',
+  '/': {
+    en: '/',
+    hr: '/',
   },
   '/about': {
     en: '/about',

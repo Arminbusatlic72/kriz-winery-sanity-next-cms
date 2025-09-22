@@ -1,8 +1,8 @@
 // i18n/config.ts
 export const pathnames = {
-  '/home': {
-    en: '/home',
-    hr: '/pocetna',
+  '/': {
+    en: '/',
+    hr: '/',
   },
   '/about': {
     en: '/about',
