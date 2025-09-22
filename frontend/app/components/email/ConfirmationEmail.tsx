@@ -27,7 +27,7 @@ export const ContactConfirmationEmail = ({firstName, lastName}: ContactConfirmat
       <Preview>Thank you for contacting Kriz Vinarija!</Preview>
       <Container style={container}>
         <Img
-          src={`${baseUrl}/public/static/images/logo/kriz-logo.jpg`} // Replace with your logo path
+          src={`${baseUrl}/static/images/logo/kriz-logo.jpg`} // Replace with your logo path
           width="170"
           height="50"
           alt="Kriz Vinarija"
