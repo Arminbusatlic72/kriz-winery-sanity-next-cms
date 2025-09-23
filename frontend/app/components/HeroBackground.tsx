@@ -41,7 +41,7 @@ export function HeroBackground() {
         alt="Background"
         fill
         className="object-cover dark:hidden"
-        priority
+        priority={true}
         loading="eager"
       />
 
@@ -51,7 +51,7 @@ export function HeroBackground() {
         alt="Background"
         fill
         className="object-cover hidden dark:block"
-        priority
+        priority={true}
         loading="eager"
       />
     </>
