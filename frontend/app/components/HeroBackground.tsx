@@ -10,15 +10,11 @@ export function HeroBackground() {
 
   useEffect(() => setMounted(true), [])
 
-  if (!mounted) {
-    // Render nothing on server → no hydration mismatch
-    return null
-  }
+  const lightImage = '/static/images/home/pozadina-crtezF.png'
+  const darkImage = '/static/images/home/pozadina-crtezF-modified.png'
 
-  const bgImage =
-    theme === 'dark'
-      ? '/static/images/home/pozadina-crtezF-modified.png'
-      : '/static/images/home/pozadina-crtezF.png'
+  // SSR renders light image by default
+  const bgImage = mounted && theme === 'dark' ? darkImage : lightImage
 
   return <Image src={bgImage} alt="Background" fill className="object-cover" priority />
 }
