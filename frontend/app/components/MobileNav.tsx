@@ -24,7 +24,9 @@ const MobileNav = ({links}: MobileNavProps) => {
     })
   }
 
-  useEffect(() => clearAllBodyScrollLocks, [])
+ useEffect(() => {
+  if (navRef.current) clearAllBodyScrollLocks()
+}, [])
 
   return (
     <>

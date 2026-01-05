@@ -29,8 +29,7 @@
   },
   "prettier": "@sanity/prettier-config",
   "dependencies": {
-    "body-scroll-lock": "^4.0.0-beta.0",
-    "next-intl": "^4.3.5"
+    "body-scroll-lock": "^4.0.0-beta.0"
   },
   "devDependencies": {
     "@sanity/prettier-config": "^2.0.1",

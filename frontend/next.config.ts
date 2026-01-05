@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     SC_DISABLE_SPEEDY: 'false',
   },
   images: {
-    domains: ['cdn.sanity.io'], // allow Sanity CDN
+    remotePatterns: [new URL('https://cdn.sanity.io/**')],
   },
 }
 const withNextIntl = createNextIntlPlugin()

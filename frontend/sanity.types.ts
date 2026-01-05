@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------------
  */
 
-// Source: schema.json
+// Source: ../studio/schema.json
 export type CallToAction = {
   _type: 'callToAction'
   heading: string
@@ -526,8 +526,10 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Slug
   | SanityAssetSourceData
+
 export declare const internalGroqTypeReferenceTo: unique symbol
-// Source: ./sanity/lib/queries.ts
+
+// Source: sanity/lib/queries.ts
 // Variable: settingsQuery
 // Query: *[_type == "settings"][0]
 export type SettingsQueryResult = {
@@ -584,6 +586,8 @@ export type SettingsQueryResult = {
     _type: 'image'
   }
 } | null
+
+// Source: sanity/lib/queries.ts
 // Variable: getPageQuery
 // Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      },      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },  }
 export type GetPageQueryResult = {
@@ -639,6 +643,8 @@ export type GetPageQueryResult = {
       }
   > | null
 } | null
+
+// Source: sanity/lib/queries.ts
 // Variable: sitemapData
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt,  }
 export type SitemapDataResult = Array<
@@ -653,6 +659,8 @@ export type SitemapDataResult = Array<
       _updatedAt: string
     }
 >
+
+// Source: sanity/lib/queries.ts
 // Variable: allPostsQuery
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
 export type AllPostsQueryResult = Array<{
@@ -694,37 +702,57 @@ export type AllPostsQueryResult = Array<{
     }
   } | null
 }>
+
+// Source: sanity/lib/queries.ts
 // Variable: morePostsQuery
 // Query: *[    _type == "post" &&    !(_id in [$skip, "drafts." + $skip]) &&    (defined(slug.en.current) || defined(slug.hr.current))  ] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
 export type MorePostsQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
 export type PostPagesSlugsResult = Array<{
   slug: string
 }>
+
+// Source: sanity/lib/queries.ts
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
   slug: string
 }>
+
+// Source: sanity/lib/queries.ts
 // Variable: productsQuery
 // Query: *[_type == "product"] | order(date desc) {  _id,  title,  description,  price,  excerpt,  content,  productImage{    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{firstName, lastName}}
 export type ProductsQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: allProductSlugsQuery
 // Query: *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type AllProductSlugsQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: productBySlugQuery
 // Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    price,    content,    excerpt,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
 export type ProductBySlugQueryResult = null
+
+// Source: sanity/lib/queries.ts
 // Variable: productPagesSlugs
 // Query: *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type ProductPagesSlugsResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: productQuery
 // Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    content,    price,    excerpt,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
 export type ProductQueryResult = null
+
+// Source: sanity/lib/queries.ts
 // Variable: featuredProductsQuery
 // Query: *[_type == "product" && featured == true] | order(date desc) [0...3] {    _id,    title,    description,    price,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type FeaturedProductsQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: searchQuery
 // Query: *[    _type == "post" &&    defined(title) &&    title match $searchTerm  ]{    _id,    title,    slug,    excerpt,    mainImage  }
 export type SearchQueryResult = Array<{
@@ -734,6 +762,8 @@ export type SearchQueryResult = Array<{
   excerpt: string | null
   mainImage: null
 }>
+
+// Source: sanity/lib/queries.ts
 // Variable: postsQuery
 // Query: *[_type == "post"] | order(date desc) {  _id,  title,  excerpt,  content,  coverImage {    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{    firstName,    lastName,     picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
 export type PostsQueryResult = Array<{
@@ -772,9 +802,13 @@ export type PostsQueryResult = Array<{
   } | null
   category: null
 }>
+
+// Source: sanity/lib/queries.ts
 // Variable: postsPagesSlugs
 // Query: *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type PostsPagesSlugsResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: postQuery
 // Query: *[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{  _id,  title,  excerpt,  content,  coverImage{    asset,    alt  },  date,  author->{    firstName,    lastName,    picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
 export type PostQueryResult = {
@@ -809,9 +843,13 @@ export type PostQueryResult = {
   } | null
   category: null
 } | null
+
+// Source: sanity/lib/queries.ts
 // Variable: categoriesQuery
 // Query: *[_type == "category"] | order(title.en asc){    _id,    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type CategoriesQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
 // Variable: postsByCategoryQuery
 // Query: *[  _type == "post" &&  category->slug[$locale].current == $category] | order(publishedAt desc){  _id,  "title": title[$locale],  "slug": slug.current,  "excerpt": excerpt[$locale],  publishedAt,  coverImage,  "category": category->{    _id,    "title": title[$locale],    "slug": slug[$locale].current  }}
 export type PostsByCategoryQueryResult = Array<{
