@@ -36,11 +36,11 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
             <Link
               href={`/${locale}/products/${product.slug[locale]}`}
               key={product._id}
-              className="border rounded-lg p-4 shadow-md"
+              className="border rounded-lg shadow-md"
             >
               <ProductImage image={product.productImage} priority />
-              <h3 className="text-xl font-semibold mt-4">{product.title[locale]}</h3>
-              <p className="text-gray-700 dark:text-gray-300">{product.description[locale]}</p>
+              <h3 className="text-xl font-semibold mt-4 px-4">{product.title[locale]}</h3>
+              <p className="text-gray-700 dark:text-gray-300 px-4">{product.description[locale]}</p>
             </Link>
           ))
         ) : (
