@@ -74,7 +74,7 @@ export default function HomeLayout({title, description}: HomeLayoutProps) {
       <HeroBackground /> {/* Client-only, no SSR mismatch */}
       <div className="relative z-10 text-left text-black dark:text-white">
         <h1 className="font-strangelove mb-4 text-5xl font-bold tracking-wide">{title}</h1>
-        <p className="max-w-xl text-xl font-light dark:text-gray-300">{description}</p>
+        {/* <p className="max-w-xl text-xl font-light dark:text-gray-300">{description}</p> */}
       </div>
     </section>
   )

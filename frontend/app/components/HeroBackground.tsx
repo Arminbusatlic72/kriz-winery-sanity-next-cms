@@ -40,7 +40,7 @@ export function HeroBackground() {
         src="/static/images/home/pozadina-crtezF.png"
         alt="Background"
         fill
-        className="object-cover dark:hidden"
+        className="object-cover md:object-contain dark:hidden"
         priority={true}
         loading="eager"
       />
@@ -50,7 +50,7 @@ export function HeroBackground() {
         src="/static/images/home/pozadina-crtezF-modified.png"
         alt="Background"
         fill
-        className="object-cover hidden dark:block"
+        className="object-cover md:object-contain hidden dark:block"
         priority={true}
         loading="eager"
       />

@@ -27,7 +27,7 @@ export default function Header({locale}: HeaderProps) {
         <div className="flex items-center justify-between">
           <div className="mr-3">{/* <Logo /> */}</div>
           <div className="font-strangelove  h-6 text-3xl font-semibold tracking-wider sm:block">
-            Vinarije Kriz
+            Vinarija Križ
           </div>
         </div>
       </LocaleLink>
