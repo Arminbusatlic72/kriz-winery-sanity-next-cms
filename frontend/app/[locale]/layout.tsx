@@ -91,7 +91,7 @@ export default async function RootLayout({children, params}: Props) {
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
           <SectionContainer>
-            <section className="min-h-screen">
+            <section className="min-h-screen flex flex-col">
               <Toaster />
               {isDraftMode && (
                 <>
@@ -102,7 +102,7 @@ export default async function RootLayout({children, params}: Props) {
               <SanityLive onError={handleError} />
               <NextIntlClientProvider locale={locale} messages={messages}>
                 <Header locale={locale} />
-                <main>{children}</main>
+                <main className="flex-grow">{children}</main>
                 <Footer />
               </NextIntlClientProvider>
             </section>

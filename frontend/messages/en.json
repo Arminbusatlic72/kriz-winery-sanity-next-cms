@@ -12,7 +12,7 @@
   },
   "AboutUs": {
     "title": "Our Story",
-    "description": "We are a family-owned winery dedicated to producing high-quality wines. Our journey began with a passion for viticulture and a dream to create exceptional wines that reflect the unique terroir of our region.",
+    "description": "<p>We are a small family winery from the Pelješac peninsula, a place where wine is born from a unique landscape and Mediterranean atmosphere dominated by sun, wind, and the openness of the sea.</p><p>We named the winery after Križ hill, which rises above the village of Prizdrina and watches over our largest and steepest vineyard. Our work is deeply rooted in winemaking tradition and respect for nature.</p><p>We create wines from indigenous varieties, primarily Plavac Mali and Grk, relying exclusively on grapes from our own cultivation. With minimal intervention in both the vineyards and the cellar, we allow our wine to tell its own story—an authentic story of the Pelješac karst, its scents, flavors, and time.</p>",
     "section1": {
       "text": "Our vineyard is nestled in a picturesque location, where the climate and soil conditions are ideal for growing a variety of grape types. We believe in sustainable farming practices and work closely with nature to ensure the health of our vines."
     },
@@ -22,20 +22,20 @@
   },
   "Winery": {
     "title": "Our Vineyards",
-    "description": "Welcome to our winery. We produce high-quality wines using traditional methods combined with modern techniques.",
+    "description": "Our philosophy is based on a simple yet powerful belief that wine is born in the vineyard. Only soil that is natural, living, and balanced can produce grapes with the potential for healthy and exceptional wine. Therefore, our approach to production is grounded in agroecological principles, natural ripening, and traditional methods, aligned with respect for nature, the soil, and the grape variety. The vineyards are cultivated and harvested by hand, without the use of harmful chemicals, artificial fertilizers, or pesticides.",
     "section1": {
-      "text": "Our vineyards are located in the heart of the wine region, where the climate and soil create the perfect environment for growing high-quality grapes."
+      "text": "We cultivate indigenous grape varieties across 3 hectares of vineyards: Plavac Mali, the symbol of Pelješac’s wine identity; the white variety Grk; and, more recently, Trnjak and Vranac. Our vineyards are located near the villages of Prizdrina and Postup, on steep, sun-drenched slopes shaped into picturesque terraces bordered by traditional dry-stone walls. The largest vineyards lie on the slopes of Mount Križa and at the Vrina Kupa site, also known as Mali Dingač."
     },
     "section2": {
-      "text": "Each bottle of wine is carefully crafted, combining centuries-old tradition with innovative winemaking techniques."
+      "text": "The soil is rich in minerals, composed of limestone, dolomitic sand, and stone. At the heart of everything is the terroir—a unique combination of geology, climate, and location that gives our wines their distinctive purity of flavor, depth, and complex aromatic structure."
     },
     "productsTitle": "Our Products"
   },
   "Accommodation": {
     "title": "Cozy Beach House",
-    "description": "Enjoy a luxurious stay with stunning sea views and modern amenities. Perfect for families or friends, just a few steps away from the beach.",
+    "description": "<p>As part of our family home and winery in Prizdrina, there is a newly renovated apartment set within a stone house more than 500 years old. Through careful restoration, we have breathed new life into the house while preserving its original character and authenticity. Overlooking the serene, untouched green landscape of the Pelješac peninsula, guests can enjoy a glass of wine while watching the sunset from the private terrace.</p><p>The spacious two-level apartment covers 150 m² and features three separate bedrooms, each with a double bed and a private bathroom, a living area connected to a fully equipped kitchen and dining space, as well as a dedicated workspace with high-speed internet. The outdoor area includes a dining terrace, a shaded relaxation area, a barbecue space, a garden with organically grown vegetables, and a large courtyard with secured parking.</p><p>All our guests are warmly invited to <outro>a private wine tasting at our winery!</outro></p>",
     "amenitiesTitle": "Amenities",
-    "amenities": "2 Bedrooms, Private Pool, Wi-Fi, Air Conditioning, Kitchen, Sea View",
+    "amenities": "3 Bedrooms with en-suite bathrooms, Wi-Fi, Kitchen, Terrace with barbecue, Parking",
     "btnText": "Book now",
     "btnUrl": "/contact"
   },

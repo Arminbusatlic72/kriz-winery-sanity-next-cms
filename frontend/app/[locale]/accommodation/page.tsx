@@ -15,7 +15,10 @@ export default async function AccommodationPage({params}: Props) {
     <AccommodationLayout
       content={{
         title: t('title'),
-        description: t('description'),
+        description: t.rich('description', {
+          p: (chunks) => <p>{chunks}</p>,
+          outro: (chunks) => <span className="font-semibold">{chunks}</span>
+        }),
         amenities: t('amenities'),
         amenitiesTitle: t('amenitiesTitle'),
         images: accommodationImages,

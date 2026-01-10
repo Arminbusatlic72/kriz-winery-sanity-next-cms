@@ -8,6 +8,7 @@ interface WineryLayoutProps {
   headerImage: string
   sectionImage: string
   sectionImage1?: string
+  description: string,
   text1: string
   text2?: string
   children?: ReactNode
@@ -18,6 +19,7 @@ export default function WineryLayout({
   headerImage,
   sectionImage,
   sectionImage1,
+  description,
   text1,
   text2,
   children,
@@ -25,7 +27,7 @@ export default function WineryLayout({
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       {/* Title */}
-      <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+      <div className="space-y-2 pt-6 pb-5 lg:pb-8 md:space-y-5">
         <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
           {title}
         </h2>
@@ -36,6 +38,8 @@ export default function WineryLayout({
         <Image src={headerImage} alt="Header" fill className="object-cover" />
       </div>
 
+      <p className="text-gray-700 dark:text-gray-300 pb-5 mb-5 lg:pb-8 lg:mb-8">{description}</p>
+
       {/* Text & Images Section */}
       <div className="items-center xl:grid xl:grid-cols-2 xl:gap-x-8">
         {/* Image Left */}
@@ -44,12 +48,12 @@ export default function WineryLayout({
         </div>
 
         {/* Text Right */}
-        <div className="prose dark:prose-invert max-w-none xl:pl-6">
-          <p className="text-gray-700 dark:text-gray-300">{text1}</p>
+        <div className="prose dark:prose-invert max-w-none pb-5 sm:pb-8 xl:pl-6">
+          <p className="text-gray-700 dark:text-gray-300 md:pb-0">{text1}</p>
         </div>
 
         {text2 && (
-          <div className="prose dark:prose-invert max-w-none xl:pl-6">
+          <div className="prose dark:prose-invert max-w-none pb-5 sm:pb-8 xl:pl-6">
             <p className="text-gray-700 dark:text-gray-300">{text2}</p>
           </div>
         )}

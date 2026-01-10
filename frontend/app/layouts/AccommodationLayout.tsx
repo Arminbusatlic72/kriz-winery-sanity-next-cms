@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 interface Accommodation {
   title: string
-  description: string
+  description: ReactNode
   amenitiesTitle: string
   amenities: string
   images: string[]
@@ -90,7 +90,7 @@ export default function AccommodationLayout({content, children, locale}: Props) 
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+      <div className="space-y-2 pt-6 pb-5 lg:pb-8 md:space-y-5">
         <h2 className="font-strangelove text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl dark:text-gray-100">
           {title}
         </h2>
@@ -121,7 +121,7 @@ export default function AccommodationLayout({content, children, locale}: Props) 
           )}
 
           <div className="prose dark:prose-invert max-w-none">
-            <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">{description}</p>
+            <div className="mb-4 text-lg text-gray-700 dark:text-gray-300">{description}</div>
 
             {amenities && (
               <>

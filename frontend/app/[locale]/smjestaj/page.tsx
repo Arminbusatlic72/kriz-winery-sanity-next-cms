@@ -15,7 +15,10 @@ export default async function AccommodationPage({params}: AccommodationPageProps
     <AccommodationLayout
       content={{
         title: t('title'),
-        description: t('description'),
+        description: t.rich('description', {
+          p: (chunks) => <p>{chunks}</p>,
+          outro: (chunks) => <span className="font-semibold">{chunks}</span>
+        }),
         amenitiesTitle: t('amenitiesTitle'),
         amenities: t('amenities'),
         images: accommodationImages,

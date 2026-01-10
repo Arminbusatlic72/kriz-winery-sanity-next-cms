@@ -22,6 +22,7 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
         headerImage="/static/images/winery/Vinarija-Kriz-272.jpg"
         sectionImage="/static/images/winery/Vinarija-Kriz-51.jpg"
         sectionImage1="/static/images/winery/Vinarija-Kriz-215.jpg"
+        description={t('description')}
         text1={t('section1.text')}
         text2={t('section2.text')}
       />
@@ -30,7 +31,7 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
           {t('productsTitle')}
         </h2>
       </div>
-      <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products?.length > 0 ? (
           products.map((product: any) => (
             <Link
@@ -38,9 +39,9 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
               key={product._id}
               className="border rounded-lg shadow-md"
             >
-              <ProductImage image={product.productImage} priority />
+              <ProductImage image={product.productImage} priority className='w-full' />
               <h3 className="text-xl font-semibold mt-4 px-4">{product.title[locale]}</h3>
-              <p className="text-gray-700 dark:text-gray-300 px-4">{product.description[locale]}</p>
+              <p className="text-gray-700 dark:text-gray-300 px-4 pb-4">{product.description[locale]}</p>
             </Link>
           ))
         ) : (

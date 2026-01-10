@@ -12,7 +12,7 @@
   },
   "AboutUs": {
     "title": "Naša priča",
-    "description": "Mi smo obiteljska vinarija posvećena proizvodnji vrhunskih vina. Naše putovanje započelo je strašću prema vinogradarstvu i snom o stvaranju izvanrednih vina koja odražavaju jedinstveni terroir naše regije.",
+    "description": "<p>Mi smo mala obiteljska vinarija s poluotoka Pelješca, mjesta gdje se vino rađa iz jedinstvenog krajolika i mediteranskog ozračja u kojem dominiraju sunce, vjetar i otvorenost mora.</p> <p>Vinariji smo dali ime po brdu Križ koje se uzdiže iznad sela Prizdrina i čuva naš najveći i najstrmiji vinograd. Naš rad duboko je ukorijenjen u vinarskoj tradiciji i poštovanju prirode.</p> <p>Vina stvaramo od autohtonih sorti, ponajprije plavca malog i grka, oslanjajući se isključivo na grožđe iz vlastita uzgoja. Uz minimalne intervencije u vinogradima i podrumu, našem vinu dopuštamo da samo ispriča svoju priču, autentičnu priču pelješkoga krša, njegovih mirisa, okusa i vremena.</p>",
     "section1": {
       "text": "Naš vinograd smješten je na slikovitom mjestu, gdje su klimatski i tlačni uvjeti idealni za uzgoj različitih vrsta grožđa. Vjerujemo u održive poljoprivredne prakse i blisko surađujemo s prirodom kako bismo osigurali zdravlje naših vinove loze."
     },
@@ -22,21 +22,21 @@
   },
   "Winery": {
     "title": "Naši vinogradi",
-    "description": "Dobrodošli u našu vinariju. Proizvodimo vrhunska vina koristeći tradicionalne metode u kombinaciji s modernim tehnikama.",
+    "description": "Naša filozofija temelji se na jednostavnom, ali snažnom uvjerenju da se vino rađa u vinogradu. Samo tlo koje je prirodno, živo i uravnoteženo može dati grožđe koje ima potencijal za zdravo i izvanredno vino. Stoga se naš pristup proizvodnji temelji na agroekološkim načelima, prirodnom dozrijevanju i tradicijskim metodama, usklađenima s poštovanjem prirode, tla i sorte. Vinogradi se obrađuju i beru ručno, bez uporabe štetnih kemikalija, umjetnih gnojiva ili pesticida.",
     "section1": {
-      "text": "Naši vinogradi smješteni su u srcu vinske regije, gdje klima i tlo stvaraju savršene uvjete za uzgoj vrhunskog grožđa."
+      "text": "Uzgajamo autohtone sorte vinove loze na 3 ha vinograda: plavac mali, simbol pelješkog vinskog identiteta, bijelu sortu grk, te odnedavno trnjak i vranac. Naši vinogradi prostiru se u blizini sela Prizdrina i Postup, na strmim i sunčanim padinama oblikovanim u slikovite terase omeđene tradicionalnim kamenim podzidima. Najveći vinogradi nalaze se na strminama brda Križa i na položaju Vrina Kupa, poznatom i kao Mali Dingač."
     },
     "section2": {
-      "text": "Svaka boca vina pomno je proizvedena, spajajući stoljetnu tradiciju s inovativnim tehnikama vinifikacije."
+      "text": "Tlo je bogato mineralima, sastavljeno je od vapnenca, dolomitskog pijeska i kamena. U središtu svega je terroir, jedinstvena kombinacija geologije, klime i položaja koja našim vinima daruje prepoznatljivu čistoću okusa, dubinu i složenu aromatsku strukturu."
     },
     "productsTitle": "Naši proizvodi"
   },
 
   "Accommodation": {
     "title": "Ugodna Kuća na Plaži",
-    "description": "Uživajte u luksuznom boravku s prekrasnim pogledom na more i modernim sadržajima. Savršeno za obitelji ili prijatelje, samo nekoliko koraka od plaže.",
+    "description": "<p>U sklopu naše obiteljske kuće i vinarije u Prizdrini nalazi se novouređeni apartman smješten u kamenoj kući staroj više od 500 godina. Pažljivom obnovom udahnuli smo joj nov život, zadržavajući izvoran karakter i autentičnost. Uživajući u očaravajućem pogled na miran, netaknut i zelen krajolik Pelješca, gosti mogu uz čašu vina uživati u zalasku sunca na privatnoj terasi.</p> <p>Na raspolaganju je prostrani dvoetažni apartman površine 150 m² koji obuhvaća tri odvojene spavaće sobe s bračnim krevetima i vlastitim kupaonicama, dnevni boravak povezan s kuhinjom i blagovaonicom te radni prostor s brzim internetom. Vanjski dio uključuje terasu sa stolom za blagovanje, zonu za opuštanje u hladu, prostor za roštilj, vrt s organski uzgojenim povrćem te veliko dvorište s osiguranim parkiralištem.</p><p>Svi su naši gosti pozvani i dobrodošli na <outro>privatno kušanje vina u našoj vinariji!</outro></p>",
     "amenitiesTitle": "Sadržaji",
-    "amenities": "2 Spavaće sobe, Privatni bazen, Wi-Fi, Klima uređaj, Kuhinja, Pogled na more",
+    "amenities": "3 Spavaće sobe sa vlastitim kupaonicama, Wi-Fi, Kuhinja, Terasa sa roštiljem, Parking",
     "btnText": "Rezerviraj sada",
     "btnUrl": "/kontaktirajte-nas"
   },

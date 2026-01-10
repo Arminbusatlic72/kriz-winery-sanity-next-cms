@@ -4,7 +4,7 @@ import Link from './Link'
 
 export default function Footer() {
   return (
-    <footer className="h-16 pt-5">
+    <footer className="h-16 py-3">
       <div className="mb-16 flex flex-col items-center">
         <div className="mb-3 flex space-x-4">
           {/* <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} /> */}

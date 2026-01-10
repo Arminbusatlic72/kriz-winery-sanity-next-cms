@@ -10,7 +10,9 @@ export default async function AboutPage() {
     <AboutLayout
       content={{
         title: t('title'),
-        description: t('description'),
+        description: t.rich('description', {
+          p: (chunks) => <p>{chunks}</p>
+        }),
         images: aboutImages,
       }}
     />
