@@ -21,7 +21,7 @@
     }
   },
   "Winery": {
-    "title": "Our Vineyards",
+    "title": "Vineyards",
     "description": "Our philosophy is based on a simple yet powerful belief that wine is born in the vineyard. Only soil that is natural, living, and balanced can produce grapes with the potential for healthy and exceptional wine. Therefore, our approach to production is grounded in agroecological principles, natural ripening, and traditional methods, aligned with respect for nature, the soil, and the grape variety. The vineyards are cultivated and harvested by hand, without the use of harmful chemicals, artificial fertilizers, or pesticides.",
     "section1": {
       "text": "We cultivate indigenous grape varieties across 3 hectares of vineyards: Plavac Mali, the symbol of Pelješac’s wine identity; the white variety Grk; and, more recently, Trnjak and Vranac. Our vineyards are located near the villages of Prizdrina and Postup, on steep, sun-drenched slopes shaped into picturesque terraces bordered by traditional dry-stone walls. The largest vineyards lie on the slopes of Mount Križa and at the Vrina Kupa site, also known as Mali Dingač."
@@ -29,7 +29,17 @@
     "section2": {
       "text": "The soil is rich in minerals, composed of limestone, dolomitic sand, and stone. At the heart of everything is the terroir—a unique combination of geology, climate, and location that gives our wines their distinctive purity of flavor, depth, and complex aromatic structure."
     },
-    "productsTitle": "Our Products"
+    "title2":"Wine cellar",
+    "section21": {
+      "text":"By combining traditional knowledge with sustainable grape-processing principles, we create wines that faithfully reflect their origin, variety, and vintage."
+    },
+    "section22": {
+      "text":"Avoiding harmful pesticides in the vineyards is crucial for preserving the natural yeasts on the grapes, which play a decisive role in fermentation. Only healthy grapes with their indigenous yeasts intact make it to the cellar, allowing for spontaneous fermentation without the addition of selected cultures. The sugar content and other components naturally vary depending on the vineyard's location and sun exposure. Our wines thus clearly reflect the rugged character of the southern region, expressed through higher alcohol levels and a powerful tannic structure."
+    },
+    "section23": {
+      "text":"Vinification is carried out with minimal intervention, avoiding reliance on aggressive modern oenological techniques, with particular attention to timely rackings and the careful selection of fermentation and aging vessels. The wines mature on fine lees in Croatian oak barrels made from untoasted staves, achieving stability and structure while preserving the natural expression of the variety and vineyard site. The strength of our wines lies in their natural character, authenticity, and the minimal amount of sulfur (<20 mg/L) in each bottle."
+    },
+    "productsTitle": "Products"
   },
   "Accommodation": {
     "title": "Cozy Beach House",

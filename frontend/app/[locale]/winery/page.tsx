@@ -25,8 +25,12 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
         description={t('description')}
         text1={t('section1.text')}
         text2={t('section2.text')}
+        title2={t('title2')}
+        text21={t('section21.text')}
+        text22={t('section22.text')}
+        text23={t('section23.text')}
       />
-      <div className="space-y-2 pt-6 pb-8 md:space-y-5 mt-12">
+      <div className="space-y-2 pt-6 pb-8 md:space-y-5 mt-5">
         <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
           {t('productsTitle')}
         </h2>

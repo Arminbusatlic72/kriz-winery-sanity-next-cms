@@ -21,7 +21,7 @@
     }
   },
   "Winery": {
-    "title": "Naši vinogradi",
+    "title": "Vinogradi",
     "description": "Naša filozofija temelji se na jednostavnom, ali snažnom uvjerenju da se vino rađa u vinogradu. Samo tlo koje je prirodno, živo i uravnoteženo može dati grožđe koje ima potencijal za zdravo i izvanredno vino. Stoga se naš pristup proizvodnji temelji na agroekološkim načelima, prirodnom dozrijevanju i tradicijskim metodama, usklađenima s poštovanjem prirode, tla i sorte. Vinogradi se obrađuju i beru ručno, bez uporabe štetnih kemikalija, umjetnih gnojiva ili pesticida.",
     "section1": {
       "text": "Uzgajamo autohtone sorte vinove loze na 3 ha vinograda: plavac mali, simbol pelješkog vinskog identiteta, bijelu sortu grk, te odnedavno trnjak i vranac. Naši vinogradi prostiru se u blizini sela Prizdrina i Postup, na strmim i sunčanim padinama oblikovanim u slikovite terase omeđene tradicionalnim kamenim podzidima. Najveći vinogradi nalaze se na strminama brda Križa i na položaju Vrina Kupa, poznatom i kao Mali Dingač."
@@ -29,7 +29,17 @@
     "section2": {
       "text": "Tlo je bogato mineralima, sastavljeno je od vapnenca, dolomitskog pijeska i kamena. U središtu svega je terroir, jedinstvena kombinacija geologije, klime i položaja koja našim vinima daruje prepoznatljivu čistoću okusa, dubinu i složenu aromatsku strukturu."
     },
-    "productsTitle": "Naši proizvodi"
+    "title2":"Podrum",
+    "section21": {
+      "text":"Spajajući tradicionalna znanja s održivim načelima prerade grožđa, stvaramo vina koja vjerno odražavaju podrijetlo, sortu i berbu."
+    },
+    "section22": {
+      "text":"Izostavljanje štetnih pesticida u vinogradima ključno je za očuvanje prirodnih kvasaca na bobicama, a oni imaju presudnu ulogu u fermentaciji. U podrum stiže isključivo zdravo grožđe s očuvanim autohtonim kvascima, što omogućuje spontanu fermentaciju bez dodatka selekcioniranih kultura. Sadržaj šećera i ostalih sastojaka prirodno varira ovisno o položaju vinograda i stupnju osunčanosti. Naša vina pritom jasno oslikavaju surov karakter juga, izražen višim alkoholima i snažnom taninskom strukturom."
+    },
+    "section23": {
+      "text":"Vinifikacija se provodi uz minimalne intervencije, bez oslanjanja na agresivne suvremene enološke postupke, uz poseban naglasak na pravodobne pretoke te pažljiv odabir posuda za fermentaciju i dozrijevanje. Vina dozrijevaju na finom talogu u hrvatskim hrastovim bačvama, izrađenima od netostiranih hrastovih dužica, čime se postiže stabilnost i struktura, uz očuvanje prirodnog izraza sorte i položaja. Snaga naših vina leži u njihovoj prirodnosti, autentičnosti i minimalnoj količini sumpora (&lt; 20 mg / L) u svakoj boci."
+    },
+    "productsTitle": "Proizvodi"
   },
 
   "Accommodation": {
