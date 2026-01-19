@@ -1,35 +1,68 @@
-import Link from './Link'
-// import siteMetadata from '@/data/siteMetadata'
-// import SocialIcon from '@/components/social-icons'
+// import Link from './Link'
+// // import siteMetadata from '@/data/siteMetadata'
+// // import SocialIcon from '@/components/social-icons'
+
+// export default function Footer() {
+//   return (
+//     <footer className="h-16 py-3">
+//       <div className="mb-16 flex flex-col items-center">
+//         <div className="mb-3 flex space-x-4">
+//           {/* <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} /> */}
+//           {/* <SocialIcon kind="github" href={siteMetadata.github} size={6} /> */}
+//           {/* <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} /> */}
+//           {/* <SocialIcon kind="youtube" href={siteMetadata.youtube} size={6} /> */}
+//           {/* <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} /> */}
+//           {/* <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} /> */}
+//           {/* <SocialIcon kind="bluesky" href={siteMetadata.bluesky} size={6} /> */}
+//           {/* <SocialIcon kind="x" href={siteMetadata.x} size={6} /> */}
+//           {/* <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} /> */}
+//           {/* <SocialIcon kind="threads" href={siteMetadata.threads} size={6} /> */}
+//           {/* <SocialIcon kind="medium" href={siteMetadata.medium} size={6} /> */}
+//         </div>
+
+//         <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
+//           {/* <div>
+//             Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed
+//             by CC BY 4.0
+//           </div> */}
+//           {/* <div>{siteMetadata.author}</div> */}
+//           <div>Križ</div>
+//           <div>{` • `}</div>
+//           <div>{`© ${new Date().getFullYear()}`}</div>
+//           {/* <Link href="/">{siteMetadata.title}</Link> */}
+//         </div>
+//       </div>
+//     </footer>
+//   )
+// }
+
+import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="h-16 py-3">
-      <div className="mb-16 flex flex-col items-center">
-        <div className="mb-3 flex space-x-4">
-          {/* <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} /> */}
-          {/* <SocialIcon kind="github" href={siteMetadata.github} size={6} /> */}
-          {/* <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} /> */}
-          {/* <SocialIcon kind="youtube" href={siteMetadata.youtube} size={6} /> */}
-          {/* <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} /> */}
-          {/* <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} /> */}
-          {/* <SocialIcon kind="bluesky" href={siteMetadata.bluesky} size={6} /> */}
-          {/* <SocialIcon kind="x" href={siteMetadata.x} size={6} /> */}
-          {/* <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} /> */}
-          {/* <SocialIcon kind="threads" href={siteMetadata.threads} size={6} /> */}
-          {/* <SocialIcon kind="medium" href={siteMetadata.medium} size={6} /> */}
+    <footer>
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-4 px-6 py-6">
+        {/* Logo + text row */}
+        <div className="flex items-center gap-3">
+          <Image
+            src="/static/images/footer/slow-food.jpeg"
+            alt="Slow Food Certified"
+            width={36}
+            height={24}
+          />
+          <Image
+            src="/static/images/footer/eu-organic.png"
+            alt="EU Organic Certified"
+            width={56}
+            height={36}
+          />
         </div>
 
-        <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          {/* <div>
-            Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed
-            by CC BY 4.0
-          </div> */}
-          {/* <div>{siteMetadata.author}</div> */}
+        {/* Bottom text row */}
+        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <div>Križ</div>
-          <div>{` • `}</div>
+          <div className="opacity-60">•</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
-          {/* <Link href="/">{siteMetadata.title}</Link> */}
         </div>
       </div>
     </footer>

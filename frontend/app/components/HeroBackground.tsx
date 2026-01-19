@@ -37,7 +37,7 @@ export function HeroBackground() {
     <>
       {/* Light mode background */}
       <Image
-        src="/static/images/home/pozadina-crtezF.png"
+        src="/static/images/home/Križ-naslovnica.png"
         alt="Background"
         fill
         className="object-cover md:object-contain dark:hidden"
@@ -47,7 +47,7 @@ export function HeroBackground() {
 
       {/* Dark mode background */}
       <Image
-        src="/static/images/home/pozadina-crtezF-modified.png"
+        src="/static/images/home/Križ-naslovnica-modified.png"
         alt="Background"
         fill
         className="object-cover md:object-contain hidden dark:block"
