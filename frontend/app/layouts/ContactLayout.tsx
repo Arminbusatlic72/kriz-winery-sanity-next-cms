@@ -107,7 +107,7 @@ import ContactForm from '@/app/components/ContactForm'
 // import Map from '@/app/components/Map'
 import dynamic from 'next/dynamic'
 
-const Map = dynamic(() => import('@/app/components/Map'), {ssr: false})
+const LeafletMap = dynamic(() => import('@/app/components/Map'), {ssr: false})
 
 interface ContactLayoutProps {
   title: string
@@ -190,12 +190,12 @@ const ContactLayout = ({
         <h2 className="font-strangelove mb-4 text-4xl font-bold text-gray-900 dark:text-white">
           {title}
         </h2>
-        <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{description}</p>
+        <p className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">{description}</p>
 
         {/* MAP */}
-        <div className="mt-6">
-          <Map />
-        </div>
+       <div className="relative z-0">
+  <LeafletMap />
+</div>
 
         {children && <div className="mt-6">{children}</div>}
       </div>
