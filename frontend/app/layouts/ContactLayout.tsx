@@ -187,9 +187,9 @@ const ContactLayout = ({
       style={{minHeight: 'calc(100vh - var(--header-height) - var(--footer-height))'}}
     >
       <div className="mb-10 max-w-md text-left md:mb-0">
-        <h2 className="font-strangelove mb-4 text-4xl font-bold text-gray-900 dark:text-white">
+        <h1 className="font-strangelove text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl dark:text-gray-100">
           {title}
-        </h2>
+        </h1>
         <p className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">{description}</p>
 
         {/* MAP */}

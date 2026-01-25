@@ -29,14 +29,16 @@ export default function AboutLayout({content, children}: Props) {
       {/* Main Content */}
       <div className="items-start space-y-8 pt-8 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
         {/* Text */}
-        <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
-          {description}
-        </div>
+       <div className="md:sticky md:top-24 self-start">
+          <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+            {description}
+          </div>
+      </div>
 
         {/* Images */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           {images.map((src, idx) => (
-            <div key={idx} className="relative h-70 w-full overflow-hidden shadow-lg">
+            <div key={idx} className="relative h-90 w-full overflow-hidden shadow-lg">
               <Image src={src} alt={`About image ${idx + 1}`} fill className="object-cover" />
             </div>
           ))}
@@ -48,3 +50,5 @@ export default function AboutLayout({content, children}: Props) {
     </div>
   )
 }
+
+

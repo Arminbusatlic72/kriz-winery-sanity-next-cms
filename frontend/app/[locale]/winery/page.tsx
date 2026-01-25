@@ -29,6 +29,7 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
         text21={t('section21.text')}
         text22={t('section22.text')}
         text23={t('section23.text')}
+        headerCellarImage="/static/images/cellar/cellar-header.jpg"
       />
       <div className="space-y-2 pt-6 pb-8 md:space-y-5 mt-5">
         <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
@@ -43,9 +44,11 @@ export default async function VineyardsPage({params}: {params: Promise<{locale: 
               key={product._id}
               className="border rounded-lg shadow-md"
             >
-              <ProductImage image={product.productImage} priority className='w-full' />
+              <ProductImage image={product.productImage} priority className="w-full" />
               <h3 className="text-xl font-semibold mt-4 px-4">{product.title[locale]}</h3>
-              <p className="text-gray-700 dark:text-gray-300 px-4 pb-4">{product.description[locale]}</p>
+              <p className="text-gray-700 dark:text-gray-300 px-4 pb-4">
+                {product.description[locale]}
+              </p>
             </Link>
           ))
         ) : (

@@ -1,3 +1,7 @@
+
+
+
+
 'use client'
 
 import {ReactNode, useState, useCallback, useEffect} from 'react'
@@ -83,28 +87,27 @@ export default function AccommodationLayout({content, children, locale}: Props) 
     setShowAll((prev) => !prev)
   }, [])
 
-  const generatePlaceholder = (width: number = 800, height: number = 600) => {
-    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'%3E%3Crect width='${width}' height='${height}' fill='%23f3f4f6'/%3E%3C/svg%3E`
-  }
   const localizedBtnUrl = `/${locale}${btnUrl.startsWith('/') ? btnUrl : '/' + btnUrl}`
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      {/* Header */}
       <div className="space-y-2 pt-6 pb-5 lg:pb-8 md:space-y-5">
-        <h2 className="font-strangelove text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl dark:text-gray-100">
+        <h1 className="font-strangelove text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl dark:text-gray-100">
           {title}
-        </h2>
+        </h1>
       </div>
 
+      {/* Main Content Grid */}
       <div className="grid grid-cols-1 gap-4 pt-8 lg:grid-cols-3 lg:gap-6">
+        {/* Left Column - Main Image & Content */}
         <div className="flex flex-col gap-6 lg:col-span-2">
+          {/* Main Image */}
           {images[0] && (
-            <div
-              role="button"
-              tabIndex={0}
-              className="relative h-96 w-full overflow-hidden shadow-md cursor-pointer bg-black opacity-100 z-10 transition-opacity duration-300 hover:opacity-40"
+            <button
+              type="button"
+              className="relative h-96 w-full overflow-hidden shadow-md cursor-pointer group"
               onClick={() => openImage(0)}
-              onKeyDown={(e) => e.key === 'Enter' && openImage(0)}
               aria-label="View main accommodation image"
             >
               <Image
@@ -112,37 +115,38 @@ export default function AccommodationLayout({content, children, locale}: Props) 
                 alt="Main accommodation"
                 fill
                 sizes="(max-width: 1024px) 100vw, 66vw"
-                placeholder="blur"
-                blurDataURL={generatePlaceholder()}
-                className="object-cover"
+                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                 priority
               />
-            </div>
+            </button>
           )}
 
+          {/* Description & Amenities */}
           <div className="prose dark:prose-invert max-w-none">
             <div className="mb-4 text-lg text-gray-700 dark:text-gray-300">{description}</div>
 
             {amenities && (
               <>
-                <h3 className="mb-2 text-2xl font-semibold">{amenitiesTitle}</h3>
+                <h2 className="mb-2 text-2xl font-semibold">{amenitiesTitle}</h2>
                 <p className="mb-4 text-gray-700 dark:text-gray-300">{amenities}</p>
               </>
             )}
 
+            {/* CTA Button */}
             <Link
               href={localizedBtnUrl}
               className="cursor-pointer relative inline-block no-underline font-medium group py-3 px-6"
             >
               <span className="absolute inset-0 w-full h-full transition duration-400 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0 dark:bg-white"></span>
               <span className="absolute inset-0 w-full h-full bg-white border border-black group-hover:bg-indigo-50 dark:bg-gray-900 dark:border-white dark:group-hover:bg-gray-800"></span>
-              <span className="relative text-black dark:text-white"> {btnText}</span>
+              <span className="relative text-black dark:text-white">{btnText}</span>
             </Link>
 
             {children && <div className="mt-6">{children}</div>}
           </div>
         </div>
 
+        {/* Right Column - Thumbnail Gallery */}
         <div className="flex flex-col">
           <div
             className={`flex flex-col gap-4 ${
@@ -150,34 +154,32 @@ export default function AccommodationLayout({content, children, locale}: Props) 
             }`}
           >
             {displayThumbnails.map((src, idx) => (
-              <div
+              <button
                 key={idx}
-                role="button"
-                tabIndex={0}
-                className="relative h-48 w-full overflow-hidden shadow-md cursor-pointer  bg-black opacity-100 z-10 transition-opacity duration-300 hover:opacity-40"
+                type="button"
+                className="relative h-48 w-full overflow-hidden shadow-md cursor-pointer group"
                 onClick={() => openImage(idx + 1)}
-                onKeyDown={(e) => e.key === 'Enter' && openImage(idx + 1)}
-                aria-label={`View thumbnail ${idx + 2}`}
+                aria-label={`View image ${idx + 2}`}
               >
                 <Image
                   src={src}
-                  alt={`Thumbnail ${idx + 2}`}
+                  alt={`Accommodation image ${idx + 2}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 33vw"
-                  placeholder="blur"
-                  blurDataURL={generatePlaceholder()}
-                  className="object-cover"
-                  loading="lazy"
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                 />
-              </div>
+              </button>
             ))}
           </div>
 
+          {/* Show All/Less Button */}
           {thumbnails.length > 2 && (
             <button
+              type="button"
               className="my-5 cursor-pointer relative inline-block no-underline font-medium group py-3 px-6"
               onClick={toggleShowAll}
               aria-expanded={showAll}
+              aria-label={showAll ? 'Show less images' : `Show all ${thumbnails.length} images`}
             >
               <span className="absolute inset-0 w-full h-full transition duration-400 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0 dark:bg-white"></span>
               <span className="absolute inset-0 w-full h-full bg-white border border-black group-hover:bg-indigo-50 dark:bg-gray-900 dark:border-white dark:group-hover:bg-gray-800"></span>
@@ -192,24 +194,27 @@ export default function AccommodationLayout({content, children, locale}: Props) 
       {/* Modal Lightbox */}
       {selectedIndex !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-pointer"
           onClick={closeLightbox}
           role="dialog"
           aria-label="Image lightbox"
           aria-modal="true"
         >
-          <div className="relative max-h-[90vh] max-w-[90vw]">
+          <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={images[selectedIndex]}
-              alt={`Enlarged image ${selectedIndex + 1}`}
+              alt={`Accommodation image ${selectedIndex + 1}`}
               width={1200}
               height={800}
               sizes="90vw"
               className="max-h-[90vh] max-w-[90vw] object-contain"
               priority
             />
+            
+            {/* Close Button */}
             <button
-              className="absolute -top-12 right-0 text-3xl text-white p-2 hover:bg-white/10 rounded"
+              type="button"
+              className="absolute -top-12 right-0 text-3xl text-white p-2 hover:bg-white/10 rounded cursor-pointer transition-colors"
               onClick={closeLightbox}
               aria-label="Close lightbox"
             >
@@ -217,17 +222,20 @@ export default function AccommodationLayout({content, children, locale}: Props) 
             </button>
           </div>
 
+          {/* Navigation Arrows */}
           {images.length > 1 && (
             <>
               <button
-                className="absolute left-4 top-1/2 -translate-y-1/2 rounded bg-black/30 p-3 text-2xl text-white hover:bg-black/50 transition-colors"
+                type="button"
+                className="absolute left-4 top-1/2 -translate-y-1/2 rounded bg-black/30 p-3 text-2xl text-white hover:bg-black/50 transition-colors cursor-pointer"
                 onClick={prevImage}
                 aria-label="Previous image"
               >
                 ‹
               </button>
               <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 rounded bg-black/30 p-3 text-2xl text-white hover:bg-black/50 transition-colors"
+                type="button"
+                className="absolute right-4 top-1/2 -translate-y-1/2 rounded bg-black/30 p-3 text-2xl text-white hover:bg-black/50 transition-colors cursor-pointer"
                 onClick={nextImage}
                 aria-label="Next image"
               >

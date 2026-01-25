@@ -110,61 +110,170 @@ export default async function ProductPage({params}: Props) {
     }
 
     return (
-      <div className="container my-12 lg:my-24 grid gap-12">
-        <header>
-          <h1 className="text-4xl font-bold">{localizedData.title}</h1>
+      // <div className="container my-12 lg:my-24 grid gap-12">
+      //   <header>
+      //     <h1 className="text-4xl font-bold">{localizedData.title}</h1>
+      //     {localizedData.description && (
+      //       <p className="mt-4 text-lg text-gray-600">{localizedData.description}</p>
+      //     )}
+      //   </header>
+
+      //   {typedProduct.productImage && (
+      //     <section aria-label="Product image">
+      //       <CoverImage
+      //         image={{...typedProduct.productImage, alt: localizedData.imageAlt}}
+      //         priority
+      //       />
+      //     </section>
+      //   )}
+
+      //   {localizedData.excerpt && (
+      //     <section aria-label="Product excerpt">
+      //       <p className="italic text-gray-700">{localizedData.excerpt}</p>
+      //     </section>
+      //   )}
+
+      //   {localizedData.content?.length > 0 && (
+      //     <section aria-label="Product content">
+      //       <PortableText value={localizedData.content} />
+      //     </section>
+      //   )}
+
+      //   <aside className="mt-4" aria-label="Product pricing">
+      //     <p className="text-2xl font-semibold text-green-600">${typedProduct.price.toFixed(2)}</p>
+      //   </aside>
+
+      //   {/* Structured Data for SEO */}
+      //   <script
+      //     type="application/ld+json"
+      //     dangerouslySetInnerHTML={{
+      //       __html: JSON.stringify({
+      //         '@context': 'https://schema.org',
+      //         '@type': 'Product',
+      //         'name': localizedData.title,
+      //         'description': localizedData.description,
+      //         'image': typedProduct.productImage
+      //           ? resolveOpenGraphImage(typedProduct.productImage)?.url
+      //           : undefined,
+      //         'offers': {
+      //           '@type': 'Offer',
+      //           'price': typedProduct.price,
+      //           'priceCurrency': 'USD',
+      //           'availability': 'https://schema.org/InStock',
+      //         },
+      //       }),
+      //     }}
+      //   />
+      // </div>
+
+
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
+    
+    {/* Product Grid */}
+    <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
+      
+      {/* Left Column - Image */}
+      {typedProduct.productImage && (
+        <div className="relative">
+          <div className="sticky top-8">
+            <section 
+              aria-label="Product image"
+              className="relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-l group"
+            >
+              <CoverImage
+                image={{...typedProduct.productImage, alt: localizedData.imageAlt}}
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+            </section>
+            
+            {/* Decorative blur element */}
+            <div className="absolute -z-10 -bottom-8 -right-8 w-64 h-64 bg-blue-200 dark:bg-blue-900  mix-blend-multiply dark:mix-blend-soft-light filter blur-3xl opacity-40"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Right Column - Product Info */}
+      <div className="space-y-8">
+        
+        {/* Header */}
+        <header className="space-y-4">
+          <h1 className="font-strangelove text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+            {localizedData.title}
+          </h1>
           {localizedData.description && (
-            <p className="mt-4 text-lg text-gray-600">{localizedData.description}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+              {localizedData.description}
+            </p>
           )}
         </header>
 
-        {typedProduct.productImage && (
-          <section aria-label="Product image">
-            <CoverImage
-              image={{...typedProduct.productImage, alt: localizedData.imageAlt}}
-              priority
-            />
-          </section>
-        )}
-
-        {localizedData.excerpt && (
-          <section aria-label="Product excerpt">
-            <p className="italic text-gray-700">{localizedData.excerpt}</p>
-          </section>
-        )}
-
-        {localizedData.content?.length > 0 && (
-          <section aria-label="Product content">
-            <PortableText value={localizedData.content} />
-          </section>
-        )}
-
-        <aside className="mt-4" aria-label="Product pricing">
-          <p className="text-2xl font-semibold text-green-600">${typedProduct.price.toFixed(2)}</p>
+        {/* Price */}
+        <aside 
+          aria-label="Product pricing"
+          className="py-6 border-y border-gray-200 dark:border-gray-800"
+        >
+          <p className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400">
+            EUR {typedProduct.price}
+          </p>
         </aside>
 
-        {/* Structured Data for SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Product',
-              'name': localizedData.title,
-              'description': localizedData.description,
-              'image': typedProduct.productImage
-                ? resolveOpenGraphImage(typedProduct.productImage)?.url
-                : undefined,
-              'offers': {
-                '@type': 'Offer',
-                'price': typedProduct.price,
-                'priceCurrency': 'USD',
-                'availability': 'https://schema.org/InStock',
-              },
-            }),
-          }}
-        />
+        {/* Excerpt */}
+        {localizedData.excerpt && (
+          <section 
+            aria-label="Product excerpt"
+            className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700"
+          >
+            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed italic">
+              "{localizedData.excerpt}"
+            </p>
+          </section>
+        )}
       </div>
+    </div>
+
+    {/* Product Content */}
+    {localizedData.content?.length > 0 && (
+      <section 
+        aria-label="Product content"
+        className="max-w-4xl"
+      >
+        <div className="bg-white dark:bg-gray-800  shadow-l p-8 lg:p-12 border border-gray-100 dark:border-gray-700">
+          {/* <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8 pb-6 border-b border-gray-200 dark:border-gray-700">
+           O proizvodu
+          </h2> */}
+          <div className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
+            <PortableText value={localizedData.content} />
+          </div>
+        </div>
+      </section>
+    )}
+
+  </div>
+
+  {/* Structured Data for SEO */}
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{
+      __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        'name': localizedData.title,
+        'description': localizedData.description,
+        'image': typedProduct.productImage
+          ? resolveOpenGraphImage(typedProduct.productImage)?.url
+          : undefined,
+        'offers': {
+          '@type': 'Offer',
+          'price': typedProduct.price,
+          'priceCurrency': 'EUR',
+          'availability': 'https://schema.org/InStock',
+        },
+      }),
+    }}
+  />
+    </div>
     )
   } catch (error) {
     console.error('Error rendering product page:', error)
