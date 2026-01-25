@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import WineryLayout from '@/app/layouts/WineryLayout'
 import {sanityFetch} from '@/sanity/lib/live'
 import {productsQuery} from '@/sanity/lib/queries'
