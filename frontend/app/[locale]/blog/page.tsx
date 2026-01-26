@@ -89,9 +89,9 @@ export default async function BlogPage({params}: Props) {
 
         {/* Main Content: Blog Posts */}
         <main className="col-span-3" aria-labelledby="posts-heading">
-          <h1 id="posts-heading" className="sr-only">
+          <h2 id="posts-heading" className="sr-only">
             Blog Posts
-          </h1>
+          </h2>
 
           {posts?.length > 0 ? (
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Blog posts grid">

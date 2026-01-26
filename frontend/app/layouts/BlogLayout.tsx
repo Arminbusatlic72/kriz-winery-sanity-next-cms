@@ -94,7 +94,7 @@ export default function BlogLayout({content, children}: Props) {
             {/* Right: Featured Image */}
             {image && (
               <div className="lg:col-span-2 relative">
-                <div className="relative aspect-square overflow-hidden rounded-3xl shadow-2xl bg-gray-100 dark:bg-gray-800 group">
+                <div className="relative aspect-square overflow-hidden  shadow-l bg-gray-100 dark:bg-gray-800 group">
                   <Image 
                     src={image} 
                     alt={imageAlt || 'Blog featured image'} 
