@@ -1,127 +1,11 @@
-// import {client} from '@/sanity/lib/client'
-// import {categoriesQuery, postsByCategoryQuery} from '@/sanity/lib/queries'
-// import Link from 'next/link'
-// import ProductImage from '@/app/components/ProductImage' // ✅ adjust path if needed
-// import {Localize} from 'date-fns'
-// import {LocalizedField} from '@/sanity/lib/utils'
-// interface Props {
-//   params: Promise<{locale: 'en' | 'hr'; category: string}>
-// }
-// interface Category {
-//   _id: string
-//   slug: {en: string; hr: string}
-//   title: {en: string; hr: string}
-// }
 
-// interface Post {
-//   _id: string
-//   slug: string
-//   title: LocalizedField | string
-//   excerpt?: string
-//   coverImage?: any
-// }
-
-// export const revalidate = 60
-
-// export async function generateStaticParams() {
-//   const categories = await client.fetch(categoriesQuery)
-//   const locales: Array<'en' | 'hr'> = ['en', 'hr']
-
-//   return locales.flatMap((locale) =>
-//     categories.map((cat: any) => ({
-//       locale,
-//       category: cat.slug[locale],
-//     })),
-//   )
-// }
-
-// export async function generateMetadata({params}: Props) {
-//   const categories = await client.fetch(categoriesQuery)
-//   const category = categories.find((c: any) => c.slug[params.locale] === params.category)
-
-//   return {
-//     title: category ? `${category[params.locale]} | Blog` : 'Blog',
-//   }
-// }
-
-// export default async function CategoryPage({params}: Props) {
-//   const {locale, category} = await params
-//   const posts = await client.fetch(postsByCategoryQuery, {locale, category})
-//   const categories = await client.fetch(categoriesQuery)
-//   const activeCategory = categories.find((c: any) => c.slug[locale] === category)
-
-//   return (
-//     <main className="mx-auto max-w-5xl py-8 px-4">
-//       <Link href={`/${locale}/posts`} className="text-sm underline">
-//         ← {locale === 'en' ? 'All posts' : 'Svi članci'}
-//       </Link>
-
-//       <h1 className="mt-4 text-3xl font-bold">
-//         {activeCategory ? activeCategory.title[locale] : category}
-//       </h1>
-
-//       {posts?.length > 0 ? (
-//         <section
-//           className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8"
-//           aria-label="Blog posts grid"
-//         >
-//           {posts.map((post: any) => (
-//             <article
-//               key={post._id}
-//               className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
-//             >
-//               <Link
-//                 href={`/${locale}/posts/${post.slug}`}
-//                 className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg"
-//                 aria-label={`Read article: ${post.title}`}
-//               >
-//                 {post.coverImage && (
-//                   <figure className="mb-4">
-//                     <ProductImage
-//                       image={post.coverImage}
-//                       priority
-//                       alt={post.title || 'Blog post cover image'}
-//                     />
-//                   </figure>
-//                 )}
-
-//                 <header>
-//                   <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-//                     {post.title}
-//                   </h2>
-//                 </header>
-
-//                 {post.excerpt && (
-//                   <div className="mt-2">
-//                     <p className="text-gray-700 dark:text-gray-400 line-clamp-3">{post.excerpt}</p>
-//                   </div>
-//                 )}
-//               </Link>
-//             </article>
-//           ))}
-//         </section>
-//       ) : (
-//         <section
-//           className="flex items-center justify-center py-12"
-//           role="status"
-//           aria-live="polite"
-//         >
-//           <p className="text-gray-600 dark:text-gray-400 text-center">
-//             {locale === 'en'
-//               ? 'No posts available at the moment.'
-//               : 'Nema članaka u ovoj kategoriji.'}
-//           </p>
-//         </section>
-//       )}
-//     </main>
-//   )
-// }
 
 import {client} from '@/sanity/lib/client'
 import {categoriesQuery, postsByCategoryQuery} from '@/sanity/lib/queries'
 import Link from 'next/link'
 import ProductImage from '@/app/components/ProductImage'
 import {LocalizedField} from '@/sanity/lib/utils'
+import CoverImage from '@/app/components/CoverImage'
 
 /** Types */
 type Params = Promise<{locale: 'en' | 'hr'; category: string}>
@@ -179,65 +63,76 @@ export default async function CategoryPage({params}: Props) {
   const activeCategory = categories.find((c) => c.slug[locale] === category)
 
   return (
-    <main className="mx-auto max-w-5xl py-8 px-4">
-      <Link href={`/${locale}/posts`} className="text-sm underline">
-        ← {locale === 'en' ? 'All posts' : 'Svi članci'}
+    <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      {/* Back Navigation - Sophisticated & Small */}
+      <Link 
+        href={`/${locale}/postovi`} 
+        className="group inline-flex items-center text-[10px] uppercase tracking-[0.3em] font-bold text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+      >
+        <span className="mr-3 h-[1px] w-6 bg-gray-200 group-hover:bg-black dark:bg-neutral-800 dark:group-hover:bg-white transition-all" />
+        {locale === 'en' ? 'Back to Journal' : 'Povratak na Journal'}
       </Link>
 
-      <h1 className="mt-4 text-3xl font-bold">
-        {activeCategory ? activeCategory.title[locale] : category}
-      </h1>
+      {/* Category Header */}
+      <header className="mt-12 mb-20 max-w-4xl">
+        <span className="text-[10px] uppercase tracking-[0.5em] text-gray-400 font-bold block mb-4">
+          {locale === 'en' ? 'Browsing Category' : 'Kategorija'}
+        </span>
+        <h1 className="font-strangelove text-6xl sm:text-7xl md:text-8xl text-gray-950 dark:text-white leading-[0.85] tracking-tighter">
+          {activeCategory ? activeCategory.title[locale] : category}
+        </h1>
+        <div className="mt-8 h-[1px] w-24 bg-black dark:bg-white" />
+      </header>
 
       {posts?.length > 0 ? (
         <section
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20"
           aria-label="Blog posts grid"
         >
           {posts.map((post) => (
-            <article
-              key={post._id}
-              className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
-            >
-              <Link
-                href={`/${locale}/posts/${post.slug}`}
-                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg"
-                aria-label={`Read article: ${post.title}`}
-              >
-                {post.coverImage && (
-                  <figure className="mb-4">
-                    <ProductImage
-                      image={post.coverImage}
-                      priority
-                      alt={post.title || 'Blog post cover image'}
-                    />
-                  </figure>
-                )}
+            <article key={post._id} className="group cursor-pointer">
+              <Link href={`/${locale}/postovi/${post.slug}`}>
+                {/* Image: Use your fixed CoverImage with the taller aspect ratio */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-50 dark:bg-neutral-900">
+                  <CoverImage
+                    image={post.coverImage}
+                    priority
+                    className="transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                  />
+                </div>
 
-                <header>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    {post.title}
-                  </h2>
-                </header>
+                <div className="mt-8">
+                  {/* The Signature Divider */}
+                  <div className="h-[1px] w-full bg-neutral-100 dark:bg-neutral-800 transition-colors duration-500 group-hover:bg-black dark:group-hover:bg-white" />
+                  
+                  <div className="mt-6 space-y-3">
+                    <h2 className="text-xl font-light tracking-tight text-gray-900 dark:text-neutral-100">
+                      {post.title}
+                    </h2>
+                    
+                    {post.excerpt && (
+                      <p className="text-sm leading-relaxed text-gray-500 dark:text-neutral-400 line-clamp-2">
+                        {post.excerpt}
+                      </p>
+                    )}
 
-                {post.excerpt && (
-                  <div className="mt-2">
-                    <p className="text-gray-700 dark:text-gray-400 line-clamp-3">{post.excerpt}</p>
+                    {/* Minimalist Link Trigger */}
+                    <div className="pt-4 flex items-center space-x-2">
+                       <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Read Entry</span>
+                       <span className="h-[1px] w-4 bg-black dark:bg-white transition-all duration-300 group-hover:w-8" />
+                    </div>
                   </div>
-                )}
+                </div>
               </Link>
             </article>
           ))}
         </section>
       ) : (
-        <section
-          className="flex items-center justify-center py-12"
-          role="status"
-          aria-live="polite"
-        >
-          <p className="text-gray-600 dark:text-gray-400 text-center">
+        <section className="py-24 border-t border-neutral-100 dark:border-neutral-900 text-center">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 italic">
             {locale === 'en'
-              ? 'No posts available at the moment.'
-              : 'Nema članaka u ovoj kategoriji.'}
+              ? 'No entries found in this collection.'
+              : 'Nema zapisa u ovoj kolekciji.'}
           </p>
         </section>
       )}

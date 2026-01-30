@@ -817,21 +817,23 @@ export default function AccommodationLayout({ content, children, locale }: Props
 
           {/* Description & Amenities */}
           <div className="prose dark:prose-invert max-w-none">
-            <div className="mb-4 text-lg text-gray-700 dark:text-gray-300">
-              {description}
-            </div>
+            <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 mb-4">
+            {description}
+          </div>
 
-            {amenities && (
+            {/* {amenities && (
               <AmenitiesList 
                 amenitiesTitle={amenitiesTitle} 
                 amenities={amenities} 
               />
-            )}
+            )} */}
 
             {/* CTA Button */}
+            <div className="">
             <CTALink href={localizedBtnUrl}>
               {btnText}
             </CTALink>
+            </div>
 
             {children && <div className="mt-6">{children}</div>}
           </div>

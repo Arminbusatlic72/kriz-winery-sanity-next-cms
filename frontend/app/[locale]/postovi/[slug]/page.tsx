@@ -1,250 +1,4 @@
-// // import type {Metadata, ResolvingMetadata} from 'next'
-// // import {notFound} from 'next/navigation'
-// // import {Suspense} from 'react'
 
-// // import Avatar from '@/app/components/Avatar'
-// // import CoverImage from '@/app/components/CoverImage'
-// // import {MorePosts} from '@/app/components/Posts'
-// // import CustomPortableText from '@/app/components/PortableText'
-// // import {sanityFetch} from '@/sanity/lib/live'
-// // import {postPagesSlugs, postQuery} from '@/sanity/lib/queries'
-// // import {
-// //   resolveOpenGraphImage,
-// //   getLocalizedBlockContent,
-// //   getLocalizedValue,
-// // } from '@/sanity/lib/utils'
-
-// // type Props = {
-// //   params: Promise<{slug: string; locale: string}>
-// // }
-
-// // /** Generate static params for Next.js App Router */
-// // export async function generateStaticParams({params}: Props) {
-// //   const {data} = await sanityFetch({query: postPagesSlugs, perspective: 'published', stega: false})
-// //   return data
-// // }
-
-// // /** Generate SEO metadata */
-// // export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
-// //   const {slug, locale} = await props.params
-// //   const {data: post} = await sanityFetch({query: postQuery, params: {slug}, stega: false})
-// //   if (!post?._id) return {}
-
-// //   const previousImages = (await parent).openGraph?.images || []
-// //   const ogImage = resolveOpenGraphImage(post?.coverImage)
-
-// //   return {
-// //     authors:
-// //       post?.author?.firstName && post?.author?.lastName
-// //         ? [{name: `${post.author.firstName} ${post.author.lastName}`}]
-// //         : [],
-// //     title: getLocalizedValue(post.title, locale) || '',
-// //     description: getLocalizedValue(post.excerpt, locale) || '',
-// //     openGraph: {images: ogImage ? [ogImage, ...previousImages] : previousImages},
-// //   }
-// // }
-
-// // /** Post Page Component */
-// // export default async function PostPage({params}: Props) {
-// //   const {slug, locale} = await params
-// //   const {data: post} = await sanityFetch({query: postQuery, params: {slug}})
-
-// //   if (!post?._id) return notFound()
-
-// //   const title = getLocalizedValue(post.title, locale)
-// //   const excerpt = getLocalizedValue(post.excerpt, locale)
-// //   const content = getLocalizedBlockContent(post.content, locale)
-// //   const imageAlt = getLocalizedValue(post.coverImage?.alt, locale)
-
-// //   return (
-// //     <>
-// //       <div className="container my-12 lg:my-24 grid gap-12">
-// //         <div>
-// //           <div className="pb-6 grid gap-6 mb-6 border-b border-gray-100">
-// //             <div className="max-w-3xl flex flex-col gap-6">
-// //               <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl">
-// //                 {title}
-// //               </h2>
-// //             </div>
-// //             <div className="max-w-3xl flex gap-4 items-center">
-// //               {post.author && post.author.firstName && post.author.lastName && (
-// //                 <Avatar person={post.author} date={post.date ?? undefined} />
-// //               )}
-// //             </div>
-// //           </div>
-
-// //           <article className="gap-6 grid max-w-4xl">
-// //             {post.coverImage && <CoverImage image={{...post.coverImage, alt: imageAlt}} priority />}
-// //             {content?.length > 0 && <CustomPortableText value={content} />}
-// //           </article>
-// //         </div>
-// //       </div>
-
-// //       <div className="border-t border-gray-100 bg-gray-50">
-// //         <div className="container py-12 lg:py-24 grid gap-12">
-// //           <aside>
-// //             <Suspense>{await MorePosts({skip: post._id, limit: 2})}</Suspense>
-// //           </aside>
-// //         </div>
-// //       </div>
-// //     </>
-// //   )
-// // }
-
-// import type {Metadata, ResolvingMetadata} from 'next'
-// import {notFound} from 'next/navigation'
-// import {Suspense} from 'react'
-
-// import Avatar from '@/app/components/Avatar'
-// import CoverImage from '@/app/components/CoverImage'
-// import {MorePosts} from '@/app/components/Posts'
-// import CustomPortableText from '@/app/components/PortableText'
-// import {sanityFetch} from '@/sanity/lib/live'
-// import {postPagesSlugs, postQuery} from '@/sanity/lib/queries'
-// import {
-//   resolveOpenGraphImage,
-//   getLocalizedBlockContent,
-//   getLocalizedValue,
-// } from '@/sanity/lib/utils'
-
-// type Props = {
-//   params: Promise<{slug: string; locale: string}>
-// }
-// type SanityAsset =
-//   | {
-//       _id: string
-//       url: string | null
-//       metadata?: {
-//         lqip?: string | null
-//         dimensions?: {width?: number; height?: number} | null
-//       }
-//     }
-//   | null
-//   | undefined
-
-// /** Generate static params for Next.js App Router */
-// export async function generateStaticParams({params}: Props) {
-//   const {data} = await sanityFetch({query: postPagesSlugs, perspective: 'published', stega: false})
-//   return data
-// }
-
-// /** Generate SEO metadata */
-// export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
-//   const {slug, locale} = await props.params
-//   const {data: post} = await sanityFetch({query: postQuery, params: {slug}, stega: false})
-//   if (!post?._id) return {}
-
-//   const previousImages = (await parent).openGraph?.images || []
-//   const ogImage = resolveOpenGraphImage(post?.coverImage)
-
-//   return {
-//     authors:
-//       post?.author?.firstName && post?.author?.lastName
-//         ? [{name: `${post.author.firstName} ${post.author.lastName}`}]
-//         : [],
-//     title: getLocalizedValue(post.title, locale),
-//     description: getLocalizedValue(post.excerpt, locale) || '',
-//     openGraph: {images: ogImage ? [ogImage, ...previousImages] : previousImages},
-//   }
-// }
-
-// /** Post Page Component */
-// export default async function PostPage({params}: Props) {
-//   const {slug, locale} = await params
-//   const {data: post} = await sanityFetch({query: postQuery, params: {slug}})
-
-//   if (!post?._id) return notFound()
-
-//   const title = getLocalizedValue(post.title, locale)
-//   const excerpt = getLocalizedValue(post.excerpt, locale)
-//   const content = getLocalizedBlockContent(post.content, locale)
-//   const imageAlt = getLocalizedValue(post.coverImage?.alt, locale)
-
-//   // Author data
-//   const authorFirstName = getLocalizedValue(post.author?.firstName, locale)
-//   const authorLastName = getLocalizedValue(post.author?.lastName, locale)
-//   const authorPicture = post.author?.picture // picture is usually just an image object, no localization
-//   const authorAlt = getLocalizedValue(post.author?.picture?.alt, locale)
-
-//   function normalizePicture(picture: any) {
-//     if (!picture) return undefined
-
-//     const asset: SanityAsset = picture.asset
-//       ? {
-//           _id: picture.asset._id,
-//           url: picture.asset.url,
-//           metadata: picture.asset.metadata ?? undefined, // normalize null to undefined
-//         }
-//       : undefined
-
-//     return {
-//       alt: picture.alt ?? undefined,
-//       asset,
-//     }
-//   }
-//   // Inside your PostPage or where you render Avatar
-//   // Normalize author data for Avatar
-//   const authorForAvatar = post.author
-//     ? {
-//         firstName: post.author.firstName,
-//         lastName: post.author.lastName,
-//         picture: post.author.picture
-//           ? {
-//               alt: post.author.picture.alt ?? null,
-//               asset: post.author.picture.asset
-//                 ? {
-//                     _id: post.author.picture.asset._id,
-//                     url: post.author.picture.asset.url ?? null, // <-- convert undefined to null
-//                     metadata: post.author.picture.asset.metadata
-//                       ? {
-//                           lqip: post.author.picture.asset.metadata.lqip ?? null,
-//                           dimensions: post.author.picture.asset.metadata.dimensions
-//                             ? {
-//                                 width: post.author.picture.asset.metadata.dimensions.width ?? 0,
-//                                 height: post.author.picture.asset.metadata.dimensions.height ?? 0,
-//                               }
-//                             : undefined,
-//                         }
-//                       : undefined,
-//                   }
-//                 : undefined,
-//             }
-//           : undefined,
-//       }
-//     : null
-
-//   return (
-//     <>
-//       <div className="container my-12 lg:my-24 grid gap-12">
-//         <div>
-//           <div className="pb-6 grid gap-6 mb-6 border-b border-gray-100">
-//             <div className="max-w-3xl flex flex-col gap-6">
-//               <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl">
-//                 {title}
-//               </h2>
-//             </div>
-//             <div className="max-w-3xl flex gap-4 items-center">
-//               {authorForAvatar && <Avatar person={authorForAvatar} date={post.date ?? null} />}
-//             </div>
-//           </div>
-
-//           <article className="gap-6 grid max-w-4xl">
-//             {post.coverImage && <CoverImage image={{...post.coverImage, alt: imageAlt}} priority />}
-//             {content?.length > 0 && <CustomPortableText value={content} />}
-//           </article>
-//         </div>
-//       </div>
-
-//       <div className="border-t border-gray-100 bg-gray-50">
-//         <div className="container py-12 lg:py-24 grid gap-12">
-//           <aside>
-//             <Suspense>{await MorePosts({skip: post._id, limit: 2})}</Suspense>
-//           </aside>
-//         </div>
-//       </div>
-//     </>
-//   )
-// }
 
 import type {Metadata, ResolvingMetadata} from 'next'
 import {notFound} from 'next/navigation'
@@ -431,82 +185,90 @@ export default async function PostPage({params}: Props) {
 
     return (
      
-            <>
-       <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
-         <article className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
-           
-           {/* Header Section */}
-           <header className="max-w-4xl mx-auto mb-12 lg:mb-16">
-             <div className="space-y-6 pb-8 border-b border-gray-200 dark:border-gray-800">
-               
-               {/* Title & Excerpt */}
-               <div className="space-y-6">
-                 <h2 className="font-strangelove text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                   {title}
-                 </h2>
-                 {excerpt && (
-                   <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-400 leading-relaxed">
-                     {excerpt}
-                   </p>
-                 )}
-               </div>
-     
-               {/* Author Info */}
-               {authorForAvatar && (
-                 <div className="pt-4">
-                   <Avatar person={authorForAvatar} date={post.date ?? null} />
-                 </div>
-               )}
-             </div>
-           </header>
-     
-           {/* Main Content */}
-           <div className="max-w-4xl mx-auto space-y-12">
-             
-             {/* Cover Image */}
-             {post.coverImage && (
-               <div className="relative aspect-video overflow-hidden rounded shadow-l bg-gray-100 dark:bg-gray-800 group">
-                 <CoverImage 
-                   image={{...post.coverImage, alt: imageAlt}} 
-                   priority 
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
-                 {/* Decorative blur element */}
-                 <div className="absolute -z-10 -bottom-8 -right-8 w-64 h-64 bg-purple-200 dark:bg-purple-900 rounded mix-blend-multiply dark:mix-blend-soft-light filter blur-3xl opacity-40"></div>
-               </div>
-             )}
-     
-             {/* Article Content */}
-             {content?.length > 0 && (
-               <div className="bg-white dark:bg-gray-800 rounded shadow-l p-8 lg:p-12 border border-gray-100 dark:border-gray-700">
-                 <div className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
-                   <CustomPortableText value={content} />
-                 </div>
-               </div>
-             )}
-           </div>
-     
-         </article>
-       </div>
-     
-       {/* Related Posts Section */}
-       <aside className="border-t border-gray-200 dark:border-gray-800 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950" aria-label="Related posts">
-         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
-           <h2 className="font-strangelove text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 lg:mb-12">
-             More Articles
-           </h2>
-           <Suspense fallback={
-             <div className="grid gap-6 md:grid-cols-2">
-               <div className="animate-pulse h-64 bg-gray-200 dark:bg-gray-700 rounded-3xl" />
-               <div className="animate-pulse h-64 bg-gray-200 dark:bg-gray-700 rounded-3xl" />
-             </div>
-           }>
-             <MorePosts skip={post._id} limit={2} locale={locale as 'en' | 'hr'} />
-           </Suspense>
-         </div>
-       </aside>
-     </>
-          
+  <>
+  <div className="min-h-screen bg-white dark:bg-neutral-950">
+    <article className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 lg:pt-24 pb-20">
+      
+      {/* Header: Centered & Focused */}
+      <header className="max-w-4xl mx-auto text-center mb-16 lg:mb-24">
+        <div className="space-y-8">
+          {/* Subtle Category/Date Label */}
+          <div className="flex items-center justify-center space-x-4">
+             <span className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">
+               Insight
+             </span>
+             <span className="h-[1px] w-8 bg-gray-200 dark:bg-neutral-800" />
+             <span className="text-[10px] uppercase tracking-[0.3em] text-gray-400">
+                {post.date ? new Date(post.date).toLocaleDateString(locale) : 'Archive'}
+             </span>
+          </div>
+
+          <h1 className="font-strangelove text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gray-950 dark:text-white leading-[0.9] tracking-tight">
+            {title}
+          </h1>
+
+          {excerpt && (
+            <p className="text-lg md:text-xl text-gray-500 dark:text-neutral-400 leading-relaxed max-w-2xl mx-auto font-light italic">
+              {excerpt}
+            </p>
+          )}
+
+          {/* Minimalist Author Info */}
+          {authorForAvatar && (
+            <div className="pt-6 flex justify-center grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+              <Avatar person={authorForAvatar} />
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* Hero Image: Wide & Cinematic */}
+      <div className="max-w-6xl mx-auto mb-16 lg:mb-24 px-0 lg:px-4">
+        {post.coverImage && (
+          <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-2xl">
+            <CoverImage 
+              image={{...post.coverImage, alt: imageAlt}} 
+              priority 
+              className="object-cover transition-transform duration-[2s] scale-100 hover:scale-105"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Main Content: Clean Typography, No "Box" */}
+      <div className="max-w-3xl mx-auto">
+        {content?.length > 0 && (
+          <div className="prose prose-lg dark:prose-invert max-w-none 
+            prose-headings:font-strangelove prose-headings:font-normal prose-headings:tracking-tight
+            prose-p:text-gray-600 dark:prose-p:text-neutral-300 prose-p:leading-relaxed prose-p:font-light
+            prose-a:text-black dark:prose-a:text-white prose-a:decoration-gray-300 hover:prose-a:decoration-black
+            selection:bg-neutral-100 dark:selection:bg-neutral-800">
+            <CustomPortableText value={content} />
+          </div>
+        )}
+      </div>
+
+    </article>
+  </div>
+
+  {/* Related Posts: Refined Divider & Grid */}
+  <aside className="border-t border-neutral-100 dark:border-neutral-900 bg-white dark:bg-neutral-950" aria-label="Related posts">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <div className="flex items-center justify-between mb-12 lg:mb-16">
+        <h2 className="font-strangelove text-4xl lg:text-5xl text-gray-950 dark:text-white">
+          Continue Reading
+        </h2>
+        <div className="hidden md:block h-[1px] flex-grow mx-8 bg-neutral-100 dark:bg-neutral-800" />
+      </div>
+
+      <Suspense fallback={<div className="h-64 animate-pulse bg-neutral-50 dark:bg-neutral-900" />}>
+        <div className="opacity-90 hover:opacity-100 transition-opacity duration-500">
+          <MorePosts skip={post._id} limit={2} locale={locale as 'en' | 'hr'} />
+        </div>
+      </Suspense>
+    </div>
+  </aside>
+</>
     )
   } catch (error) {
     console.error('Error rendering post page:', error)

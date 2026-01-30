@@ -43,9 +43,9 @@ export default function Footer() {
     <footer>
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-4 px-6 py-6">
         {/* Logo + text row */}
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <Image
-            src="/static/images/footer/slow-food.jpeg"
+            src="/static/images/footer/slowFoodFarm.jpg"
             alt="Slow Food Certified"
             width={36}
             height={24}
@@ -56,7 +56,7 @@ export default function Footer() {
             width={56}
             height={36}
           />
-        </div>
+        </div> */}
 
         {/* Bottom text row */}
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import BlogLayout from '@/app/layouts/BlogLayout'
 import ProductImage from '@/app/components/ProductImage'
 import {Popover, PopoverButton, PopoverPanel, Button} from '@headlessui/react'
-import {ChevronDownIcon} from '@heroicons/react/24/solid'
+import {ChevronDownIcon} from '@heroicons/react/20/solid'
 type Props = {
   params: Promise<{locale: string}>
 }
@@ -30,128 +30,118 @@ export default async function BlogPage({params}: Props) {
         imageAlt: 'Vineyard view with mountains in the background',
       }}
     >
-      <div className="container my-12 lg:my-24 grid grid-cols-1 lg:grid-cols-4 md:gap-6 p">
-        {/* Left Sidebar: Categories */}
-        <Popover className="relative w-full mb-2">
-          <aside
-            className="col-span-1 border border-gray-200 dark:border-white/10 p-4 shadow-lg bg-white dark:bg-gray-900"
-            aria-labelledby="categories-heading"
-          >
-            {/* Popover Button */}
-            <PopoverButton
-              className="w-full flex items-center justify-between focus:outline-none cursor-pointer"
-              aria-expanded="false"
-              aria-controls="categories-list"
-            >
-              <span
-                id="categories-heading"
-                className="text-2xl uppercase font-bold text-gray-900 dark:text-white"
-              >
+     <div className="container mx-auto  my-12 lg:my-24 grid grid-cols-1 lg:grid-cols-4 gap-x-12 gap-y-16">
+      
+      {/* Sidebar: Clean & Floating */}
+      <aside className="col-span-1">
+        <Popover className="relative lg:sticky lg:top-24">
+          <div className="group">
+            <PopoverButton className="flex w-full items-center justify-between border-b border-gray-100 pb-4 outline-none dark:border-neutral-800">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-950 dark:text-white">
                 {t('categories')}
               </span>
-
-              {/* Arrow down icon */}
-              <ChevronDownIcon className="h-6 w-6 text-gray-700 dark:text-white" />
+              <ChevronDownIcon className="h-4 w-4 text-gray-400 transition-transform duration-300 group-data-[open]:rotate-180" />
             </PopoverButton>
 
-            {/* Categories Navigation */}
-            <nav aria-labelledby="categories-heading ">
-              <PopoverPanel
-                id="categories-list"
-                transition
-                className="mt-4 p-2 divide-y divide-gray-200 dark:divide-white/10 rounded-lg bg-gray-50 dark:bg-gray-800/80 text-sm transition-transform duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0"
-                role="menu"
-                aria-orientation="vertical"
-              >
-                {categories?.length > 0 ? (
-                  <ul className="flex flex-col gap-0">
-                    {categories.map((category: any) => (
-                      <li key={category._id}>
-                        <Link
-                          href={`/${locale}/posts/category/${category.slug[locale]}`}
-                          className="block rounded-lg px-4 py-2 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset"
-                          role="menuitem"
-                          aria-label={`Browse ${category.title[locale]} category`}
-                        >
-                          <span className="text-gray-700 dark:text-white/70 dark:hover:text-white font-medium">
-                            {category.title[locale]}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="p-2 text-gray-500 dark:text-white/50 italic" role="status">
-                    No categories available
-                  </div>
-                )}
-              </PopoverPanel>
-            </nav>
-          </aside>
-        </Popover>
-        {/* Main Content: Blog Posts */}
-        <main className="col-span-3" aria-labelledby="posts-heading">
-          <h1 id="posts-heading" className="sr-only">
-            Blog Posts
-          </h1>
-
-          {posts?.length > 0 ? (
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Blog posts grid">
-              {posts.map((post: any) => (
-                <article
-                  key={post._id}
-                  className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
-                >
+            <PopoverPanel
+              static
+              className="mt-6 flex flex-col space-y-3 lg:block lg:opacity-100"
+            >
+              <nav className="flex flex-col space-y-4">
+                {categories?.map((category: any) => (
                   <Link
-                    href={`/${locale}/posts/${post.slug[locale]}`}
-                    className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg"
-                    aria-label={`Read article: ${post.title[locale]}`}
+                    key={category._id}
+                    href={`/${locale}/posts/category/${category.slug[locale]}`}
+                    className="group flex items-center text-[11px] uppercase tracking-widest text-gray-500 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white"
                   >
-                    {post.coverImage && (
-                      <figure className="mb-4">
-                        <ProductImage
-                          image={post.coverImage}
-                          priority
-                          alt={post.title[locale] || 'Blog post cover image'}
-                        />
-                      </figure>
-                    )}
+                    <span className="mr-2 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-4 dark:bg-white" />
+                    {category.title[locale]}
+                  </Link>
+                ))}
+              </nav>
+            </PopoverPanel>
+          </div>
+        </Popover>
+      </aside>
 
-                    <header className="my-2 py-3">
-                      {post.category?.title && (
-                        <Button className="mb-2 inline-flex items-center gap-2 rounded-md bg-gray-700 px-3  text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700">
-                          {post.category.title[locale]}
-                        </Button>
-                      )}
-                      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+      {/* Main Grid */}
+      <main className="col-span-3">
+        {posts?.length > 0 ? (
+          <section className="grid grid-cols-1 gap-x-4 gap-y-20 md:grid-cols-2">
+            {posts.map((post: any) => (
+              <article key={post._id} className="group relative">
+                <Link href={`/${locale}/posts/${post.slug[locale]}`} className="block">
+                  
+                  {/* Image: Editorial Ratio */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
+                    <ProductImage
+                      image={post.coverImage}
+                      priority
+                      className="h-full w-full object-cover grayscale-[20%] transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
+                    />
+                  </div>
+
+                  <div className="mt-8">
+                    {/* The Divider Line */}
+                    <div className="h-[1px] w-full bg-gray-100 transition-colors duration-500 group-hover:bg-black dark:bg-neutral-800 dark:group-hover:bg-neutral-500" />
+
+                    <header className="mt-6 flex flex-col space-y-3">
+                      <div className="flex items-center space-x-3">
+                        {post.category?.title && (
+                          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400">
+                            {post.category.title[locale]}
+                          </span>
+                        )}
+                        <span className="h-[1px] w-4 bg-gray-200" />
+                        <span className="text-[10px] uppercase tracking-[0.15em] text-gray-300">
+                           {/* Add date here if you have it */}
+                           {new Date().getFullYear()} 
+                        </span>
+                      </div>
+
+                      <h2 className="text-lg font-light leading-snug tracking-tight text-gray-900 dark:text-neutral-100">
                         {post.title[locale]}
                       </h2>
                     </header>
 
-                    {post.excerpt && (
-                      <div className="mt-2">
-                        <p className="text-gray-700 dark:text-gray-400 line-clamp-3">
-                          {post.excerpt[locale]}
-                        </p>
-                      </div>
-                    )}
-                  </Link>
-                </article>
-              ))}
-            </section>
-          ) : (
-            <section
-              className="flex items-center justify-center py-12"
-              role="status"
-              aria-live="polite"
-            >
-              <p className="text-gray-600 dark:text-gray-400 text-center">
-                No posts available at the moment.
-              </p>
-            </section>
-          )}
-        </main>
-      </div>
+                    
+                    {/* Subtle "Open" indicator */}
+                    <div className="mt-6 flex items-center group/arrow">
+  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-950 dark:text-white">
+    Read Article
+  </span>
+  
+  {/* Minimalist Sliding Arrow */}
+  <div className="ml-3 transition-transform duration-300 ease-out group-hover/arrow:translate-x-2">
+    <svg 
+      width="18" 
+      height="8" 
+      viewBox="0 0 18 8" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+      className="stroke-gray-950 dark:stroke-white"
+    >
+      <path 
+        d="M14 1L17 4L14 7M0 4H17" 
+        strokeWidth="1.2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+</div>
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </section>
+        ) : (
+          <div className="flex flex-col items-center justify-center border-t border-gray-100 py-24 dark:border-neutral-800">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400">No archives found</p>
+          </div>
+        )}
+      </main>
+    </div>
     </BlogLayout>
   )
 }

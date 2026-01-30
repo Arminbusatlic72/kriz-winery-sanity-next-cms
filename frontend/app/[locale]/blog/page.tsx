@@ -64,6 +64,7 @@ export default async function BlogPage({params}: Props) {
                   <ul className="flex flex-col gap-0">
                     {categories.map((category: any) => (
                       <li key={category._id}>
+                     
                         <Link
                           href={`/${locale}/blog/category/${category[locale]}`}
                           className="block rounded-lg px-4 py-2 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset"

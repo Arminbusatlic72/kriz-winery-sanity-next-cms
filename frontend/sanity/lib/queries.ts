@@ -349,6 +349,8 @@ export const categoriesQuery = defineQuery(`
   }
   `)
 
+
+
 export const postsByCategoryQuery = defineQuery(`
 *[
   _type == "post" &&
@@ -356,7 +358,7 @@ export const postsByCategoryQuery = defineQuery(`
 ] | order(publishedAt desc){
   _id,
   "title": title[$locale],
-  "slug": slug.current,
+  "slug": slug[$locale].current, 
   "excerpt": excerpt[$locale],
   publishedAt,
   coverImage,

@@ -12,11 +12,12 @@ interface WineryLayoutProps {
   text1: string
   text2?: string
   title2: string
-  text21:string
-  text22:string
-  text23:string
+  text21: string
+  text22: string
+  text23: string
   children?: ReactNode
   headerCellarImage: string
+  headerCellarImage1: string
 }
 
 export default function WineryLayout({
@@ -33,6 +34,7 @@ export default function WineryLayout({
   text22,
   text23,
   headerCellarImage,
+  headerCellarImage1,
   children,
 }: WineryLayoutProps) {
   
@@ -71,6 +73,7 @@ export default function WineryLayout({
             <p className="text-gray-700 dark:text-gray-300">{text2}</p>
           </div>
         )}
+        
 
         <div className="relative mb-6 h-90 w-full overflow-hidden shadow-md xl:mb-0">
           <Image
@@ -78,6 +81,20 @@ export default function WineryLayout({
             alt="Section"
             fill
             className="object-cover" />
+        </div>
+           <div className="flex items-center gap-3">
+          <Image
+            src="/static/images/footer/slowFoodFarm.jpg"
+            alt="Slow Food Certified"
+            width={100}
+            height={40}
+          />
+          <Image
+            src="/static/images/footer/eu-organic.png"
+            alt="EU Organic Certified"
+            width={100}
+            height={40}
+          />
         </div>
       </div>
 
@@ -99,6 +116,15 @@ export default function WineryLayout({
         <p>{text21}</p>
         <p>{text22}</p>
         <p>{text23}</p>
+          <div className="relative mb-8 h-100 w-full overflow-hidden shadow-md">
+    <Image
+      src={headerCellarImage1}
+      alt="Header Cellar"
+      fill
+      sizes="100vw"
+      className="object-cover"
+    />
+  </div>
       </section>
     </>
   )
