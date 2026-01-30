@@ -22,7 +22,7 @@ interface Category {
 
 interface Post {
   _id: string
-  slug: string
+  slug: string | string[]
   title: LocalizedField | string | string[] // 👈 allow string[]
   excerpt?: string | string[] | null // 👈 allow string[] | null
   coverImage?: any
@@ -108,7 +108,7 @@ export default async function CategoryPage({params}: Props) {
                   
                   <div className="mt-6 space-y-3">
                     <h2 className="text-xl font-light tracking-tight text-gray-900 dark:text-neutral-100">
-                      {post.title}
+                     {typeof post.title === 'string' ? post.title : Array.isArray(post.title) ? post.title[0] : ''}
                     </h2>
                     
                     {post.excerpt && (

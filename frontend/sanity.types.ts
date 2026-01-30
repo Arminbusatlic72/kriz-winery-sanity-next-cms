@@ -857,11 +857,11 @@ export type CategoriesQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
 // Variable: postsByCategoryQuery
-// Query: *[  _type == "post" &&  category->slug[$locale].current == $category] | order(publishedAt desc){  _id,  "title": title[$locale],  "slug": slug.current,  "excerpt": excerpt[$locale],  publishedAt,  coverImage,  "category": category->{    _id,    "title": title[$locale],    "slug": slug[$locale].current  }}
+// Query: *[  _type == "post" &&  category->slug[$locale].current == $category] | order(publishedAt desc){  _id,  "title": title[$locale],  "slug": slug[$locale].current,  "excerpt": excerpt[$locale],  publishedAt,  coverImage,  "category": category->{    _id,    "title": title[$locale],    "slug": slug[$locale].current  }}
 export type PostsByCategoryQueryResult = Array<{
   _id: string
   title: Array<string>
-  slug: string
+  slug: Array<string>
   excerpt: Array<string> | null
   publishedAt: null
   coverImage: {
@@ -903,6 +903,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': PostsPagesSlugsResult
     '\n*[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage{\n    asset,\n    alt\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n    picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}\n\n': PostQueryResult
     '\n  *[_type == "category"] | order(title.en asc){\n    _id,\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n  ': CategoriesQueryResult
-    '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug.current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage,\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
+    '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug[$locale].current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage,\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
   }
 }

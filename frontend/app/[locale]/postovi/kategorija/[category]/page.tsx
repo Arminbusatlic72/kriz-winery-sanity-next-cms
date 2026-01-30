@@ -2,6 +2,7 @@
 
 import {client} from '@/sanity/lib/client'
 import {categoriesQuery, postsByCategoryQuery} from '@/sanity/lib/queries'
+
 import Link from 'next/link'
 import ProductImage from '@/app/components/ProductImage'
 import {LocalizedField} from '@/sanity/lib/utils'
@@ -22,7 +23,7 @@ interface Category {
 
 interface Post {
   _id: string
-  slug: string
+  slug: string | string[]
   title: string | string[] // 👈 allow string[]
   excerpt?: string | string[] | null // 👈 allow string[] | null
   coverImage?: any

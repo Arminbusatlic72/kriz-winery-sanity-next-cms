@@ -358,7 +358,7 @@ export const postsByCategoryQuery = defineQuery(`
 ] | order(publishedAt desc){
   _id,
   "title": title[$locale],
-  "slug": slug[$locale].current, 
+  "slug": slug[$locale].current,
   "excerpt": excerpt[$locale],
   publishedAt,
   coverImage,
