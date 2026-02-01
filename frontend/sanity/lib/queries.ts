@@ -117,7 +117,7 @@ export const pagesSlugs = defineQuery(`
 `)
 
 // Updated product queries with internationalization support
-export const productsQuery = defineQuery(`*[_type == "product"] | order(date desc) {
+export const productsQuery = defineQuery(`*[_type == "product"] | order(date asc) {
   _id,
   title,
   description,

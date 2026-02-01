@@ -730,7 +730,7 @@ export type PagesSlugsResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: productsQuery
-// Query: *[_type == "product"] | order(date desc) {  _id,  title,  description,  price,  excerpt,  content,  productImage{    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{firstName, lastName}}
+// Query: *[_type == "product"] | order(date asc) {  _id,  title,  description,  price,  excerpt,  content,  productImage{    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{firstName, lastName}}
 export type ProductsQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
@@ -891,7 +891,7 @@ declare module '@sanity/client' {
     '\n  *[\n    _type == "post" &&\n    !(_id in [$skip, "drafts." + $skip]) &&\n    (defined(slug.en.current) || defined(slug.hr.current))\n  ] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': MorePostsQueryResult
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
-    '*[_type == "product"] | order(date desc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult
+    '*[_type == "product"] | order(date asc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult
     '\n  *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n':
       | AllProductSlugsQueryResult
       | ProductPagesSlugsResult
