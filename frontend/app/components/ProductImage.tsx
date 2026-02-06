@@ -5,11 +5,12 @@ import { stegaClean } from '@sanity/client/stega'
 
 interface ProductImageProps {
   image: any
-  alt?: string | string[]
+  alt?: string
   width?: number
   height?: number
   priority?: boolean
   className?: string
+  locale?: string
 }
 
 export default function ProductImage({
@@ -19,23 +20,29 @@ export default function ProductImage({
   height,
   priority = false,
   className = '',
+  locale = 'en',
 }: ProductImageProps) {
   if (!image?.asset?._ref) return null
 
-  // Fallback to original Sanity image dimensions if not provided
   const { width: originalWidth, height: originalHeight } = getImageDimensions(image)
 
-  // Use _updatedAt for cache busting (fallback to _createdAt)
+  // Cache-busting
   const updatedAt = image._updatedAt || image._createdAt || Date.now()
-
-  // Generate URL with cache-busting param
   const imageUrl = `${urlForImage(image)?.url()}?v=${encodeURIComponent(updatedAt)}`
+
+  // Proper alt string
+  const altText =
+    typeof alt === 'string'
+      ? alt
+      : typeof image.alt === 'string'
+      ? image.alt
+      : image.alt?.[locale] || 'Product image'
 
   return (
     <Image
       className={`object-cover ${className}`}
       src={imageUrl as string}
-      alt={stegaClean(alt || image.alt) || 'Product image'}
+      alt={stegaClean(altText)}
       width={width || originalWidth}
       height={height || originalHeight}
       priority={priority}
