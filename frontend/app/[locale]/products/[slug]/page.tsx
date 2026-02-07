@@ -146,9 +146,9 @@ export default async function ProductPage({params}: Props) {
              </span>
           </div>
 
-          <h1 className="font-strangelove text-5xl sm:text-6xl lg:text-7xl text-gray-950 dark:text-white leading-[0.9] tracking-tighter">
+          <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100">
             {localizedData.title}
-          </h1>
+          </h2>
 
           {/* Minimalist Divider */}
           <div className="h-[1px] w-12 bg-black dark:bg-white"></div>
