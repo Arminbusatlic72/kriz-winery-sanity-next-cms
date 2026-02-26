@@ -96,7 +96,7 @@ export default async function BlogPage({params}: Props) {
 
           {posts?.length > 0 ? (
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Blog posts grid">
-              {posts.map((post: any) => (
+              {posts.map((post: any, index: number) => (
                 <article
                   key={post._id}
                   className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
@@ -110,7 +110,7 @@ export default async function BlogPage({params}: Props) {
                       <figure className="mb-4">
                         <ProductImage
                           image={post.coverImage}
-                          priority
+                          priority={index < 2}
                           alt={post.title[locale] || 'Blog post cover image'}
                         />
                       </figure>

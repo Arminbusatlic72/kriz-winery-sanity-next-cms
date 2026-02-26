@@ -1,3 +1,4 @@
+import type {Metadata} from 'next'
 import AccommodationLayout from '@/app/layouts/AccommodationLayout'
 import {getTranslations} from 'next-intl/server'
 import {getImagesFromDirectory} from '@/app/lib/get-images'
@@ -5,6 +6,24 @@ import {getImagesFromDirectory} from '@/app/lib/get-images'
 type Props = {
   params: Promise<{slug: string; locale: string}>
 }
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params
+  const t = await getTranslations('Accommodation')
+
+  return {
+    title: t('title'),
+    description: t('amenities'),
+    alternates: {
+      canonical: locale === 'hr' ? '/hr/smjestaj' : '/en/accommodation',
+      languages: {
+        en: '/en/accommodation',
+        hr: '/hr/smjestaj',
+      },
+    },
+  }
+}
+
 export default async function AccommodationPage({params}: Props) {
   const {locale} = await params
 
@@ -17,7 +36,7 @@ export default async function AccommodationPage({params}: Props) {
         title: t('title'),
         description: t.rich('description', {
           p: (chunks) => <p>{chunks}</p>,
-          outro: (chunks) => <span className="font-semibold">{chunks}</span>
+          outro: (chunks) => <span className="font-semibold">{chunks}</span>,
         }),
         amenities: t('amenities'),
         amenitiesTitle: t('amenitiesTitle'),

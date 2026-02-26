@@ -90,14 +90,14 @@ export default async function CategoryPage({params}: Props) {
           className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20"
           aria-label="Blog posts grid"
         >
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <article key={post._id} className="group cursor-pointer">
               <Link href={`/${locale}/postovi/${post.slug}`}>
                 {/* Image: Use your fixed CoverImage with the taller aspect ratio */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-50 dark:bg-neutral-900">
                   <CoverImage
                     image={post.coverImage}
-                    priority
+                    priority={index === 0}
                     className="transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                   />
                 </div>

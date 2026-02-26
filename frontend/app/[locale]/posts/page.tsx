@@ -68,7 +68,7 @@ export default async function BlogPage({params}: Props) {
       <main className="col-span-3">
         {posts?.length > 0 ? (
           <section className="grid grid-cols-1 gap-x-4 gap-y-20 md:grid-cols-2">
-            {posts.map((post: any) => (
+            {posts.map((post: any, index: number) => (
               <article key={post._id} className="group relative">
                 <Link href={`/${locale}/posts/${post.slug[locale]}`} className="block">
                   
@@ -76,7 +76,7 @@ export default async function BlogPage({params}: Props) {
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
                     <ProductImage
                       image={post.coverImage}
-                      priority
+                      priority={index < 2}
                       className="h-full w-full object-cover grayscale-[20%] transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
                     />
                   </div>

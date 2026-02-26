@@ -60,7 +60,7 @@ export default function Footer() {
 
         {/* Bottom text row */}
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <div>Križ</div>
+          <div>Vinarija Križ</div>
           <div className="opacity-60">•</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
         </div>

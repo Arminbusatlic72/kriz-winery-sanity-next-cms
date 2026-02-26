@@ -85,6 +85,10 @@ export default async function RootLayout({children, params}: Props) {
     notFound()
   }
 
+  const clientMessages = {
+    nav: messages?.nav ?? [],
+  }
+
   return (
     <html lang={locale} className={`${inter.variable} scroll-smooth`} suppressHydrationWarning>
       <head></head>
@@ -100,7 +104,7 @@ export default async function RootLayout({children, params}: Props) {
                 </>
               )}
               <SanityLive onError={handleError} />
-              <NextIntlClientProvider locale={locale} messages={messages}>
+              <NextIntlClientProvider locale={locale} messages={clientMessages}>
                 <Header locale={locale} />
                 <main className="flex-grow">{children}</main>
                 <Footer />

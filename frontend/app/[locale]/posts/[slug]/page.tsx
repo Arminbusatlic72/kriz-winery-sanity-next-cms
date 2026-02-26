@@ -58,7 +58,7 @@ type NormalizedAuthor = {
 } | null
 
 /** Generate static params for Next.js App Router */
-export async function generateStaticParams(): Promise<Array<{slug: string; locale: string}>> {
+export async function generateStaticParams(): Promise<Array<{slug: string; locale: 'en' | 'hr'}>> {
   try {
     const {data} = await sanityFetch({
       query: postPagesSlugs,
@@ -68,13 +68,12 @@ export async function generateStaticParams(): Promise<Array<{slug: string; local
 
     if (!data) return []
 
-    // If you only have one default locale or want to use a default
-    const defaultLocale = 'en' // Replace with your default locale
-
-    return data.map((item: {slug: string}) => ({
-      slug: item.slug,
-      locale: defaultLocale,
-    }))
+    return data.flatMap((item: {slug?: {en?: string; hr?: string}}) => {
+      const params: Array<{slug: string; locale: 'en' | 'hr'}> = []
+      if (item.slug?.en) params.push({locale: 'en', slug: item.slug.en})
+      if (item.slug?.hr) params.push({locale: 'hr', slug: item.slug.hr})
+      return params
+    })
   } catch (error) {
     console.error('Error generating static params:', error)
     return []
@@ -97,6 +96,8 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
     const ogImage = resolveOpenGraphImage(post?.coverImage)
     const title = getLocalizedValue(post.title, locale)
     const description = getLocalizedValue(post.excerpt, locale) || ''
+    const enSlug = post?.slug?.en || slug
+    const hrSlug = post?.slug?.hr || slug
 
     return {
       title,
@@ -123,7 +124,11 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
         images: ogImage ? [ogImage.url] : [],
       },
       alternates: {
-        canonical: `/posts/${slug}`,
+        canonical: locale === 'hr' ? `/hr/postovi/${hrSlug}` : `/en/posts/${enSlug}`,
+        languages: {
+          en: `/en/posts/${enSlug}`,
+          hr: `/hr/postovi/${hrSlug}`,
+        },
       },
     }
   } catch (error) {

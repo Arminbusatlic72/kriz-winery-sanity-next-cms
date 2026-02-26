@@ -107,8 +107,12 @@ export const morePostsQuery = defineQuery(`
 // `)
 
 export const postPagesSlugs = defineQuery(`
-  *[_type == "post" && defined(slug.current)]
-  {"slug": slug.current}
+  *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{
+    "slug": {
+      "en": slug.en.current,
+      "hr": slug.hr.current
+    }
+  }
 `)
 
 export const pagesSlugs = defineQuery(`
@@ -303,6 +307,10 @@ export const postQuery = defineQuery(`
 *[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{
   _id,
   title,
+  "slug": {
+    "en": slug.en.current,
+    "hr": slug.hr.current
+  },
   excerpt,
   content,
   coverImage{

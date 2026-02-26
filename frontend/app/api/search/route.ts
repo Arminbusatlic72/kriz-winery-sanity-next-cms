@@ -4,7 +4,9 @@ import {client} from '@/sanity/lib/client'
 export async function GET(req: NextRequest) {
   const {searchParams} = new URL(req.url)
   const query = searchParams.get('q') || ''
-  const locale = searchParams.get('locale') || 'en' // default locale
+  const requestedLocale = searchParams.get('locale') || 'en'
+  const locale = requestedLocale === 'hr' ? 'hr' : 'en'
+  const slugPath = locale === 'hr' ? 'slug.hr' : 'slug.en'
 
   if (!query) {
     return NextResponse.json([])
@@ -22,7 +24,7 @@ export async function GET(req: NextRequest) {
     _id,
     _type,
     title,
-    "slug": slug.${locale},
+    "slug": ${slugPath},
     description
   }`,
       {q: `*${query}*`},

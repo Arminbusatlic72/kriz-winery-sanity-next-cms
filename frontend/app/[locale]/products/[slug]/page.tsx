@@ -26,7 +26,7 @@ const getCachedProduct = cache(async (slug: string) => {
   return product as Product | null
 })
 
-export async function generateStaticParams(): Promise<{slug: string}[]> {
+export async function generateStaticParams(): Promise<Array<{slug: string; locale: 'en' | 'hr'}>> {
   try {
     const {data} = await sanityFetch({
       query: productPagesSlugs,
@@ -34,9 +34,14 @@ export async function generateStaticParams(): Promise<{slug: string}[]> {
       stega: false,
     })
 
-    const products = data as Product[]
+    const products = data as Array<{slug?: {en?: string; hr?: string}}>
 
-    return products.filter((p: Product) => p.slug?.hr).map((p: Product) => ({slug: p.slug.hr}))
+    return products.flatMap((product) => {
+      const params: Array<{slug: string; locale: 'en' | 'hr'}> = []
+      if (product.slug?.en) params.push({locale: 'en', slug: product.slug.en})
+      if (product.slug?.hr) params.push({locale: 'hr', slug: product.slug.hr})
+      return params
+    })
   } catch (error) {
     console.error('Error generating static params:', error)
     return []
@@ -64,6 +69,8 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
 
     const title = getLocalizedValue(typedProduct.title, locale)
     const description = getLocalizedValue(typedProduct.description, locale)
+    const enSlug = typedProduct.slug?.en || slug
+    const hrSlug = typedProduct.slug?.hr || slug
 
     return {
       title,
@@ -81,7 +88,11 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
         images: ogImage ? [ogImage.url] : undefined,
       },
       alternates: {
-        canonical: `/${locale}/products/${slug}`,
+        canonical: locale === 'hr' ? `/hr/proizvodi/${hrSlug}` : `/en/products/${enSlug}`,
+        languages: {
+          en: `/en/products/${enSlug}`,
+          hr: `/hr/proizvodi/${hrSlug}`,
+        },
       },
     }
   } catch (error) {

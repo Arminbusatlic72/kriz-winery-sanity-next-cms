@@ -1,5 +1,6 @@
 export const revalidate = 60
 
+import type {Metadata} from 'next'
 import WineryLayout from '@/app/layouts/WineryLayout'
 import {sanityFetch} from '@/sanity/lib/live'
 import {productsQuery} from '@/sanity/lib/queries'
@@ -23,6 +24,23 @@ interface PageProps {
   params: Promise<{
     locale: string
   }>
+}
+
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const {locale} = await params
+  const t = await getTranslations('Winery')
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      canonical: locale === 'hr' ? '/hr/vinarija' : '/en/winery',
+      languages: {
+        en: '/en/winery',
+        hr: '/hr/vinarija',
+      },
+    },
+  }
 }
 
 export default async function VineyardsPage({params}: PageProps) {

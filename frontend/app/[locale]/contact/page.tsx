@@ -1,5 +1,29 @@
+import type {Metadata} from 'next'
 import {useTranslations} from 'next-intl'
 import ContactLayout from '@/app/layouts/ContactLayout'
+
+type Props = {
+  params: Promise<{locale: string}>
+}
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params
+
+  return {
+    title: locale === 'hr' ? 'Kontakt' : 'Contact',
+    description:
+      locale === 'hr'
+        ? 'Kontaktirajte nas za kušanje i kupnju vina.'
+        : 'Get in touch for wine tastings and purchases.',
+    alternates: {
+      canonical: locale === 'hr' ? '/hr/kontaktirajte-nas' : '/en/contact',
+      languages: {
+        en: '/en/contact',
+        hr: '/hr/kontaktirajte-nas',
+      },
+    },
+  }
+}
 
 export default function ContactPage() {
   const t = useTranslations('Contact')
