@@ -59,6 +59,11 @@ export async function generateMetadata(): Promise<Metadata> {
       default: title,
     },
     description: toPlainText(description),
+    icons: {
+      icon: '/static/images/logo/kriz-logo.jpg',
+      shortcut: '/static/images/logo/kriz-logo.jpg',
+      apple: '/static/images/logo/kriz-logo.jpg',
+    },
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
@@ -101,9 +106,9 @@ export default async function RootLayout({children, params}: Props) {
                 <>
                   <DraftModeToast />
                   <VisualEditing />
+                  <SanityLive onError={handleError} />
                 </>
               )}
-              <SanityLive onError={handleError} />
               <NextIntlClientProvider locale={locale} messages={clientMessages}>
                 <Header locale={locale} />
                 <main className="flex-grow">{children}</main>
