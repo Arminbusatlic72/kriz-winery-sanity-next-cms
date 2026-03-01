@@ -140,6 +140,7 @@ export default async function ProductPage({params}: Props) {
             <CoverImage
               image={{...typedProduct.productImage, alt: localizedData.imageAlt}}
               priority
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover transition-transform duration-[2s] hover:scale-105"
             />
           </section>

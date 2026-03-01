@@ -7,15 +7,10 @@ import {PortableText} from '@portabletext/react'
 import {getTranslations} from 'next-intl/server'
 import GetStartedCode from '@/app/components/GetStartedCode'
 import SideBySideIcons from '@/app/components/SideBySideIcons'
-import {settingsQuery} from '@/sanity/lib/queries'
-import {sanityFetch} from '@/sanity/lib/live'
 
 import HomeLayout from '@/app/layouts/HomeLayout'
 
 export default async function Page() {
-  const {data: settings} = await sanityFetch({
-    query: settingsQuery,
-  })
   // const t = useTranslations('Home')
   const t = await getTranslations('Home')
   return (

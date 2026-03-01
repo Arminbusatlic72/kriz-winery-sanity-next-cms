@@ -5,11 +5,11 @@ import Image from 'next/image'
 import ImageLightbox from './ImageLightbox'
 
 interface ImageGalleryProps {
-  images: string[]
+  images: Array<string | {src: string; blurDataURL?: string; alt?: string}>
 }
 
 interface ThumbnailGalleryProps {
-  thumbnails: string[]
+  thumbnails: Array<string | {src: string; blurDataURL?: string; alt?: string}>
   showAll: boolean
   onToggleShowAll: () => void
   onThumbnailClick: (index: number) => void
@@ -26,7 +26,13 @@ const ThumbnailGallery = memo(({
   return (
     <div className="flex flex-col">
       <div className={`flex flex-col gap-4 ${showAll ? 'max-h-[100%]' : 'max-h-[380px] overflow-hidden'}`}>
-        {displayThumbnails.map((src, idx) => (
+        {displayThumbnails.map((image, idx) => {
+          const imageSrc = typeof image === 'string' ? image : image.src
+          const blurDataURL = typeof image === 'string' ? undefined : image.blurDataURL
+          const imageAlt =
+            typeof image === 'string' ? `Accommodation image ${idx + 2}` : (image.alt ?? `Accommodation image ${idx + 2}`)
+
+          return (
           <button
             key={`thumb-${idx}`}
             type="button"
@@ -35,14 +41,18 @@ const ThumbnailGallery = memo(({
             aria-label={`View image ${idx + 2}`}
           >
             <Image
-              src={src}
-              alt={`Accommodation image ${idx + 2}`}
+              src={imageSrc}
+              alt={imageAlt}
               fill
               sizes="(max-width: 1024px) 100vw, 33vw"
+              quality={85}
+              placeholder={blurDataURL ? 'blur' : 'empty'}
+              blurDataURL={blurDataURL}
               className="object-cover transition-opacity duration-300 group-hover:opacity-90"
             />
           </button>
-        ))}
+          )
+        })}
       </div>
 
       {thumbnails.length > 2 && (
@@ -101,12 +111,14 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
           aria-label="View main accommodation image"
         >
           <Image
-            src={images[0]}
-            alt="Main accommodation"
+            src={typeof images[0] === 'string' ? images[0] : images[0].src}
+            alt={typeof images[0] === 'string' ? 'Main accommodation' : (images[0].alt ?? 'Main accommodation')}
             fill
             sizes="(max-width: 1024px) 100vw, 66vw"
+            quality={85}
+            placeholder={typeof images[0] === 'string' || !images[0].blurDataURL ? 'empty' : 'blur'}
+            blurDataURL={typeof images[0] === 'string' ? undefined : images[0].blurDataURL}
             className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-            priority
           />
         </button>
       )}

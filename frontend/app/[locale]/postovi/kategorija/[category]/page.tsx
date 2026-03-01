@@ -98,6 +98,7 @@ export default async function CategoryPage({params}: Props) {
                   <CoverImage
                     image={post.coverImage}
                     priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                   />
                 </div>

@@ -1,10 +1,10 @@
 import {ReactNode} from 'react'
-import Image from 'next/image'
+import Image, {StaticImageData} from 'next/image'
 
 interface AboutContent {
   title: string
   description: ReactNode
-  images: string[]
+  images: Array<string | StaticImageData>
 }
 
 interface Props {
@@ -37,7 +37,16 @@ export default function AboutLayout({content, children}: Props) {
         <div className="grid grid-cols-1 gap-4">
           {images.map((src, idx) => (
             <div key={idx} className="relative h-90 w-full overflow-hidden shadow-lg">
-              <Image src={src} alt={`About image ${idx + 1}`} fill className="object-cover" />
+              <Image
+                src={src}
+                alt={`About image ${idx + 1}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
+                placeholder={typeof src === 'string' || !src.blurDataURL ? 'empty' : 'blur'}
+                blurDataURL={typeof src === 'string' ? undefined : src.blurDataURL}
+                className="object-cover"
+              />
             </div>
           ))}
         </div>

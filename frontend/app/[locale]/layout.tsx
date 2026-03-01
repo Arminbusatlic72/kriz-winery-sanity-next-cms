@@ -35,11 +35,24 @@ type Props = {
   params: Promise<{locale: string}>
 }
 export async function generateMetadata(): Promise<Metadata> {
-  const {data: settings} = await sanityFetch({
-    query: settingsQuery,
-    // Metadata should never contain stega
-    stega: false,
-  })
+  const fallbackSettings = {
+    title: demo.title,
+    description: demo.description,
+    ogImage: undefined,
+  }
+
+  const settings = await Promise.race([
+    sanityFetch({
+      query: settingsQuery,
+      stega: false,
+    })
+      .then((result) => result.data)
+      .catch(() => fallbackSettings),
+    new Promise<typeof fallbackSettings>((resolve) =>
+      setTimeout(() => resolve(fallbackSettings), 2000),
+    ),
+  ])
+
   const title = settings?.title || demo.title
   const description = settings?.description || demo.description
 
@@ -75,6 +88,10 @@ export const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({locale}))
+}
 
 export default async function RootLayout({children, params}: Props) {
   const {isEnabled: isDraftMode} = await draftMode()

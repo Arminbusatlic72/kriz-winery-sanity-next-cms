@@ -1,7 +1,8 @@
 import type {Metadata} from 'next'
 import AboutLayout from '@/app/layouts/AboutLayout'
 import {getTranslations} from 'next-intl/server'
-import {getImagesFromDirectory} from '@/app/lib/get-images'
+import aboutImage1 from '@/public/static/images/about/Kriz-portreti-vinarija-2022-19.jpg'
+import aboutImage2 from '@/public/static/images/about/Vinarija-Kriz-68.jpg'
 
 type Props = {
   params: Promise<{locale: string}>
@@ -26,7 +27,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 
 export default async function AboutPage() {
   const t = await getTranslations('AboutUs')
-  const aboutImages = getImagesFromDirectory('static/images/about')
+  const aboutImages = [aboutImage1, aboutImage2]
 
   return (
     <AboutLayout

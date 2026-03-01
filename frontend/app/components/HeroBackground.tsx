@@ -42,7 +42,8 @@ export function HeroBackground() {
         fill
         className="object-cover md:object-contain dark:hidden"
         priority={true}
-        loading="eager"
+        sizes="100vw"
+        quality={75}
       />
 
       {/* Dark mode background */}
@@ -51,8 +52,8 @@ export function HeroBackground() {
         alt="Background"
         fill
         className="object-cover md:object-contain hidden dark:block"
-        priority={true}
-        loading="eager"
+        sizes="100vw"
+        quality={75}
       />
     </>
   )

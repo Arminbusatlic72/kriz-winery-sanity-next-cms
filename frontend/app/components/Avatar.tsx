@@ -121,6 +121,9 @@ export default function Avatar({person, date, small = false}: Props) {
             alt={picture.alt || `${firstName || ''} ${lastName || ''}`}
             width={small ? 32 : 48}
             height={small ? 32 : 48}
+            sizes={small ? '32px' : '48px'}
+            placeholder={picture.asset.metadata?.lqip ? 'blur' : 'empty'}
+            blurDataURL={picture.asset.metadata?.lqip || undefined}
             className="h-full w-full object-cover"
           />
         ) : (

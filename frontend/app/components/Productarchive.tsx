@@ -33,8 +33,8 @@ export default function ProductArchive({ products, locale }: ProductArchiveProps
               <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
                 <ProductImage
                   image={product.productImage}
-                  priority={index < 6}
                   className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 
                 {/* Gradient Overlay */}

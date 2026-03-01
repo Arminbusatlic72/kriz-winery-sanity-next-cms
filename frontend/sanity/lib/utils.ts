@@ -1,13 +1,16 @@
-import createImageUrlBuilder from '@sanity/image-url'
+import imageUrlBuilder from '@sanity/image-url'
+import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
 import {Link} from '@/sanity.types'
 import {dataset, projectId, studioUrl} from '@/sanity/lib/api'
+import {client} from '@/sanity/lib/client'
 import {createDataAttribute, CreateDataAttributeProps} from 'next-sanity'
 import {getImageDimensions} from '@sanity/asset-utils'
 
-const imageBuilder = createImageUrlBuilder({
-  projectId: projectId || '',
-  dataset: dataset || '',
-})
+const builder = imageUrlBuilder(client)
+
+export function urlFor(source: SanityImageSource) {
+  return builder.image(source)
+}
 
 export const urlForImage = (source: any) => {
   // Ensure that source image contains a valid reference
@@ -32,10 +35,10 @@ export const urlForImage = (source: any) => {
     const top = Math.floor(height * crop.top)
 
     // gather into a url
-    return imageBuilder?.image(source).rect(left, top, croppedWidth, croppedHeight).auto('format')
+    return urlFor(source).rect(left, top, croppedWidth, croppedHeight).auto('format')
   }
 
-  return imageBuilder?.image(source).auto('format')
+  return urlFor(source).auto('format')
 }
 
 export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {

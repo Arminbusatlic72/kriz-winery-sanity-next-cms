@@ -1,11 +1,13 @@
 import {ReactNode} from 'react'
-import Image from 'next/image'
+import Image, {StaticImageData} from 'next/image'
+
+type LayoutImage = string | StaticImageData
 
 interface WineryLayoutProps {
   title: string
-  headerImage: string
-  sectionImage: string
-  sectionImage1?: string
+  headerImage: LayoutImage
+  sectionImage: LayoutImage
+  sectionImage1?: LayoutImage
   description: string
   text1: string
   text2?: string
@@ -14,8 +16,8 @@ interface WineryLayoutProps {
   text22: string
   text23: string
   children?: ReactNode
-  headerCellarImage: string
-  headerCellarImage1: string
+  headerCellarImage: LayoutImage
+  headerCellarImage1: LayoutImage
 }
 
 export default function WineryLayout({
@@ -49,7 +51,16 @@ export default function WineryLayout({
       {/* Header Image */}
       {headerImage && (
       <div className="relative mb-8 h-100 w-full overflow-hidden shadow-md">
-        <Image src={headerImage} alt="Header" fill className="object-cover" />
+        <Image
+          src={headerImage}
+          alt="Header"
+          fill
+          sizes="100vw"
+          quality={85}
+          placeholder={typeof headerImage === 'string' || !headerImage.blurDataURL ? 'empty' : 'blur'}
+          blurDataURL={typeof headerImage === 'string' ? undefined : headerImage.blurDataURL}
+          className="object-cover"
+        />
       </div>)}
 
       <p className="text-gray-700 dark:text-gray-300 pb-5 mb-5 lg:pb-8 lg:mb-8">{description}</p>
@@ -58,7 +69,16 @@ export default function WineryLayout({
       <div className="items-center xl:grid xl:grid-cols-2 xl:gap-x-8 pb-5 md:pb-8">
         {/* Image Left */}
         <div className="relative mb-6 h-90 w-full overflow-hidden shadow-md xl:mb-0">
-          <Image src={sectionImage} alt="Section" fill className="object-cover" />
+          <Image
+            src={sectionImage}
+            alt="Section"
+            fill
+            sizes="(max-width: 1280px) 100vw, 50vw"
+            quality={85}
+            placeholder={typeof sectionImage === 'string' || !sectionImage.blurDataURL ? 'empty' : 'blur'}
+            blurDataURL={typeof sectionImage === 'string' ? undefined : sectionImage.blurDataURL}
+            className="object-cover"
+          />
         </div>
 
         {/* Text Right */}
@@ -78,6 +98,18 @@ export default function WineryLayout({
             src={sectionImage1 || '/static/images/fallback.jpg'}
             alt="Section"
             fill
+            sizes="(max-width: 1280px) 100vw, 50vw"
+            quality={85}
+            placeholder={
+              !sectionImage1 || typeof sectionImage1 === 'string' || !sectionImage1.blurDataURL
+                ? 'empty'
+                : 'blur'
+            }
+            blurDataURL={
+              !sectionImage1 || typeof sectionImage1 === 'string'
+                ? undefined
+                : sectionImage1.blurDataURL
+            }
             className="object-cover" />
         </div>
            <div className="flex items-center gap-3">
@@ -107,6 +139,11 @@ export default function WineryLayout({
       alt="Header Cellar"
       fill
       sizes="100vw"
+      quality={85}
+      placeholder={
+        typeof headerCellarImage === 'string' || !headerCellarImage.blurDataURL ? 'empty' : 'blur'
+      }
+      blurDataURL={typeof headerCellarImage === 'string' ? undefined : headerCellarImage.blurDataURL}
       className="object-cover"
     />
   </div>
@@ -120,6 +157,11 @@ export default function WineryLayout({
       alt="Header Cellar"
       fill
       sizes="100vw"
+      quality={85}
+      placeholder={
+        typeof headerCellarImage1 === 'string' || !headerCellarImage1.blurDataURL ? 'empty' : 'blur'
+      }
+      blurDataURL={typeof headerCellarImage1 === 'string' ? undefined : headerCellarImage1.blurDataURL}
       className="object-cover"
     />
   </div>

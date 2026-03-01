@@ -1,5 +1,6 @@
 import type {NextConfig} from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
+import path from 'node:path'
 
 const contentSecurityPolicy = `
   default-src 'self';
@@ -15,12 +16,25 @@ const contentSecurityPolicy = `
 
 const nextConfig: NextConfig = {
   compress: true,
+  turbopack: {
+    root: path.resolve(__dirname, '..'),
+  },
   env: {
     // Matches the behavior of `sanity dev` which sets styled-components to use the fastest way of inserting CSS rules in both dev and production. It's default behavior is to disable it in dev mode.
     SC_DISABLE_SPEEDY: 'false',
   },
   images: {
-    remotePatterns: [new URL('https://cdn.sanity.io/**')],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        pathname: '/images/**',
+      },
+    ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    minimumCacheTTL: 60 * 60 * 24 * 7,
   },
   async headers() {
     return [

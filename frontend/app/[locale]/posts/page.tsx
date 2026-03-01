@@ -76,7 +76,8 @@ export default async function BlogPage({params}: Props) {
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
                     <ProductImage
                       image={post.coverImage}
-                      priority={index < 2}
+                      priority={index === 0}
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="h-full w-full object-cover grayscale-[20%] transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
                     />
                   </div>

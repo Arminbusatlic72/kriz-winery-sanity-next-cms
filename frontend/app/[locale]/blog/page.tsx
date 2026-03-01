@@ -1,3 +1,4 @@
+import type {Metadata} from 'next'
 import {sanityFetch} from '@/sanity/lib/live'
 import {postsQuery, categoriesQuery} from '@/sanity/lib/queries'
 import {getTranslations} from 'next-intl/server'
@@ -9,6 +10,25 @@ import {Popover, PopoverButton, PopoverPanel} from '@headlessui/react'
 
 type Props = {
   params: Promise<{locale: string}>
+}
+
+export const revalidate = 60
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params
+  const t = await getTranslations('Blog')
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      canonical: locale === 'hr' ? '/hr/postovi' : '/en/blog',
+      languages: {
+        en: '/en/blog',
+        hr: '/hr/postovi',
+      },
+    },
+  }
 }
 
 export default async function BlogPage({params}: Props) {
@@ -96,7 +116,7 @@ export default async function BlogPage({params}: Props) {
 
           {posts?.length > 0 ? (
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Blog posts grid">
-              {posts.map((post: any, index: number) => (
+              {posts.map((post: any) => (
                 <article
                   key={post._id}
                   className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
@@ -110,8 +130,8 @@ export default async function BlogPage({params}: Props) {
                       <figure className="mb-4">
                         <ProductImage
                           image={post.coverImage}
-                          priority={index < 2}
                           alt={post.title[locale] || 'Blog post cover image'}
+                          sizes="(max-width: 768px) 100vw, 50vw"
                         />
                       </figure>
                     )}

@@ -61,7 +61,6 @@ export default async function CategoryPage({params}: Props) {
   const posts: Post[] = await client.fetch(postsByCategoryQuery, {locale, category})
   const categories: Category[] = await client.fetch(categoriesQuery)
   const activeCategory = categories.find((c) => c.slug[locale] === category)
-  console.log(posts)
 
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
@@ -98,6 +97,7 @@ export default async function CategoryPage({params}: Props) {
                   <CoverImage
                     image={post.coverImage}
                     priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                   />
                 </div>

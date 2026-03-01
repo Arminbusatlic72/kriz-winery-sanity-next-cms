@@ -3,12 +3,16 @@
 import Image from 'next/image'
 
 interface MainImageProps {
-  src: string
+  src: string | {src: string; blurDataURL?: string; alt?: string}
   onClick: () => void
   alt?: string
 }
 
 export default function MainImage({src, onClick, alt = 'Main accommodation'}: MainImageProps) {
+  const imageSrc = typeof src === 'string' ? src : src.src
+  const blurDataURL = typeof src === 'string' ? undefined : src.blurDataURL
+  const imageAlt = typeof src === 'string' ? alt : (src.alt ?? alt)
+
   return (
     <button
       type="button"
@@ -17,10 +21,13 @@ export default function MainImage({src, onClick, alt = 'Main accommodation'}: Ma
       aria-label="View main accommodation image"
     >
       <Image
-        src={src}
-        alt={alt}
+        src={imageSrc}
+        alt={imageAlt}
         fill
         sizes="(max-width: 1024px) 100vw, 66vw"
+        quality={85}
+        placeholder={blurDataURL ? 'blur' : 'empty'}
+        blurDataURL={blurDataURL}
         className="object-cover transition-opacity duration-300 group-hover:opacity-90"
         priority
       />

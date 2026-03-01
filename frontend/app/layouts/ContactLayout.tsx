@@ -48,7 +48,6 @@ const ContactLayout = ({
 }: ContactLayoutProps) => {
   const handleFormSubmit = async (formData: FormData, isValid: boolean) => {
     if (!isValid) {
-      console.log('Form has validation errors')
       return
     }
 
@@ -69,7 +68,6 @@ const ContactLayout = ({
       const data = await res.json()
 
       if (res.ok) {
-        console.log('Message sent successfully', data)
         alert('Message sent successfully!')
       } else {
         console.error('Error sending message', data)

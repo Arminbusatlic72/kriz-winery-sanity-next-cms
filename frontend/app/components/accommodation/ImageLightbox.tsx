@@ -4,7 +4,7 @@ import {useCallback, useEffect} from 'react'
 import Image from 'next/image'
 
 interface ImageLightboxProps {
-  images: string[]
+  images: Array<string | {src: string; blurDataURL?: string; alt?: string}>
   selectedIndex: number | null
   onClose: () => void
   onPrev: () => void
@@ -42,6 +42,14 @@ export default function ImageLightbox({
 
   if (selectedIndex === null) return null
 
+  const selectedImage = images[selectedIndex]
+  const imageSrc = typeof selectedImage === 'string' ? selectedImage : selectedImage.src
+  const blurDataURL = typeof selectedImage === 'string' ? undefined : selectedImage.blurDataURL
+  const imageAlt =
+    typeof selectedImage === 'string'
+      ? `Accommodation image ${selectedIndex + 1}`
+      : (selectedImage.alt ?? `Accommodation image ${selectedIndex + 1}`)
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-pointer"
@@ -52,13 +60,15 @@ export default function ImageLightbox({
     >
       <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
         <Image
-          src={images[selectedIndex]}
-          alt={`Accommodation image ${selectedIndex + 1}`}
+          src={imageSrc}
+          alt={imageAlt}
           width={1200}
           height={800}
           sizes="90vw"
+          quality={85}
+          placeholder={blurDataURL ? 'blur' : 'empty'}
+          blurDataURL={blurDataURL}
           className="max-h-[90vh] max-w-[90vw] object-contain"
-          priority
         />
 
         <button

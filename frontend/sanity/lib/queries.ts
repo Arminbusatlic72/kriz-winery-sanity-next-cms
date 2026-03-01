@@ -2,6 +2,22 @@ import {defineQuery} from 'next-sanity'
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
 
+const sanityImageFields = /* groq */ `
+  asset,
+  hotspot,
+  crop,
+  alt,
+  "metadata": asset->metadata{
+    dimensions {
+      width,
+      height,
+      aspectRatio
+    },
+    lqip,
+    palette
+  }
+`
+
 const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
@@ -11,10 +27,23 @@ const postFields = /* groq */ `
     "hr": slug.hr.current
   },
   excerpt,
-  coverImage,
+  coverImage {
+    ${sanityImageFields}
+  },
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName,  picture{
       alt,
+      hotspot,
+      crop,
+      "metadata": asset->metadata{
+        dimensions {
+          width,
+          height,
+          aspectRatio
+        },
+        lqip,
+        palette
+      },
       asset->{
         _id,
         url,
@@ -129,8 +158,7 @@ export const productsQuery = defineQuery(`*[_type == "product"] | order(date asc
   excerpt,
   content,
   productImage{
-    asset,
-    alt
+    ${sanityImageFields}
   },
   "slug": {
     "en": slug.en.current,
@@ -158,8 +186,7 @@ export const productBySlugQuery = defineQuery(`
     content,
     excerpt,
     productImage{
-      asset,
-      alt
+      ${sanityImageFields}
     },
     "slug": {
       "en": slug.en.current,
@@ -188,8 +215,7 @@ export const productQuery = defineQuery(`
     price,
     excerpt,
     productImage{
-      asset,
-      alt
+      ${sanityImageFields}
     },
     "slug": {
       "en": slug.en.current,
@@ -208,8 +234,7 @@ export const featuredProductsQuery = defineQuery(`
     description,
     price,
     productImage{
-      asset,
-      alt
+      ${sanityImageFields}
     },
     "slug": {
       "en": slug.en.current,
@@ -228,7 +253,9 @@ export const searchQuery = defineQuery(`
     title,
     slug,
     excerpt,
-    mainImage
+    mainImage {
+      ${sanityImageFields}
+    }
   }
 `)
 // Updated product queries with internationalization support
@@ -238,8 +265,7 @@ export const postsQuery = defineQuery(`*[_type == "post"] | order(date desc) {
   excerpt,
   content,
   coverImage {
-    asset,
-    alt
+    ${sanityImageFields}
   },
   "slug": {
     "en": slug.en.current,
@@ -251,6 +277,17 @@ export const postsQuery = defineQuery(`*[_type == "post"] | order(date desc) {
     lastName,
      picture{
       alt,
+      hotspot,
+      crop,
+      "metadata": asset->metadata{
+        dimensions {
+          width,
+          height,
+          aspectRatio
+        },
+        lqip,
+        palette
+      },
       asset->{
         _id,
         url,
@@ -314,8 +351,7 @@ export const postQuery = defineQuery(`
   excerpt,
   content,
   coverImage{
-    asset,
-    alt
+    ${sanityImageFields}
   },
   date,
   author->{
@@ -323,6 +359,17 @@ export const postQuery = defineQuery(`
     lastName,
     picture{
       alt,
+      hotspot,
+      crop,
+      "metadata": asset->metadata{
+        dimensions {
+          width,
+          height,
+          aspectRatio
+        },
+        lqip,
+        palette
+      },
       asset->{
         _id,
         url,
@@ -369,7 +416,9 @@ export const postsByCategoryQuery = defineQuery(`
   "slug": slug[$locale].current,
   "excerpt": excerpt[$locale],
   publishedAt,
-  coverImage,
+  coverImage {
+    ${sanityImageFields}
+  },
   "category": category->{
     _id,
     "title": title[$locale],

@@ -7,6 +7,11 @@ import {productsQuery} from '@/sanity/lib/queries'
 import Link from 'next/link'
 import ProductImage from '@/app/components/ProductImage'
 import {getTranslations} from 'next-intl/server'
+import wineryHeaderImage from '@/public/static/images/winery/Vinarija-Kriz-272.jpg'
+import winerySectionImage from '@/public/static/images/winery/Mile-u-Krizu.jpg'
+import winerySectionImage1 from '@/public/static/images/winery/Vinarija-Kriz-215.jpg'
+import cellarHeaderImage from '@/public/static/images/cellar/cellar-header.jpg'
+import cellarHeaderImage1 from '@/public/static/images/cellar/cellar-header1.jpg'
 
 // Define proper types
 interface Product {
@@ -59,9 +64,9 @@ export default async function VineyardsPage({params}: PageProps) {
     <section>
       <WineryLayout
         title={t('title')}
-        headerImage="/static/images/winery/Vinarija-Kriz-272.jpg"
-        sectionImage="/static/images/winery/Mile-u-Krizu.jpg"
-        sectionImage1="/static/images/winery/Vinarija-Kriz-215.jpg"
+        headerImage={wineryHeaderImage}
+        sectionImage={winerySectionImage}
+        sectionImage1={winerySectionImage1}
         description={t('description')}
         text1={t('section1.text')}
         text2={t('section2.text')}
@@ -69,8 +74,8 @@ export default async function VineyardsPage({params}: PageProps) {
         text21={t('section21.text')}
         text22={t('section22.text')}
         text23={t('section23.text')}
-        headerCellarImage="/static/images/cellar/cellar-header.jpg"
-        headerCellarImage1="/static/images/cellar/cellar-header1.jpg"
+        headerCellarImage={cellarHeaderImage}
+        headerCellarImage1={cellarHeaderImage1}
       />
       
       <div className="space-y-2 pt-6 pb-8 md:space-y-5 mt-5">
@@ -81,7 +86,7 @@ export default async function VineyardsPage({params}: PageProps) {
       
       <section className="grid grid-cols-1 gap-x-10 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
         {products?.length > 0 ? (
-          products.map((product: Product, index: number) => (
+          products.map((product: Product) => (
             <Link
               href={`/${locale}/products/${product.slug[locale]}`}
               key={product._id}
@@ -92,8 +97,8 @@ export default async function VineyardsPage({params}: PageProps) {
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
                 <ProductImage
                   image={product.productImage}
-                  priority={index < 6}
                   className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
 

@@ -151,6 +151,7 @@ export default function BlogLayout({content, children}: Props) {
                 src={image} 
                 alt={imageAlt || 'Blog featured image'} 
                 fill 
+                sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover transition-transform duration-[2s] ease-out hover:scale-105" 
                 priority
               />

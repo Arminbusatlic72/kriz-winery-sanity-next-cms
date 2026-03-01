@@ -668,7 +668,7 @@ export type SitemapDataResult = Array<
 
 // Source: sanity/lib/queries.ts
 // Variable: allPostsQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage {      asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }  },  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      hotspot,      crop,      "metadata": asset->metadata{        dimensions {          width,          height,          aspectRatio        },        lqip,        palette      },      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
 export type AllPostsQueryResult = Array<{
   _id: string
   status: 'draft' | 'published'
@@ -679,17 +679,24 @@ export type AllPostsQueryResult = Array<{
   }
   excerpt: string | null
   coverImage: {
-    asset?: {
+    asset: {
       _ref: string
       _type: 'reference'
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
+    } | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
+    alt: string | null
+    metadata: {
+      dimensions: {
+        width: number | null
+        height: number | null
+        aspectRatio: number | null
+      } | null
+      lqip: string | null
+      palette: SanityImagePalette | null
+    } | null
   }
   date: string
   author: {
@@ -697,6 +704,17 @@ export type AllPostsQueryResult = Array<{
     lastName: string
     picture: {
       alt: string | null
+      hotspot: SanityImageHotspot | null
+      crop: SanityImageCrop | null
+      metadata: {
+        dimensions: {
+          width: number | null
+          height: number | null
+          aspectRatio: number | null
+        } | null
+        lqip: string | null
+        palette: SanityImagePalette | null
+      } | null
       asset: {
         _id: string
         url: string | null
@@ -711,7 +729,7 @@ export type AllPostsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: morePostsQuery
-// Query: *[    _type == "post" &&    !(_id in [$skip, "drafts." + $skip]) &&    (defined(slug.en.current) || defined(slug.hr.current))  ] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
+// Query: *[    _type == "post" &&    !(_id in [$skip, "drafts." + $skip]) &&    (defined(slug.en.current) || defined(slug.hr.current))  ] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  coverImage {      asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }  },  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName,  picture{      alt,      hotspot,      crop,      "metadata": asset->metadata{        dimensions {          width,          height,          aspectRatio        },        lqip,        palette      },      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }},  }
 export type MorePostsQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
@@ -728,7 +746,7 @@ export type PagesSlugsResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: productsQuery
-// Query: *[_type == "product"] | order(date asc) {  _id,  title,  description,  price,  excerpt,  content,  productImage{    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{firstName, lastName}}
+// Query: *[_type == "product"] | order(date asc) {  _id,  title,  description,  price,  excerpt,  content,  productImage{      asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{firstName, lastName}}
 export type ProductsQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
@@ -738,7 +756,7 @@ export type AllProductSlugsQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
 // Variable: productBySlugQuery
-// Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    price,    content,    excerpt,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
+// Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    price,    content,    excerpt,    productImage{        asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
 export type ProductBySlugQueryResult = null
 
 // Source: sanity/lib/queries.ts
@@ -748,17 +766,17 @@ export type ProductPagesSlugsResult = Array<never>
 
 // Source: sanity/lib/queries.ts
 // Variable: productQuery
-// Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    content,    price,    excerpt,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
+// Query: *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{    _id,    title,    description,    content,    price,    excerpt,    productImage{        asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    },    date,    author->{firstName, lastName}  }
 export type ProductQueryResult = null
 
 // Source: sanity/lib/queries.ts
 // Variable: featuredProductsQuery
-// Query: *[_type == "product" && featured == true] | order(date desc) [0...3] {    _id,    title,    description,    price,    productImage{      asset,      alt    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
+// Query: *[_type == "product" && featured == true] | order(date desc) [0...3] {    _id,    title,    description,    price,    productImage{        asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }
 export type FeaturedProductsQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
 // Variable: searchQuery
-// Query: *[    _type == "post" &&    defined(title) &&    title match $searchTerm  ]{    _id,    title,    slug,    excerpt,    mainImage  }
+// Query: *[    _type == "post" &&    defined(title) &&    title match $searchTerm  ]{    _id,    title,    slug,    excerpt,    mainImage {        asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }    }  }
 export type SearchQueryResult = Array<{
   _id: string
   title: string
@@ -769,7 +787,7 @@ export type SearchQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: postsQuery
-// Query: *[_type == "post"] | order(date desc) {  _id,  title,  excerpt,  content,  coverImage {    asset,    alt  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{    firstName,    lastName,     picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
+// Query: *[_type == "post"] | order(date desc) {  _id,  title,  excerpt,  content,  coverImage {      asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }  },  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  date,  author->{    firstName,    lastName,     picture{      alt,      hotspot,      crop,      "metadata": asset->metadata{        dimensions {          width,          height,          aspectRatio        },        lqip,        palette      },      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
 export type PostsQueryResult = Array<{
   _id: string
   title: string
@@ -782,7 +800,18 @@ export type PostsQueryResult = Array<{
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     } | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
     alt: string | null
+    metadata: {
+      dimensions: {
+        width: number | null
+        height: number | null
+        aspectRatio: number | null
+      } | null
+      lqip: string | null
+      palette: SanityImagePalette | null
+    } | null
   }
   slug: {
     en: null
@@ -794,6 +823,17 @@ export type PostsQueryResult = Array<{
     lastName: string
     picture: {
       alt: string | null
+      hotspot: SanityImageHotspot | null
+      crop: SanityImageCrop | null
+      metadata: {
+        dimensions: {
+          width: number | null
+          height: number | null
+          aspectRatio: number | null
+        } | null
+        lqip: string | null
+        palette: SanityImagePalette | null
+      } | null
       asset: {
         _id: string
         url: string | null
@@ -814,7 +854,7 @@ export type PostsPagesSlugsResult = Array<never>
 
 // Source: sanity/lib/queries.ts
 // Variable: postQuery
-// Query: *[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{  _id,  title,  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  content,  coverImage{    asset,    alt  },  date,  author->{    firstName,    lastName,    picture{      alt,      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
+// Query: *[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{  _id,  title,  "slug": {    "en": slug.en.current,    "hr": slug.hr.current  },  excerpt,  content,  coverImage{      asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }  },  date,  author->{    firstName,    lastName,    picture{      alt,      hotspot,      crop,      "metadata": asset->metadata{        dimensions {          width,          height,          aspectRatio        },        lqip,        palette      },      asset->{        _id,        url,        metadata { lqip, dimensions }      }    }  },  category->{    "title": {      "en": title.en,      "hr": title.hr    },    "slug": {      "en": slug.en.current,      "hr": slug.hr.current    }  }}
 export type PostQueryResult = {
   _id: string
   title: string
@@ -831,7 +871,18 @@ export type PostQueryResult = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     } | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
     alt: string | null
+    metadata: {
+      dimensions: {
+        width: number | null
+        height: number | null
+        aspectRatio: number | null
+      } | null
+      lqip: string | null
+      palette: SanityImagePalette | null
+    } | null
   }
   date: string | null
   author: {
@@ -839,6 +890,17 @@ export type PostQueryResult = {
     lastName: string
     picture: {
       alt: string | null
+      hotspot: SanityImageHotspot | null
+      crop: SanityImageCrop | null
+      metadata: {
+        dimensions: {
+          width: number | null
+          height: number | null
+          aspectRatio: number | null
+        } | null
+        lqip: string | null
+        palette: SanityImagePalette | null
+      } | null
       asset: {
         _id: string
         url: string | null
@@ -859,7 +921,7 @@ export type CategoriesQueryResult = Array<never>
 
 // Source: sanity/lib/queries.ts
 // Variable: postsByCategoryQuery
-// Query: *[  _type == "post" &&  category->slug[$locale].current == $category] | order(publishedAt desc){  _id,  "title": title[$locale],  "slug": slug[$locale].current,  "excerpt": excerpt[$locale],  publishedAt,  coverImage,  "category": category->{    _id,    "title": title[$locale],    "slug": slug[$locale].current  }}
+// Query: *[  _type == "post" &&  category->slug[$locale].current == $category] | order(publishedAt desc){  _id,  "title": title[$locale],  "slug": slug[$locale].current,  "excerpt": excerpt[$locale],  publishedAt,  coverImage {      asset,  hotspot,  crop,  alt,  "metadata": asset->metadata{    dimensions {      width,      height,      aspectRatio    },    lqip,    palette  }  },  "category": category->{    _id,    "title": title[$locale],    "slug": slug[$locale].current  }}
 export type PostsByCategoryQueryResult = Array<{
   _id: string
   title: Array<string>
@@ -867,17 +929,24 @@ export type PostsByCategoryQueryResult = Array<{
   excerpt: Array<string> | null
   publishedAt: null
   coverImage: {
-    asset?: {
+    asset: {
       _ref: string
       _type: 'reference'
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
+    } | null
+    hotspot: SanityImageHotspot | null
+    crop: SanityImageCrop | null
+    alt: string | null
+    metadata: {
+      dimensions: {
+        width: number | null
+        height: number | null
+        aspectRatio: number | null
+      } | null
+      lqip: string | null
+      palette: SanityImagePalette | null
+    } | null
   }
   category: null
 }>
@@ -889,23 +958,23 @@ declare module '@sanity/client' {
     '*[_type == "settings"][0]': SettingsQueryResult
     '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
-    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': AllPostsQueryResult
-    '\n  *[\n    _type == "post" &&\n    !(_id in [$skip, "drafts." + $skip]) &&\n    (defined(slug.en.current) || defined(slug.hr.current))\n  ] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': MorePostsQueryResult
+    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage {\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      hotspot,\n      crop,\n      "metadata": asset->metadata{\n        dimensions {\n          width,\n          height,\n          aspectRatio\n        },\n        lqip,\n        palette\n      },\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': AllPostsQueryResult
+    '\n  *[\n    _type == "post" &&\n    !(_id in [$skip, "drafts." + $skip]) &&\n    (defined(slug.en.current) || defined(slug.hr.current))\n  ] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  coverImage {\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName,  picture{\n      alt,\n      hotspot,\n      crop,\n      "metadata": asset->metadata{\n        dimensions {\n          width,\n          height,\n          aspectRatio\n        },\n        lqip,\n        palette\n      },\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }},\n\n  }\n': MorePostsQueryResult
     '\n  *[_type == "post" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n':
       | PostPagesSlugsResult
       | PostsPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
-    '*[_type == "product"] | order(date asc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult
+    '*[_type == "product"] | order(date asc) {\n  _id,\n  title,\n  description,\n  price,\n  excerpt,\n  content,\n  productImage{\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{firstName, lastName}\n}': ProductsQueryResult
     '\n  *[_type == "product" && (defined(slug.en.current) || defined(slug.hr.current))]{\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n':
       | AllProductSlugsQueryResult
       | ProductPagesSlugsResult
-    '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    price,\n    content,\n    excerpt,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductBySlugQueryResult
-    '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    content,\n    price,\n    excerpt,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductQueryResult
-    '\n  *[_type == "product" && featured == true] | order(date desc) [0...3] {\n    _id,\n    title,\n    description,\n    price,\n    productImage{\n      asset,\n      alt\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': FeaturedProductsQueryResult
-    '\n  *[\n    _type == "post" &&\n    defined(title) &&\n    title match $searchTerm\n  ]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    mainImage\n  }\n': SearchQueryResult
-    '*[_type == "post"] | order(date desc) {\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage {\n    asset,\n    alt\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n     picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }\n\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}': PostsQueryResult
-    '\n*[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n  _id,\n  title,\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  content,\n  coverImage{\n    asset,\n    alt\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n    picture{\n      alt,\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}\n\n': PostQueryResult
+    '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    price,\n    content,\n    excerpt,\n    productImage{\n      \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductBySlugQueryResult
+    '\n  *[_type == "product" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n    _id,\n    title,\n    description,\n    content,\n    price,\n    excerpt,\n    productImage{\n      \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    },\n    date,\n    author->{firstName, lastName}\n  }\n': ProductQueryResult
+    '\n  *[_type == "product" && featured == true] | order(date desc) [0...3] {\n    _id,\n    title,\n    description,\n    price,\n    productImage{\n      \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n': FeaturedProductsQueryResult
+    '\n  *[\n    _type == "post" &&\n    defined(title) &&\n    title match $searchTerm\n  ]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    mainImage {\n      \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n    }\n  }\n': SearchQueryResult
+    '*[_type == "post"] | order(date desc) {\n  _id,\n  title,\n  excerpt,\n  content,\n  coverImage {\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n     picture{\n      alt,\n      hotspot,\n      crop,\n      "metadata": asset->metadata{\n        dimensions {\n          width,\n          height,\n          aspectRatio\n        },\n        lqip,\n        palette\n      },\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }\n\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}': PostsQueryResult
+    '\n*[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n  _id,\n  title,\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  content,\n  coverImage{\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n    picture{\n      alt,\n      hotspot,\n      crop,\n      "metadata": asset->metadata{\n        dimensions {\n          width,\n          height,\n          aspectRatio\n        },\n        lqip,\n        palette\n      },\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}\n\n': PostQueryResult
     '\n  *[_type == "category"] | order(title.en asc){\n    _id,\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n  ': CategoriesQueryResult
-    '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug[$locale].current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage,\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
+    '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug[$locale].current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage {\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
   }
 }

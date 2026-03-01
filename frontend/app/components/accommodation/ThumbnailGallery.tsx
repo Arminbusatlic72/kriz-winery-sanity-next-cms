@@ -5,7 +5,7 @@ import Image from 'next/image'
 import ImageLightbox from './ImageLightbox'
 
 interface ThumbnailGalleryProps {
-  images: string[]
+  images: Array<string | {src: string; blurDataURL?: string; alt?: string}>
   onThumbnailClick?: (index: number) => void
 }
 
@@ -14,7 +14,7 @@ const ThumbnailItem = memo(({
   index, 
   onClick 
 }: { 
-  src: string; 
+  src: string | {src: string; blurDataURL?: string; alt?: string}; 
   index: number; 
   onClick: (index: number) => void 
 }) => (
@@ -25,10 +25,13 @@ const ThumbnailItem = memo(({
     aria-label={`View image ${index + 1}`}
   >
     <Image
-      src={src}
-      alt={`Accommodation image ${index + 1}`}
+      src={typeof src === 'string' ? src : src.src}
+      alt={typeof src === 'string' ? `Accommodation image ${index + 1}` : (src.alt ?? `Accommodation image ${index + 1}`)}
       fill
       sizes="(max-width: 1024px) 100vw, 33vw"
+      quality={85}
+      placeholder={typeof src === 'string' || !src.blurDataURL ? 'empty' : 'blur'}
+      blurDataURL={typeof src === 'string' ? undefined : src.blurDataURL}
       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
     />
   </button>

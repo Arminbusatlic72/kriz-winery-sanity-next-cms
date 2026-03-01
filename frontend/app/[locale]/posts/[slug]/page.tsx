@@ -234,6 +234,7 @@ export default async function PostPage({params}: Props) {
             <CoverImage 
               image={{...post.coverImage, alt: imageAlt}} 
               priority 
+              sizes="(max-width: 1024px) 100vw, 1200px"
               className="object-cover transition-transform duration-[2s] scale-100 hover:scale-105"
             />
           </div>
