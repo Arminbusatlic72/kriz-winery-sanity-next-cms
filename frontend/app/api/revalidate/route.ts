@@ -51,13 +51,32 @@ export async function POST(req: NextRequest) {
   const postSlug = getLocalizedSlugs(payload.slug)
   const categorySlug = getLocalizedSlugs(payload.category?.slug)
 
-  const paths = new Set<string>(['/en/posts', '/hr/postovi', '/en/blog', '/hr/blog'])
+  const paths = new Set<string>([
+    '/en/posts',
+    '/hr/postovi',
+    '/hr/posts',
+    '/en/postovi',
+    '/en/blog',
+    '/hr/blog',
+  ])
 
-  if (categorySlug.en) paths.add(`/en/posts/category/${categorySlug.en}`)
-  if (categorySlug.hr) paths.add(`/hr/postovi/kategorija/${categorySlug.hr}`)
+  if (categorySlug.en) {
+    paths.add(`/en/posts/category/${categorySlug.en}`)
+    paths.add(`/en/postovi/kategorija/${categorySlug.en}`)
+  }
+  if (categorySlug.hr) {
+    paths.add(`/hr/postovi/kategorija/${categorySlug.hr}`)
+    paths.add(`/hr/posts/category/${categorySlug.hr}`)
+  }
 
-  if (postSlug.en) paths.add(`/en/posts/${postSlug.en}`)
-  if (postSlug.hr) paths.add(`/hr/postovi/${postSlug.hr}`)
+  if (postSlug.en) {
+    paths.add(`/en/posts/${postSlug.en}`)
+    paths.add(`/en/postovi/${postSlug.en}`)
+  }
+  if (postSlug.hr) {
+    paths.add(`/hr/postovi/${postSlug.hr}`)
+    paths.add(`/hr/posts/${postSlug.hr}`)
+  }
 
   if (payload._type === 'category') {
     paths.add('/en/posts')
@@ -66,11 +85,19 @@ export async function POST(req: NextRequest) {
 
   if (payload._type === 'product') {
     paths.add('/en/products')
+    paths.add('/en/proizvodi')
     paths.add('/hr/proizvodi')
     paths.add('/hr/products')
 
-    if (postSlug.en) paths.add(`/en/products/${postSlug.en}`)
+    if (postSlug.en) {
+      paths.add(`/en/products/${postSlug.en}`)
+      paths.add(`/en/proizvodi/${postSlug.en}`)
+      paths.add(`/hr/products/${postSlug.en}`)
+      paths.add(`/hr/proizvodi/${postSlug.en}`)
+    }
     if (postSlug.hr) {
+      paths.add(`/en/products/${postSlug.hr}`)
+      paths.add(`/en/proizvodi/${postSlug.hr}`)
       paths.add(`/hr/proizvodi/${postSlug.hr}`)
       paths.add(`/hr/products/${postSlug.hr}`)
     }
