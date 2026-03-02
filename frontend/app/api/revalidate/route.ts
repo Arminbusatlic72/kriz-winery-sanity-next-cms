@@ -64,6 +64,18 @@ export async function POST(req: NextRequest) {
     paths.add('/hr/postovi')
   }
 
+  if (payload._type === 'product') {
+    paths.add('/en/products')
+    paths.add('/hr/proizvodi')
+    paths.add('/hr/products')
+
+    if (postSlug.en) paths.add(`/en/products/${postSlug.en}`)
+    if (postSlug.hr) {
+      paths.add(`/hr/proizvodi/${postSlug.hr}`)
+      paths.add(`/hr/products/${postSlug.hr}`)
+    }
+  }
+
   for (const path of paths) {
     revalidatePath(path)
   }
