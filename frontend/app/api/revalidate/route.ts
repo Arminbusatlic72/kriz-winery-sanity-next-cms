@@ -21,10 +21,31 @@ function getLocalizedSlugs(value: unknown): {en?: string; hr?: string} {
   }
 
   if (typeof value === 'object') {
-    const maybeSlug = value as {en?: string; hr?: string}
+    const maybeSlug = value as {
+      en?: string | {current?: string}
+      hr?: string | {current?: string}
+      current?: string
+    }
+
+    const enValue =
+      typeof maybeSlug.en === 'string'
+        ? maybeSlug.en
+        : typeof maybeSlug.en?.current === 'string'
+          ? maybeSlug.en.current
+          : undefined
+
+    const hrValue =
+      typeof maybeSlug.hr === 'string'
+        ? maybeSlug.hr
+        : typeof maybeSlug.hr?.current === 'string'
+          ? maybeSlug.hr.current
+          : undefined
+
+    const fallbackCurrent = typeof maybeSlug.current === 'string' ? maybeSlug.current : undefined
+
     return {
-      en: typeof maybeSlug.en === 'string' ? maybeSlug.en : undefined,
-      hr: typeof maybeSlug.hr === 'string' ? maybeSlug.hr : undefined,
+      en: enValue ?? fallbackCurrent,
+      hr: hrValue ?? fallbackCurrent,
     }
   }
 
