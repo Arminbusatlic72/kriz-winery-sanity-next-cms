@@ -116,7 +116,7 @@ export default function ImageLightbox({
         {/* Close button */}
         <button
           type="button"
-          className="absolute -top-12 right-0 text-3xl text-white p-2 hover:bg-white/10 rounded cursor-pointer transition-colors"
+         className="absolute top-2 right-2 md:-top-12 md:right-0 text-3xl text-white p-2 hover:bg-white/10 rounded cursor-pointer transition-colors"
           onClick={onClose}
           aria-label="Close lightbox"
         >
