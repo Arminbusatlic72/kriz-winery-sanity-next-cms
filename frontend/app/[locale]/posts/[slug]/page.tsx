@@ -199,11 +199,11 @@ export default async function PostPage({params}: Props) {
         <div className="space-y-8">
           {/* Subtle Category/Date Label */}
           <div className="flex items-center justify-center space-x-4">
-             <span className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">
+             <span className="text-[10px] uppercase tracking-[0.3em] text-gray-600 dark:text-neutral-400 font-bold">
                Insight
              </span>
              <span className="h-[1px] w-8 bg-gray-200 dark:bg-neutral-800" />
-             <span className="text-[10px] uppercase tracking-[0.3em] text-gray-400">
+             <span className="text-[10px] uppercase tracking-[0.3em] text-gray-600 dark:text-neutral-400">
                 {post.date ? new Date(post.date).toLocaleDateString(locale) : 'Archive'}
              </span>
           </div>
@@ -267,7 +267,7 @@ export default async function PostPage({params}: Props) {
         <div className="hidden md:block h-[1px] flex-grow mx-8 bg-neutral-100 dark:bg-neutral-800" />
       </div>
 
-      <Suspense fallback={<div className="h-64 animate-pulse bg-neutral-50 dark:bg-neutral-900" />}>
+      <Suspense fallback={<div className="h-64 animate-pulse rounded-sm border border-neutral-100 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900" />}>
         <div className="opacity-90 hover:opacity-100 transition-opacity duration-500">
           <MorePosts skip={post._id} limit={2} locale={locale as 'en' | 'hr'} />
         </div>

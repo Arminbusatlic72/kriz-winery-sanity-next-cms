@@ -79,9 +79,9 @@ export default async function CategoryPage({params}: Props) {
         <span className="text-[10px] uppercase tracking-[0.5em] text-gray-400 font-bold block mb-4">
           {locale === 'en' ? 'Browsing Category' : 'Kategorija'}
         </span>
-        <h1 className="font-strangelove text-6xl sm:text-7xl md:text-8xl text-gray-950 dark:text-white leading-[0.85] tracking-tighter">
+        <h2 className="font-strangelove text-6xl sm:text-7xl md:text-8xl text-gray-950 dark:text-white leading-[0.85] tracking-normal">
           {activeCategory ? activeCategory.title[locale] : category}
-        </h1>
+        </h2>
         <div className="mt-8 h-[1px] w-24 bg-black dark:bg-white" />
       </header>
 

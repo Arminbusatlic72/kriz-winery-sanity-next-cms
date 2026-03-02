@@ -198,7 +198,7 @@ const Post = ({post, locale}: {post: AllPostsQueryResult[number]; locale: Locale
     <article
       data-sanity={attr()}
       key={_id}
-      className="border border-gray-200 rounded-sm p-6 bg-gray-50 flex flex-col justify-between transition-colors hover:bg-white relative"
+      className="border border-gray-200 dark:border-neutral-800 rounded-sm p-6 bg-gray-50 dark:bg-neutral-900 flex flex-col justify-between transition-colors hover:bg-white dark:hover:bg-neutral-700 relative"
     >
       <Link
         className="hover:text-brand underline transition-colors"
@@ -207,21 +207,21 @@ const Post = ({post, locale}: {post: AllPostsQueryResult[number]; locale: Locale
         <span className="absolute inset-0 z-10" />
       </Link>
       <div>
-        <h3 className="text-2xl font-bold mb-4 leading-tight">{localizedTitle}</h3>
+        <h3 className="text-2xl font-bold mb-4 leading-tight text-gray-900 dark:text-neutral-100">{localizedTitle}</h3>
         {localizedExcerpt && (
-          <p className="line-clamp-3 text-sm leading-6 text-gray-600 max-w-[70ch]">
+          <p className="line-clamp-3 text-sm leading-6 text-gray-600 dark:text-neutral-300 max-w-[70ch]">
             {localizedExcerpt}
           </p>
         )}
       </div>
-      <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
+      <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100 dark:border-neutral-800">
         {authorForAvatar && authorForAvatar.firstName && authorForAvatar.lastName && (
           <div className="flex items-center">
             {/* ✅ now using normalized object */}
             <Avatar person={authorForAvatar} small />
           </div>
         )}
-        <time className="text-gray-500 text-xs font-mono" dateTime={date}>
+        <time className="text-gray-500 dark:text-neutral-400 text-xs font-mono" dateTime={date}>
           <DateComponent dateString={date} />
         </time>
       </div>
@@ -240,9 +240,9 @@ const Posts = ({
 }) => (
   <div>
     {heading && (
-      <h3 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">{heading}</h3>
+      <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">{heading}</h3>
     )}
-    {subHeading && <p className="mt-2 text-lg leading-8 text-gray-600">{subHeading}</p>}
+    {subHeading && <p className="mt-2 text-lg leading-8 text-gray-600 dark:text-neutral-300">{subHeading}</p>}
     <div className="pt-6 space-y-6">{children}</div>
   </div>
 )
@@ -266,7 +266,7 @@ export const MorePosts = async ({
   }
 
   return (
-    <Posts heading={`Recent Posts (${data?.length})`}>
+    <Posts heading="Recent Posts">
       {data?.map((post: any) => (
         <Post key={post._id} post={post} locale={locale as 'en' | 'hr'} />
       ))}

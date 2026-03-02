@@ -1,47 +1,37 @@
-// 'use client'
 
-// import {useEffect, useState} from 'react'
-// import Image from 'next/image'
-// import {useTheme} from 'next-themes'
-
-// export function HeroBackground() {
-//   const {theme} = useTheme()
-//   const [mounted, setMounted] = useState(false)
-
-//   useEffect(() => setMounted(true), [])
-
-//   const lightImage = '/static/images/home/pozadina-crtezF.png'
-//   const darkImage = '/static/images/home/pozadina-crtezF-modified.png'
-
-//   // SSR renders light image by default
-//   const bgImage = mounted && theme === 'dark' ? darkImage : lightImage
-
-//   return (
-//     <Image
-//       src={bgImage}
-//       alt="Background"
-//       fill
-//       className="object-cover"
-//       priority={true}
-//       loading="eager"
-//     />
-//   )
-// }
-
-// 'use client'
 
 import Image from 'next/image'
 
 export function HeroBackground() {
   return (
     <>
+      {/* Mobile background */}
+      <Image
+        src="/static/images/home/Križ-naslovnicaMob.png"
+        alt="Background"
+        fill
+        className="block object-contain dark:hidden md:hidden"
+        priority
+        sizes="100vw"
+        quality={75}
+      />
+
+      {/* Mobile dark mode background */}
+      <Image
+        src="/static/images/home/Križ-naslovnicaMob-modified.png"
+        alt="Background"
+        fill
+        className="hidden object-contain dark:block md:dark:hidden"
+        sizes="100vw"
+        quality={75}
+      />
+
       {/* Light mode background */}
       <Image
         src="/static/images/home/Križ-naslovnica.png"
         alt="Background"
         fill
-        className="object-cover md:object-contain dark:hidden"
-        priority={true}
+        className="hidden object-cover dark:hidden md:block md:object-contain"
         sizes="100vw"
         quality={75}
       />
@@ -51,7 +41,7 @@ export function HeroBackground() {
         src="/static/images/home/Križ-naslovnica-modified.png"
         alt="Background"
         fill
-        className="object-cover md:object-contain hidden dark:block"
+        className="hidden md:dark:block md:object-contain"
         sizes="100vw"
         quality={75}
       />

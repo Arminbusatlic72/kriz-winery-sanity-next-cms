@@ -1,7 +1,7 @@
 import {sanityFetch} from '@/sanity/lib/live'
 import {postsQuery, categoriesQuery} from '@/sanity/lib/queries'
 import {getTranslations} from 'next-intl/server'
-import blogImage from '@/public/static/images/blog/blogImg.jpg'
+import blogImage from '@/public/static/images/blog/blog.jpg'
 import Link from 'next/link'
 import BlogLayout from '@/app/layouts/BlogLayout'
 import ProductImage from '@/app/components/ProductImage'
@@ -40,7 +40,7 @@ export default async function BlogPage({params}: Props) {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-950 dark:text-white">
                 {t('categories')}
               </span>
-              <ChevronDownIcon className="h-4 w-4 text-gray-400 transition-transform duration-300 group-data-[open]:rotate-180" />
+              <ChevronDownIcon className="h-4 w-4 text-gray-600 dark:text-neutral-400 transition-transform duration-300 group-data-[open]:rotate-180" />
             </PopoverButton>
 
             <PopoverPanel
@@ -89,12 +89,12 @@ export default async function BlogPage({params}: Props) {
                     <header className="mt-6 flex flex-col space-y-3">
                       <div className="flex items-center space-x-3">
                         {post.category?.title && (
-                          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400">
+                          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-600 dark:text-neutral-400">
                             {post.category.title[locale]}
                           </span>
                         )}
                         <span className="h-[1px] w-4 bg-gray-200" />
-                        <span className="text-[10px] uppercase tracking-[0.15em] text-gray-300">
+                        <span className="text-[10px] uppercase tracking-[0.15em] text-gray-600 dark:text-neutral-400">
                            {/* Add date here if you have it */}
                            {new Date().getFullYear()} 
                         </span>
@@ -138,7 +138,7 @@ export default async function BlogPage({params}: Props) {
           </section>
         ) : (
           <div className="flex flex-col items-center justify-center border-t border-gray-100 py-24 dark:border-neutral-800">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400">No archives found</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-600 dark:text-neutral-400">No archives found</p>
           </div>
         )}
       </main>
