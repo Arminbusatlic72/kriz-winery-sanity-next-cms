@@ -20,7 +20,7 @@ const ThumbnailItem = memo(({
 }) => (
   <button
     type="button"
-    className="relative h-48 w-full overflow-hidden shadow-md cursor-pointer group"
+    className="relative h-48 w-full overflow-hidden shadow-md cursor-pointer group border border-transparent transition-colors duration-300 hover:border-gray-300 dark:hover:border-gray-600"
     onClick={() => onClick(index)}
     aria-label={`View image ${index + 1}`}
   >
@@ -32,7 +32,7 @@ const ThumbnailItem = memo(({
       quality={85}
       placeholder={typeof src === 'string' || !src.blurDataURL ? 'empty' : 'blur'}
       blurDataURL={typeof src === 'string' ? undefined : src.blurDataURL}
-      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+      className="object-cover"
     />
   </button>
 ))

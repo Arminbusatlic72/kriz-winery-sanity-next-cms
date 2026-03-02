@@ -36,7 +36,7 @@ const ThumbnailGallery = memo(({
           <button
             key={`thumb-${idx}`}
             type="button"
-            className="relative h-48 w-full overflow-hidden shadow-md cursor-pointer group"
+            className="relative h-48 w-full overflow-hidden shadow-md cursor-pointer group border border-transparent transition-colors duration-300 hover:border-gray-300 dark:hover:border-gray-600"
             onClick={() => onThumbnailClick(idx + 1)}
             aria-label={`View image ${idx + 2}`}
           >
@@ -48,7 +48,7 @@ const ThumbnailGallery = memo(({
               quality={85}
               placeholder={blurDataURL ? 'blur' : 'empty'}
               blurDataURL={blurDataURL}
-              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+              className="object-cover"
             />
           </button>
           )
@@ -106,7 +106,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
       {images[0] && (
         <button
           type="button"
-          className="relative h-96 w-full overflow-hidden shadow-md cursor-pointer group lg:col-span-2"
+          className="relative h-96 w-full overflow-hidden shadow-md cursor-pointer group border border-transparent transition-colors duration-300 hover:border-gray-300 dark:hover:border-gray-600 lg:col-span-2"
           onClick={() => openImage(0)}
           aria-label="View main accommodation image"
         >
@@ -118,7 +118,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
             quality={85}
             placeholder={typeof images[0] === 'string' || !images[0].blurDataURL ? 'empty' : 'blur'}
             blurDataURL={typeof images[0] === 'string' ? undefined : images[0].blurDataURL}
-            className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+            className="object-cover"
           />
         </button>
       )}
