@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server'
 
-const faviconPath = '/static/images/logo/kriz-logo.jpg'
+const faviconPath = '/static/images/logo/kriz-favicon.jpg'
 
 export function GET(request: NextRequest) {
   return NextResponse.redirect(new URL(faviconPath, request.url))

@@ -69,9 +69,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: toPlainText(description),
     icons: {
-      icon: '/static/images/logo/kriz-logo.jpg',
-      shortcut: '/static/images/logo/kriz-logo.jpg',
-      apple: '/static/images/logo/kriz-logo.jpg',
+      icon: '/static/images/logo/kriz-favicon.jpg',
+      shortcut: '/static/images/logo/kriz-favicon.jpg',
+      apple: '/static/images/logo/kriz-favicon.jpg',
     },
     openGraph: {
       images: ogImage ? [ogImage] : [],
