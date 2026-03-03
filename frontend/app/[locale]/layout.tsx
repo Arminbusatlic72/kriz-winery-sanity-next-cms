@@ -3,8 +3,6 @@ import '@/app/globals.css'
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
-import {draftMode} from 'next/headers'
-import {VisualEditing} from 'next-sanity/visual-editing'
 import {toPlainText} from 'next-sanity'
 
 import {setRequestLocale} from 'next-intl/server'
@@ -12,15 +10,13 @@ import {NextIntlClientProvider, hasLocale} from 'next-intl'
 import {notFound} from 'next/navigation'
 import {routing} from '@/i18n/routing'
 
-import DraftModeToast from '@/app/components/DraftModeToast'
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'
 import SectionContainer from '@/app/components/SectionContainer'
 import * as demo from '@/sanity/lib/demo'
-import {sanityFetch, SanityLive} from '@/sanity/lib/live'
+import {sanityFetch} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
-import {handleError} from '../client-utils'
 import ClientToaster from '@/app/components/ClientToaster'
 
 import {ThemeProviders} from '../theme-providers'
@@ -94,7 +90,6 @@ export function generateStaticParams() {
 }
 
 export default async function RootLayout({children, params}: Props) {
-  const {isEnabled: isDraftMode} = await draftMode()
   const {locale} = await params
   if (!hasLocale(routing.locales, locale)) {
     notFound()
@@ -119,13 +114,6 @@ export default async function RootLayout({children, params}: Props) {
           <SectionContainer>
             <section className="min-h-screen flex flex-col">
               <ClientToaster />
-              {isDraftMode && (
-                <>
-                  <DraftModeToast />
-                  <VisualEditing />
-                  <SanityLive onError={handleError} />
-                </>
-              )}
               <NextIntlClientProvider locale={locale} messages={clientMessages}>
                 <Header locale={locale} navLinks={clientMessages.nav} />
                 <main className="flex-grow">{children}</main>
