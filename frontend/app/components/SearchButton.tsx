@@ -1,6 +1,10 @@
 'use client'
 import {useState} from 'react'
-import SearchModal from './SearchModal'
+import dynamic from 'next/dynamic'
+
+const SearchModal = dynamic(() => import('./SearchModal'), {
+  ssr: false,
+})
 
 interface SearchButtonProps {
   locale: string

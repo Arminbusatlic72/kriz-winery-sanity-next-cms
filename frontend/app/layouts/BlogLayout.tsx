@@ -58,6 +58,7 @@ export default function BlogLayout({content, children}: Props) {
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover transition-transform duration-[2s] ease-out hover:scale-105" 
                 priority
+                fetchPriority="high"
               />
               
               {/* Subtle Overlay for depth */}

@@ -1,12 +1,12 @@
 import type {Metadata} from 'next'
-import {sanityFetch} from '@/sanity/lib/live'
-import {postsQuery, categoriesQuery} from '@/sanity/lib/queries'
+import {Suspense} from 'react'
 import {getTranslations} from 'next-intl/server'
 import blogImage from '@/public/static/images/blog/blog.jpg'
 import Link from 'next/link'
 import BlogLayout from '@/app/layouts/BlogLayout'
-import ProductImage from '@/app/components/ProductImage'
 import {Popover, PopoverButton, PopoverPanel} from '@headlessui/react'
+import {getLocalizedCategories} from '@/app/lib/listing-data'
+import PostList from '@/app/components/listings/PostList'
 
 type Props = {
   params: Promise<{locale: string}>
@@ -34,12 +34,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 export default async function BlogPage({params}: Props) {
   const {locale} = await params
   const t = await getTranslations('Blog')
-
-  // Fetch posts and categories concurrently
-  const [{data: posts}, {data: categories}] = await Promise.all([
-    sanityFetch({query: postsQuery}),
-    sanityFetch({query: categoriesQuery}),
-  ])
+  const categories = await getLocalizedCategories(locale)
 
   return (
     <BlogLayout
@@ -82,17 +77,20 @@ export default async function BlogPage({params}: Props) {
               >
                 {categories?.length > 0 ? (
                   <ul className="flex flex-col gap-0">
-                    {categories.map((category: any) => (
+                    {categories.map((category) => (
                       <li key={category._id}>
-                     
                         <Link
-                          href={`/${locale}/blog/category/${category[locale]}`}
+                          href={
+                            locale === 'hr'
+                              ? `/${locale}/postovi/kategorija/${category.slug}`
+                              : `/${locale}/posts/category/${category.slug}`
+                          }
                           className="block rounded-lg px-4 py-2 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset"
                           role="menuitem"
-                          aria-label={`Browse ${category.title[locale]} category`}
+                          aria-label={`Browse ${category.title} category`}
                         >
                           <span className="text-gray-700 dark:text-white/70 dark:hover:text-white font-medium">
-                            {category.title[locale]}
+                            {category.title}
                           </span>
                         </Link>
                       </li>
@@ -114,56 +112,20 @@ export default async function BlogPage({params}: Props) {
             Blog Posts
           </h2>
 
-          {posts?.length > 0 ? (
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Blog posts grid">
-              {posts.map((post: any) => (
-                <article
-                  key={post._id}
-                  className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-900"
-                >
-                  <Link
-                    href={`/${locale}/posts/${post.slug[locale]}`}
-                    className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg"
-                    aria-label={`Read article: ${post.title[locale]}`}
-                  >
-                    {post.coverImage && (
-                      <figure className="mb-4">
-                        <ProductImage
-                          image={post.coverImage}
-                          alt={post.title[locale] || 'Blog post cover image'}
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      </figure>
-                    )}
-
-                    <header>
-                      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                        {post.title[locale]}
-                      </h2>
-                    </header>
-
-                    {post.excerpt && (
-                      <div className="mt-2">
-                        <p className="text-gray-700 dark:text-gray-400 line-clamp-3">
-                          {post.excerpt[locale]}
-                        </p>
-                      </div>
-                    )}
-                  </Link>
-                </article>
-              ))}
-            </section>
-          ) : (
-            <section
-              className="flex items-center justify-center py-12"
-              role="status"
-              aria-live="polite"
-            >
-              <p className="text-gray-600 dark:text-gray-400 text-center">
-                No posts available at the moment.
-              </p>
-            </section>
-          )}
+          <Suspense
+            fallback={
+              <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Blog posts loading">
+                {Array.from({length: 4}).map((_, index) => (
+                  <div key={index} className="h-72 animate-pulse rounded-md bg-gray-100 dark:bg-neutral-900" />
+                ))}
+              </section>
+            }
+          >
+            <PostList
+              locale={locale === 'hr' ? 'hr' : 'en'}
+              pathPrefix={locale === 'hr' ? 'postovi' : 'posts'}
+            />
+          </Suspense>
         </main>
       </div>
     </BlogLayout>

@@ -6,7 +6,6 @@ import {Inter} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {toPlainText} from 'next-sanity'
-import {Toaster} from 'sonner'
 
 import {setRequestLocale} from 'next-intl/server'
 import {NextIntlClientProvider, hasLocale} from 'next-intl'
@@ -22,6 +21,7 @@ import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
 import {handleError} from '../client-utils'
+import ClientToaster from '@/app/components/ClientToaster'
 
 import {ThemeProviders} from '../theme-providers'
 
@@ -118,7 +118,7 @@ export default async function RootLayout({children, params}: Props) {
         <ThemeProviders>
           <SectionContainer>
             <section className="min-h-screen flex flex-col">
-              <Toaster />
+              <ClientToaster />
               {isDraftMode && (
                 <>
                   <DraftModeToast />
@@ -127,7 +127,7 @@ export default async function RootLayout({children, params}: Props) {
                 </>
               )}
               <NextIntlClientProvider locale={locale} messages={clientMessages}>
-                <Header locale={locale} />
+                <Header locale={locale} navLinks={clientMessages.nav} />
                 <main className="flex-grow">{children}</main>
                 <Footer />
               </NextIntlClientProvider>

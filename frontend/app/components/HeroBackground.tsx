@@ -12,6 +12,7 @@ export function HeroBackground() {
         fill
         className="block object-contain dark:hidden md:hidden"
         priority
+        fetchPriority="high"
         sizes="100vw"
         quality={75}
       />

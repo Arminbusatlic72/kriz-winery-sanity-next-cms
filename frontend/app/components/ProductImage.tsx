@@ -29,8 +29,12 @@ export default function ProductImage({
   if (!image?.asset?._ref) return null
 
   const {width: originalWidth, height: originalHeight} = getImageDimensions(image)
-  const targetWidth = width || originalWidth
-  const targetHeight = height || originalHeight
+  const maxGeneratedWidth = 1600
+  const computedWidth = width || Math.min(originalWidth, maxGeneratedWidth)
+  const computedHeight =
+    height || Math.round((computedWidth / Math.max(originalWidth, 1)) * originalHeight)
+  const targetWidth = Math.max(computedWidth, 1)
+  const targetHeight = Math.max(computedHeight, 1)
 
   const imageUrl = urlForImage(image)
     ?.width(targetWidth)

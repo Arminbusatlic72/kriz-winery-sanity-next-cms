@@ -426,3 +426,60 @@ export const postsByCategoryQuery = defineQuery(`
   }
 }
 `)
+
+const listingImageFields = /* groq */ `
+  alt,
+  hotspot,
+  crop,
+  "metadata": asset->metadata{
+    dimensions {
+      width,
+      height
+    },
+    lqip
+  },
+  asset
+`
+
+export const paginatedPostsQuery = defineQuery(`
+*[
+  _type == "post" &&
+  (defined(slug.en.current) || defined(slug.hr.current))
+] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{
+  _id,
+  "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),
+  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),
+  "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt.hr, ""),
+  "date": coalesce(date, _updatedAt),
+  coverImage {
+    ${listingImageFields}
+  },
+  "category": category->{
+    "title": coalesce(title[$locale], title.en, title.hr),
+    "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current)
+  }
+}
+`)
+
+export const paginatedProductsQuery = defineQuery(`
+*[
+  _type == "product" &&
+  (defined(slug.en.current) || defined(slug.hr.current))
+] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{
+  _id,
+  "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),
+  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),
+  "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt.hr, ""),
+  productImage {
+    ${listingImageFields}
+  }
+}
+`)
+
+export const localizedCategoriesQuery = defineQuery(`
+*[_type == "category"] | order(coalesce(title[$locale], title.en, title.hr) asc){
+  _id,
+  "title": coalesce(title[$locale], title.en, title.hr),
+  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current)
+}
+`)

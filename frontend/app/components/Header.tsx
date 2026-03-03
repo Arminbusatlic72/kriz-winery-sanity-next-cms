@@ -1,22 +1,15 @@
-'use client'
-
-import {useMessages} from 'next-intl'
 import {Link as LocaleLink} from '@/i18n/navigation'
 
 import BrandLink from './Link'
-import SearchButton from './SearchButton'
-import LanguageSwitcher from './LanguageSwitcher'
-import ThemeSwitch from './ThemeSwitch'
-import MobileNav from './MobileNav'
+import HeaderActions from './HeaderActions'
 
 interface HeaderProps {
   locale: string
+  navLinks: Array<{href: string; title: string}>
 }
 
-export default function Header({locale}: HeaderProps) {
-  const messages = useMessages() as {nav: Array<{href: string; title: string}>}
-  const headerNavLinks = messages.nav ?? []
-  const currentLocale = locale
+export default function Header({locale, navLinks}: HeaderProps) {
+  const headerNavLinks = navLinks ?? []
 
   let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10 h-20'
 
@@ -48,11 +41,7 @@ export default function Header({locale}: HeaderProps) {
             ))}
           </div>
 
-          <SearchButton locale={currentLocale} />
-          <LanguageSwitcher />
-          <ThemeSwitch />
-
-          <MobileNav links={headerNavLinks} />
+          <HeaderActions locale={locale} navLinks={headerNavLinks} />
         </div>
       </div>
     </header>

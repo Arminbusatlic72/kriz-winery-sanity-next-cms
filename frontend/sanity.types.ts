@@ -951,6 +951,21 @@ export type PostsByCategoryQueryResult = Array<{
   category: null
 }>
 
+// Source: sanity/lib/queries.ts
+// Variable: paginatedPostsQuery
+// Query: *[  _type == "post" &&  (defined(slug.en.current) || defined(slug.hr.current))] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{  _id,  "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),  "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt.hr, ""),  "date": coalesce(date, _updatedAt),  coverImage {      alt,  hotspot,  crop,  "metadata": asset->metadata{    dimensions {      width,      height    },    lqip  },  asset  },  "category": category->{    "title": coalesce(title[$locale], title.en, title.hr),    "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current)  }}
+export type PaginatedPostsQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
+// Variable: paginatedProductsQuery
+// Query: *[  _type == "product" &&  (defined(slug.en.current) || defined(slug.hr.current))] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{  _id,  "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),  "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt.hr, ""),  productImage {      alt,  hotspot,  crop,  "metadata": asset->metadata{    dimensions {      width,      height    },    lqip  },  asset  }}
+export type PaginatedProductsQueryResult = Array<never>
+
+// Source: sanity/lib/queries.ts
+// Variable: localizedCategoriesQuery
+// Query: *[_type == "category"] | order(coalesce(title[$locale], title.en, title.hr) asc){  _id,  "title": coalesce(title[$locale], title.en, title.hr),  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current)}
+export type LocalizedCategoriesQueryResult = Array<never>
+
 // Query TypeMap
 import '@sanity/client'
 declare module '@sanity/client' {
@@ -976,5 +991,8 @@ declare module '@sanity/client' {
     '\n*[_type == "post" && (slug.en.current == $slug || slug.hr.current == $slug)][0]{\n  _id,\n  title,\n  "slug": {\n    "en": slug.en.current,\n    "hr": slug.hr.current\n  },\n  excerpt,\n  content,\n  coverImage{\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  date,\n  author->{\n    firstName,\n    lastName,\n    picture{\n      alt,\n      hotspot,\n      crop,\n      "metadata": asset->metadata{\n        dimensions {\n          width,\n          height,\n          aspectRatio\n        },\n        lqip,\n        palette\n      },\n      asset->{\n        _id,\n        url,\n        metadata { lqip, dimensions }\n      }\n    }\n  },\n  category->{\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n}\n\n': PostQueryResult
     '\n  *[_type == "category"] | order(title.en asc){\n    _id,\n    "title": {\n      "en": title.en,\n      "hr": title.hr\n    },\n    "slug": {\n      "en": slug.en.current,\n      "hr": slug.hr.current\n    }\n  }\n  ': CategoriesQueryResult
     '\n*[\n  _type == "post" &&\n  category->slug[$locale].current == $category\n] | order(publishedAt desc){\n  _id,\n  "title": title[$locale],\n  "slug": slug[$locale].current,\n  "excerpt": excerpt[$locale],\n  publishedAt,\n  coverImage {\n    \n  asset,\n  hotspot,\n  crop,\n  alt,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height,\n      aspectRatio\n    },\n    lqip,\n    palette\n  }\n\n  },\n  "category": category->{\n    _id,\n    "title": title[$locale],\n    "slug": slug[$locale].current\n  }\n}\n': PostsByCategoryQueryResult
+    '\n*[\n  _type == "post" &&\n  (defined(slug.en.current) || defined(slug.hr.current))\n] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{\n  _id,\n  "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),\n  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),\n  "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt.hr, ""),\n  "date": coalesce(date, _updatedAt),\n  coverImage {\n    \n  alt,\n  hotspot,\n  crop,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height\n    },\n    lqip\n  },\n  asset\n\n  },\n  "category": category->{\n    "title": coalesce(title[$locale], title.en, title.hr),\n    "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current)\n  }\n}\n': PaginatedPostsQueryResult
+    '\n*[\n  _type == "product" &&\n  (defined(slug.en.current) || defined(slug.hr.current))\n] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{\n  _id,\n  "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),\n  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),\n  "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt.hr, ""),\n  productImage {\n    \n  alt,\n  hotspot,\n  crop,\n  "metadata": asset->metadata{\n    dimensions {\n      width,\n      height\n    },\n    lqip\n  },\n  asset\n\n  }\n}\n': PaginatedProductsQueryResult
+    '\n*[_type == "category"] | order(coalesce(title[$locale], title.en, title.hr) asc){\n  _id,\n  "title": coalesce(title[$locale], title.en, title.hr),\n  "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current)\n}\n': LocalizedCategoriesQueryResult
   }
 }

@@ -1,4 +1,4 @@
-import {revalidatePath} from 'next/cache'
+import {revalidatePath, revalidateTag} from 'next/cache'
 import {NextRequest, NextResponse} from 'next/server'
 
 type RevalidatePayload = {
@@ -102,6 +102,13 @@ export async function POST(req: NextRequest) {
   if (payload._type === 'category') {
     paths.add('/en/posts')
     paths.add('/hr/postovi')
+
+    revalidateTag('posts-categories', 'max')
+    revalidateTag('posts-categories-en', 'max')
+    revalidateTag('posts-categories-hr', 'max')
+    revalidateTag('posts-list', 'max')
+    revalidateTag('posts-list-en', 'max')
+    revalidateTag('posts-list-hr', 'max')
   }
 
   if (payload._type === 'product') {
@@ -122,6 +129,19 @@ export async function POST(req: NextRequest) {
       paths.add(`/hr/proizvodi/${postSlug.hr}`)
       paths.add(`/hr/products/${postSlug.hr}`)
     }
+
+    revalidateTag('products-list', 'max')
+    revalidateTag('products-list-en', 'max')
+    revalidateTag('products-list-hr', 'max')
+  }
+
+  if (payload._type === 'post') {
+    revalidateTag('posts-list', 'max')
+    revalidateTag('posts-list-en', 'max')
+    revalidateTag('posts-list-hr', 'max')
+    revalidateTag('posts-categories', 'max')
+    revalidateTag('posts-categories-en', 'max')
+    revalidateTag('posts-categories-hr', 'max')
   }
 
   for (const path of paths) {
