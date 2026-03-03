@@ -1,5 +1,6 @@
 import {ReactNode} from 'react'
 import Image, {StaticImageData} from 'next/image'
+import proseStyles from '@/app/styles/ProseOverrides.module.css'
 
 type LayoutImage = string | StaticImageData
 
@@ -40,7 +41,7 @@ export default function WineryLayout({
   
   return (
     <>
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
+    <div className={`${proseStyles.proseScope} divide-y divide-gray-200 dark:divide-gray-700`}>
       {/* Title */}
       <div className="space-y-2 pt-6 pb-5 lg:pb-8 md:space-y-5">
         <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">

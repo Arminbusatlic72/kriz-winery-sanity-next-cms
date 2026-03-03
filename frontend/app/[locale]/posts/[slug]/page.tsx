@@ -15,6 +15,7 @@ import {
   getLocalizedBlockContent,
   getLocalizedValue,
 } from '@/sanity/lib/utils'
+import proseStyles from '@/app/styles/ProseOverrides.module.css'
 
 // Dynamic import for MorePosts component (lazy loading)
 const MorePosts = dynamic(
@@ -191,7 +192,7 @@ export default async function PostPage({params}: Props) {
     return (
      
   <>
-  <div className="min-h-screen bg-white dark:bg-neutral-950">
+  <div className={`${proseStyles.proseScope} min-h-screen bg-white dark:bg-neutral-950`}>
     <article className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 lg:pt-24 pb-20">
       
       {/* Header: Centered & Focused */}

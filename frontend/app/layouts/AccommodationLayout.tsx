@@ -735,6 +735,7 @@ import ThumbnailGallery from '@/app/components/accommodation/ThumbnailGallery'
 import ImageLightbox from '@/app/components/accommodation/ImageLightbox'
 import AmenitiesList from '@/app/components/accommodation/AmenitiesList'
 import CTALink from '@/app/components/accommodation/CTALink'
+import proseStyles from '@/app/styles/ProseOverrides.module.css'
 
 interface Accommodation {
   title: string
@@ -795,7 +796,7 @@ export default function AccommodationLayout({ content, children, locale }: Props
   }, [selectedIndex, handleKeyDown])
 
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
+    <div className={`${proseStyles.proseScope} divide-y divide-gray-200 dark:divide-gray-700`}>
       {/* Header */}
       <div className="space-y-2 pt-6 pb-5 lg:pb-8 md:space-y-5">
         <h2 className="font-strangelove text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl dark:text-gray-100">

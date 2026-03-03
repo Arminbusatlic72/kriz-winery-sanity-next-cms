@@ -1,0 +1,39 @@
+.proseScope :global(.prose a) {
+  color: var(--color-primary-500);
+}
+
+.proseScope :global(.prose a:hover) {
+  color: var(--color-primary-600);
+}
+
+.proseScope :global(.prose a code) {
+  color: var(--color-primary-400);
+}
+
+.proseScope :global(.prose :where(h1, h2)) {
+  font-weight: 700;
+}
+
+.proseScope :global(.prose h3) {
+  font-weight: 600;
+}
+
+.proseScope :global(.prose :where(code):not(pre code)) {
+  color: var(--color-indigo-500);
+}
+
+.proseScope :global(.prose-invert a) {
+  color: var(--color-primary-500);
+}
+
+.proseScope :global(.prose-invert a:hover) {
+  color: var(--color-primary-400);
+}
+
+.proseScope :global(.prose-invert a code) {
+  color: var(--color-primary-400);
+}
+
+.proseScope :global(.prose-invert :where(h1, h2, h3, h4, h5, h6)) {
+  color: var(--color-gray-100);
+}

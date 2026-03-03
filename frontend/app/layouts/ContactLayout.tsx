@@ -6,6 +6,7 @@ import React, {ReactNode} from 'react'
 import ContactForm from '@/app/components/ContactForm'
 // import Map from '@/app/components/Map'
 import dynamic from 'next/dynamic'
+import proseStyles from '@/app/styles/ProseOverrides.module.css'
 
 const LeafletMap = dynamic(() => import('@/app/components/Map'), {ssr: false})
 
@@ -112,7 +113,7 @@ const ContactLayout = ({
 //     </section>
 
 
- <div className="divide-y divide-gray-200 dark:divide-gray-700">
+ <div className={`${proseStyles.proseScope} divide-y divide-gray-200 dark:divide-gray-700`}>
       {/* Header */}
       <div className="space-y-2 pt-6 pb-5 lg:pb-8 md:space-y-5">
         <h2 className="font-strangelove text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-gray-100">

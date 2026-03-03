@@ -12,6 +12,7 @@ import {
   getLocalizedBlockContent,
 } from '@/sanity/lib/utils'
 import type {Product} from '@/app/types/product'
+import proseStyles from '@/app/styles/ProseOverrides.module.css'
 
 type Props = {
   params: Promise<{slug: string; locale: string}>
@@ -124,7 +125,7 @@ export default async function ProductPage({params}: Props) {
     return (
 
 
-    <div className="min-h-screen bg-white dark:bg-neutral-950">
+    <div className={`${proseStyles.proseScope} min-h-screen bg-white dark:bg-neutral-950`}>
   <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
     
     {/* Product Grid: Image and Info on the same row */}
