@@ -7,6 +7,7 @@ type RevalidatePayload = {
   category?: {
     slug?: {en?: string; hr?: string} | string
   }
+  seoTitle?: {en?: string; hr?: string} | string
 }
 
 function getSecret(req: NextRequest) {
@@ -71,6 +72,7 @@ export async function POST(req: NextRequest) {
 
   const postSlug = getLocalizedSlugs(payload.slug)
   const categorySlug = getLocalizedSlugs(payload.category?.slug)
+  const seoTitle = getLocalizedSlugs(payload.seoTitle)
 
   const paths = new Set<string>([
     '/en/posts',
@@ -97,6 +99,11 @@ export async function POST(req: NextRequest) {
   if (postSlug.hr) {
     paths.add(`/hr/postovi/${postSlug.hr}`)
     paths.add(`/hr/posts/${postSlug.hr}`)
+  }
+
+  if (seoTitle.en || seoTitle.hr) {
+    paths.add('/en')
+    paths.add('/hr')
   }
 
   if (payload._type === 'category') {
