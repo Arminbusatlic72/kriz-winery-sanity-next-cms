@@ -16,45 +16,58 @@ interface ContactConfirmationEmailProps {
   lastName: string
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://krizwine.com'
 
-export const ContactConfirmationEmail = ({firstName, lastName}: ContactConfirmationEmailProps) => (
+export const ContactConfirmationEmail = ({
+  firstName,
+  lastName,
+}: ContactConfirmationEmailProps) => (
   <Html>
     <Head />
+    <Preview>Thank you for contacting Kriz Winery</Preview>
     <Body style={main}>
-      <Preview>Thank you for contacting Kriz Vinarija!</Preview>
       <Container style={container}>
-        <Img
-          src={`${baseUrl}/static/images/logo/kriz-logo.jpg`} // Replace with your logo path
-          width="170"
-          height="50"
-          alt="Kriz Vinarija"
-          style={logo}
-        />
-        <Text style={paragraph}>
-          Hi {firstName} {lastName},
-        </Text>
-        <Text style={paragraph}>
-          Thank you for reaching out to Kriz Vinarija. We have received your message and our team
-          will get back to you as soon as possible.
-        </Text>
-        <Text style={paragraph}>
-          In the meantime, feel free to check our website for more information.
-        </Text>
-        <Section style={btnContainer}>
-          <Button style={button} href="https://kriz-vinarija.com">
-            Visit Our Website
-          </Button>
+        <Section style={brandHeader}>
+          <Img
+            src="https://krizwine.com/static/images/logo/kriz-favicon.jpg"
+            width="92"
+            height="82"
+            alt="Kriz Winery"
+            style={logo}
+          />
+          <Text style={brandTagline}>Natural wines from Peljesac</Text>
         </Section>
-        <Text style={paragraph}>
-          Best regards,
-          <br />
-          The Kriz Vinarija Team
-        </Text>
-        <Hr style={hr} />
-        <Text style={footer}>Kriz Vinarija, Your Address Here</Text>
+
+        <Section style={content}>
+          <Text style={eyebrow}>MESSAGE RECEIVED</Text>
+          <Text style={heading}>Thank you for getting in touch</Text>
+          <Text style={greeting}>
+            Hello {firstName} {lastName},
+          </Text>
+          <Text style={paragraph}>
+            We have received your message. Our family is often busy in the vineyard and cellar,
+            but we will reply as soon as possible.
+          </Text>
+          <Text style={paragraph}>
+            Tastings and wine purchases are available by appointment. We look forward to welcoming
+            you to Kriz Winery.
+          </Text>
+
+          <Button style={button} href={siteUrl}>
+            Visit krizwine.com
+          </Button>
+
+          <Text style={signoff}>
+            Warm regards,
+            <br />
+            The Kriz Winery family
+          </Text>
+
+          <Hr style={divider} />
+          <Text style={footer}>
+            This is an automatic confirmation. Reply to this email to contact the winery directly.
+          </Text>
+        </Section>
       </Container>
     </Body>
   </Html>
@@ -68,46 +81,111 @@ ContactConfirmationEmail.PreviewProps = {
 export default ContactConfirmationEmail
 
 const main = {
-  backgroundColor: '#ffffff',
+  backgroundColor: '#f3f1ec',
+  color: '#25251f',
   fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+  margin: '0',
+  padding: '32px 12px',
 }
 
 const container = {
+  backgroundColor: '#ffffff',
+  border: '1px solid #dedbd2',
+  borderRadius: '6px',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  maxWidth: '600px',
+  overflow: 'hidden',
+}
+
+const brandHeader = {
+  backgroundColor: '#ffffff',
+  borderBottom: '1px solid #e5e2da',
+  padding: '24px 38px 20px',
+  textAlign: 'center' as const,
 }
 
 const logo = {
+  display: 'block',
+  height: '82px',
   margin: '0 auto',
+  width: '92px',
+}
+
+const brandTagline = {
+  color: '#6f6c63',
+  fontSize: '12px',
+  lineHeight: '18px',
+  margin: '8px 0 0',
+}
+
+const content = {
+  padding: '38px 42px 32px',
+}
+
+const eyebrow = {
+  color: '#8a2635',
+  fontSize: '11px',
+  fontWeight: '700',
+  lineHeight: '16px',
+  margin: '0 0 8px',
+  textAlign: 'center' as const,
+}
+
+const heading = {
+  color: '#25251f',
+  fontFamily: 'Georgia, "Times New Roman", serif',
+  fontSize: '30px',
+  lineHeight: '38px',
+  margin: '0 0 28px',
+  textAlign: 'center' as const,
+}
+
+const greeting = {
+  color: '#25251f',
+  fontSize: '16px',
+  fontWeight: '600',
+  lineHeight: '25px',
+  margin: '0 0 12px',
 }
 
 const paragraph = {
-  fontSize: '16px',
-  lineHeight: '26px',
-}
-
-const btnContainer = {
-  textAlign: 'center' as const,
+  color: '#55534c',
+  fontSize: '15px',
+  lineHeight: '25px',
+  margin: '0 0 16px',
 }
 
 const button = {
-  backgroundColor: '#5F51E8',
+  backgroundColor: '#8a2635',
   borderRadius: '3px',
-  color: '#fff',
-  fontSize: '16px',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
+  color: '#ffffff',
   display: 'block',
-  padding: '12px',
+  fontSize: '14px',
+  fontWeight: '600',
+  margin: '27px auto',
+  padding: '13px 20px',
+  textAlign: 'center' as const,
+  textDecoration: 'none',
 }
 
-const hr = {
-  borderColor: '#cccccc',
-  margin: '20px 0',
+const signoff = {
+  color: '#35342e',
+  fontFamily: 'Georgia, "Times New Roman", serif',
+  fontSize: '15px',
+  lineHeight: '24px',
+  margin: '24px 0 0',
+}
+
+const divider = {
+  borderColor: '#e5e2da',
+  margin: '30px 0 18px',
 }
 
 const footer = {
-  color: '#8898aa',
-  fontSize: '12px',
+  color: '#8a877e',
+  fontSize: '11px',
+  lineHeight: '18px',
+  margin: '0',
+  textAlign: 'center' as const,
 }
