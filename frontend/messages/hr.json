@@ -59,6 +59,8 @@
   "Contact": {
     "title": "Kontaktirajte nas",
     "description": "Kako smo zauzeti uzgojem grožđa, proizvodnjom vina i odgojem djeteta, degustacije i prodaja su dostupni samo uz prethodni dogovor. Slobodno nas kontaktirajte!",
+    "contactBeforeEmail": "Kontaktirajte nas na e-mail",
+    "contactAfterEmail": "ili putem obrasca.",
     "form": {
       "firstName": "Ime",
       "lastName": "Prezime",

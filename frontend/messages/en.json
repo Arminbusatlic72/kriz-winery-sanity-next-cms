@@ -58,6 +58,8 @@
   "Contact": {
     "title": "Get in Touch",
     "description": "As we are busy growing grapes, making wine, and raising our child, tastings and sales are available by appointment only. Feel free to contact us!",
+    "contactBeforeEmail": "Contact us by email at",
+    "contactAfterEmail": "or via the form.",
     "form": {
       "firstName": "Name",
       "lastName": "Family Name",

@@ -13,6 +13,9 @@ const LeafletMap = dynamic(() => import('@/app/components/Map'), {ssr: false})
 interface ContactLayoutProps {
   title: string
   description: string
+  contactBeforeEmail: string
+  contactAfterEmail: string
+  breakAfterEmail?: boolean
   formLabels: {
     firstName: string
     lastName: string
@@ -42,6 +45,9 @@ interface ContactLayoutProps {
 const ContactLayout = ({
   title,
   description,
+  contactBeforeEmail,
+  contactAfterEmail,
+  breakAfterEmail = false,
   formLabels,
   validationErrors,
   placeHolders,
@@ -127,6 +133,12 @@ const ContactLayout = ({
        <div className="md:top-24 self-start">
           <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
             {description}
+            <p>
+              {contactBeforeEmail}{' '}
+              <a href="mailto:vinarija.kriz@gmail.com">vinarija.kriz@gmail.com</a>
+              {breakAfterEmail ? <br /> : ' '}
+              {contactAfterEmail}
+            </p>
           </div>
           <div className="relative z-0">
  <LeafletMap />

@@ -40,6 +40,7 @@ describe('Email API route (POST)', () => {
       ...originalEnv,
       RESEND_API_KEY: 'test-api-key',
       TEAM_EMAIL: 'team@example.com',
+      RESEND_FROM_EMAIL: 'Vinarija Kriz <website@example.com>',
     }
   })
 
@@ -48,7 +49,7 @@ describe('Email API route (POST)', () => {
   })
 
   test('should send confirmation and team notification emails', async () => {
-    mockEmailSend.mockResolvedValue({success: true})
+    mockEmailSend.mockResolvedValue({data: {id: 'email-id'}, error: null})
 
     const {POST} = require('@/app/api/email/route')
 
@@ -68,23 +69,25 @@ describe('Email API route (POST)', () => {
     expect(data.success).toBe(true)
     expect(mockEmailSend).toHaveBeenCalledTimes(2)
 
-    // Check confirmation email
+    // Check team notification email
     expect(mockEmailSend).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
-        from: 'Vinarija Kriz Website <onboarding@resend.dev>',
-        to: 'john@example.com',
-        subject: 'Confirmation: We received your message',
+        from: 'Vinarija Kriz <website@example.com>',
+        to: 'team@example.com',
+        replyTo: 'john@example.com',
+        subject: 'New contact form message from John Doe',
       }),
     )
 
-    // Check team notification email
+    // Check customer confirmation email
     expect(mockEmailSend).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
-        from: 'Website Contact Form <onboarding@resend.dev>',
-        to: 'team@example.com',
-        subject: 'New contact form message from John Doe',
+        from: 'Vinarija Kriz <website@example.com>',
+        to: 'john@example.com',
+        replyTo: 'team@example.com',
+        subject: 'Confirmation: We received your message',
       }),
     )
   })
@@ -153,7 +156,7 @@ describe('Email API route (POST)', () => {
   })
 
   test('should handle partial form data', async () => {
-    mockEmailSend.mockResolvedValue({success: true})
+    mockEmailSend.mockResolvedValue({data: {id: 'email-id'}, error: null})
 
     const {POST} = require('@/app/api/email/route')
 
@@ -166,8 +169,58 @@ describe('Email API route (POST)', () => {
     const response = await POST(mockRequest)
     const data = await response.json()
 
+    expect(response.status).toBe(500)
+    expect(mockEmailSend).not.toHaveBeenCalled()
+    expect(data.error).toBeDefined()
+  })
+
+  test('should return 500 when Resend returns a team notification error', async () => {
+    mockEmailSend.mockResolvedValue({
+      data: null,
+      error: {message: 'Domain is not verified'},
+    })
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const {POST} = require('@/app/api/email/route')
+
+    const response = await POST({
+      json: jest.fn().mockResolvedValue({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@example.com',
+        message: 'Test message',
+      }),
+    })
+    const data = await response.json()
+
+    expect(response.status).toBe(500)
+    expect(data.error).toContain('Domain is not verified')
+    expect(mockEmailSend).toHaveBeenCalledTimes(1)
+    consoleSpy.mockRestore()
+  })
+
+  test('should keep the successful submission when only confirmation fails', async () => {
+    mockEmailSend
+      .mockResolvedValueOnce({data: {id: 'team-email-id'}, error: null})
+      .mockResolvedValueOnce({
+        data: null,
+        error: {message: 'Customer confirmation rejected'},
+      })
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const {POST} = require('@/app/api/email/route')
+
+    const response = await POST({
+      json: jest.fn().mockResolvedValue({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@example.com',
+        message: 'Test message',
+      }),
+    })
+    const data = await response.json()
+
     expect(response.status).toBe(200)
-    expect(mockEmailSend).toHaveBeenCalledTimes(2)
-    expect(data).toBeDefined()
+    expect(data).toEqual({success: true, confirmationSent: false})
+    expect(consoleSpy).toHaveBeenCalled()
+    consoleSpy.mockRestore()
   })
 })

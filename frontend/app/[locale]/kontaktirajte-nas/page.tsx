@@ -1,5 +1,5 @@
 import type {Metadata} from 'next'
-import {useTranslations} from 'next-intl'
+import {useLocale, useTranslations} from 'next-intl'
 import ContactLayout from '@/app/layouts/ContactLayout'
 
 type Props = {
@@ -27,11 +27,15 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 
 export default function ContactPage() {
   const t = useTranslations('Contact')
+  const locale = useLocale()
 
   return (
     <ContactLayout
       title={t('title')}
       description={t('description')}
+      contactBeforeEmail={t('contactBeforeEmail')}
+      contactAfterEmail={t('contactAfterEmail')}
+      breakAfterEmail={locale === 'en'}
       formLabels={{
         firstName: t('form.firstName'),
         lastName: t('form.lastName'),
