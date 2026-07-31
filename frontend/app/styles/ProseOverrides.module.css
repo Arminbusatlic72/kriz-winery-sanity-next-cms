@@ -37,3 +37,12 @@
 .proseScope :global(.prose-invert :where(h1, h2, h3, h4, h5, h6)) {
   color: var(--color-gray-100);
 }
+
+@media (min-width: 768px) {
+  .stickyAside {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    height: fit-content;
+  }
+}
