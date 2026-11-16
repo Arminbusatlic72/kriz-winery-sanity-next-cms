@@ -150,7 +150,7 @@ export const pagesSlugs = defineQuery(`
 `)
 
 // Updated product queries with internationalization support
-export const productsQuery = defineQuery(`*[_type == "product"] | order(date asc) {
+export const productsQuery = defineQuery(`*[_type == "product"] | order(select(slug.en.current == "peljeski-varenik" || slug.hr.current == "peljeski-varenik" => 1, 0) asc, date asc) {
   _id,
   title,
   description,
@@ -465,7 +465,7 @@ export const paginatedProductsQuery = defineQuery(`
 *[
   _type == "product" &&
   (defined(slug.en.current) || defined(slug.hr.current))
-] | order(coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{
+] | order(select(slug.en.current == "peljeski-varenik" || slug.hr.current == "peljeski-varenik" => 1, 0) asc, coalesce(date, _updatedAt) desc, _updatedAt desc)[$offset...$end]{
   _id,
   "title": coalesce(title[$locale], title.en, title.hr, "Untitled"),
   "slug": coalesce(slug[$locale].current, slug.en.current, slug.hr.current),
